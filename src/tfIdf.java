@@ -53,8 +53,6 @@ public class tfIdf {
         return Math.log(documents.size() / n);
     }
 
-
-
     public static int[] termsTfIdf(String[] paraules, List<String[]> documents, int k) {
         if (k > documents.size()) k = documents.size();
         double[] tfidf = new double[documents.size()];
