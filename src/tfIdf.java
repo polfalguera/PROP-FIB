@@ -55,7 +55,8 @@ public class tfIdf {
 
 
 
-    public static double[] termsTfIdf(String[] paraules, List<String[]> documents, int k) {
+    public static int[] termsTfIdf(String[] paraules, List<String[]> documents, int k) {
+        if (k > documents.size()) k = documents.size();
         double[] tfidf = new double[documents.size()];
         for (int i = 0; i < tfidf.length; ++i) tfidf[i] = 0;
 
@@ -65,23 +66,7 @@ public class tfIdf {
                 tfidf[j] += (tf(paraules[i], documents.get(j)) * idf);
             }
         }
-        return tfidf;
-    }
-
-    public static void main(String[] args) {
-
-        String[] doc1 = new String[]{"Lorem", "ipsum", "dolor", "ipsum", "sit", "ipsum"};
-        String[] doc2 =  new String[]{"Vituperata", "incorrupte", "at", "ipsum", "pro", "quo"};
-        String[] doc3 =  new String[]{"Has", "persius", "disputationi", "id", "simul"};
-        List<String[]> documents = Arrays.asList(doc1, doc2, doc3);
-
-        String[] paraules = new String[]{"Lorem", "sit", "id"};
-
-        double[] tfidf = termsTfIdf(paraules, documents, 0);
-        int [] k = IndexValuePair.krellevants(tfidf, 2);
-        for (int i = 0; i < k.length; ++i) {
-            System.out.print(k[i] + " ");
-        }
+        return IndexValuePair.krellevants(tfidf, k);
     }
 }
 
