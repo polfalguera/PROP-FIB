@@ -12,17 +12,23 @@ public class ConjuntDocuments {
         this.titolsPerAutor = new TreeMap<String, List<String>>();
     }
 
-    // Retorna:  0 -> Creat
-    //          -1 -> No creat, titol buit
-    //          -2 -> No creat, autor buit
-    //          -3 -> No creat, titol per autor ja existent
-    public int crearDocument(String titol, String autor) {
-        if (titol.equals("")) return -1;
-        if (autor.equals("")) return -2;
+    public void crearDocument(String titol, String autor, String status) {
+        status = "";
+        if (titol.equals("")) {
+            status = "Error, titol buit";
+            return;
+        }
+        if (autor.equals("")) {
+            status = "Error, autor buit";
+            return;
+        }
         if (titolsPerAutor.containsKey(autor)) {
             if (titolsPerAutor.get(autor).contains(titol)) {
                 titolsPerAutor.get(autor).add(titol);
-            } else return -2;
+            } else {
+                status = "Error, titol no existent";
+                return;
+            }
         } else {
             List<String> titols = new ArrayList<String>();
             titols.add(titol);
@@ -30,19 +36,27 @@ public class ConjuntDocuments {
         }
         Document nouDocument = new Document(titol, autor);
         documents.add(nouDocument);
-        return 0;
     }
 
-    // Retorna:  0 -> Eliminat
-    //          -1 -> No eliminat, titol buit
-    //          -2 -> No eliminat, autor buit
-    //          -3 -> No eliminat, no existeix
-    public int eliminarDocument(String titol, String autor) {
-        if (titol.equals("")) return -1;
-        if (autor.equals("")) return -2;
+    public void eliminarDocument(String titol, String autor, String status) {
+        status = "";
+        if (titol.equals("")) {
+            status = "Error, titol buit";
+            return;
+        }
+        if (autor.equals("")) {
+            status = "Error, autor buit";
+            return;
+        }
 
-        if (!titolsPerAutor.containsKey(autor)) return -3;
-        if (!titolsPerAutor.get(autor).contains(titol)) return -3;
+        if (!titolsPerAutor.containsKey(autor)) {
+            status = "Error, autor no existent";
+            return;
+        }
+        if (!titolsPerAutor.get(autor).contains(titol)) {
+            status = "Error, titol no existent";
+            return;
+        }
 
         for (int i = 0; i < documents.size(); ++i) {
             Document doc = documents.get(i);
@@ -55,14 +69,14 @@ public class ConjuntDocuments {
         titolsPerAutor.get(autor).remove(titol);
         if (titolsPerAutor.get(autor).isEmpty()) titolsPerAutor.remove(autor);
 
-        return 0;
     }
 
-    public List<String> llistarTitolsAutor(String autor) {
+    public List<String> llistarTitolsAutor(String autor, String status) {
+        status = "";
         List<String> llistat = new ArrayList<>();
 
         if (titolsPerAutor.containsKey(autor)) llistat = titolsPerAutor.get(autor);
-
+        if (llistat.isEmpty()) status = "No existeix cap titol amb l'autor introduit";
         return llistat;
     }
 
@@ -77,7 +91,8 @@ public class ConjuntDocuments {
         return true;
     }
 
-    public List<String> llistarAutorsPrefix(String prefix) {
+    public List<String> llistarAutorsPrefix(String prefix, String status) {
+        status = "";
         List<String> llistat = new ArrayList<>();
 
         Set<String> autors = titolsPerAutor.keySet();
@@ -88,5 +103,26 @@ public class ConjuntDocuments {
         }
 
         return llistat;
+    }
+
+    // Retorna: -1 -> Docuemnt no trobat
+    // Altrament: index del document
+    public int indexContingutDocument(String autor, String titol, String status) {
+        status = "";
+        if (!titolsPerAutor.containsKey(autor)) {
+            status = "Error, autor no existent";
+            return -1;
+        }
+        if (!titolsPerAutor.get(autor).contains(titol)) {
+            status = "Error, titol no existent";
+            return -1;
+        }
+        for (int i = 0; i < documents.size(); ++i) {
+            Document doc = documents.get(i);
+            if (doc.getTitol().equals(titol) && doc.getAutor().equals(autor)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
