@@ -39,86 +39,125 @@ public class ControladorContingut {
 
     private static List<HashMap<String, Integer>> freqContingut;
     private static List<String> Contingut;
+    private static Set<String> stopWords;
 
-    public ControladorContingut() {
-        this.freqContingut = new ArrayList<HashMap<String, Integer>>();
-        this.Contingut = new ArrayList<String>();
+    private Set<String> assignarStopWords() throws IOException {
+        Set<String> result = new HashSet<String>();
+        //empty-ca.txt
+        String line;
+        FileReader file = new FileReader("/Users/alexares/Desktop/subgrup-prop11.3/src/empty-ca.txt");
+        BufferedReader br = new BufferedReader(file);
+        while((line = br.readLine()) != null) result.add(line);
+        //empty-eng.txt
+        file = new FileReader("/Users/alexares/Desktop/subgrup-prop11.3/src/empty-eng.txt");
+        br = new BufferedReader(file);
+        while((line = br.readLine()) != null) result.add(line);
+        //empty-sp.txt
+        file = new FileReader("/Users/alexares/Desktop/subgrup-prop11.3/src/empty-sp.txt");
+        br = new BufferedReader(file);
+        while((line = br.readLine()) != null) result.add(line);
+        return result;
+    }
+
+    public ControladorContingut() throws IOException {
+        freqContingut = new ArrayList<HashMap<String, Integer>>();
+        Contingut = new ArrayList<String>();
+        stopWords = assignarStopWords();
     }
 
     public void afegirContingutPath(String path, String status) throws IOException {
-        status = "";
         String line;
         FileReader file = new FileReader(path);
         BufferedReader br = new BufferedReader(file);
 
         HashMap<String, Integer> text = new HashMap<String, Integer>();
-        String contingut = "";
+        StringBuilder contingut = new StringBuilder();
+        if ((line = br.readLine()) != null) contingut.append(line);
+        else {
+            System.out.println("Error, contingut buit");
+            return;
+        }
         //Gets each line till end of file is reached
         while((line = br.readLine()) != null) {
-            contingut += line;
+            contingut.append("\n"+line);
             //Splits each line into words
-            String words[] = line.split((" |,|\\.|!|¡|\\?|¿"));
-            for (int i = 0; i < words.length; ++i){
-                if (!text.containsKey(words[i])) text.put(words[i], 1);
-                else text.put(words[i], text.get(words[i])+1);
+            String[] words = line.split((" |,|\\.|!|¡|\\?|¿"));
+            for (String word : words) {
+                if (!text.containsKey(word)) text.put(word, 1);
+                else if (!stopWords.contains(word)) text.put(word, text.get(word) + 1);
             }
         }
 
-        this.freqContingut.add(text);
-        this.Contingut.add(contingut);
+        freqContingut.add(text);
+        Contingut.add(contingut.toString());
     }
 
     public void modificarContingutPath(int id, String path, String status) throws IOException {
-        status = "";
         if (freqContingut.size() <= id) {
-            status = "Error, no es pot modificar un contingut no existent";
+            System.out.println("Error, no es pot modificar un contingut no existent");
+            return;
         }
+
         String line;
         FileReader file = new FileReader(path);
         BufferedReader br = new BufferedReader(file);
 
         HashMap<String, Integer> text = new HashMap<String, Integer>();
-        String contingut = "";
+        StringBuilder contingut = new StringBuilder();
+        if ((line = br.readLine()) != null) contingut.append(line);
+        else {
+            System.out.println("Error, contingut buit");
+            return;
+        }
         //Gets each line till end of file is reached
         while((line = br.readLine()) != null) {
-            contingut += line;
+            contingut.append("\n"+line);
             //Splits each line into words
-            String words[] = line.split((" |,|\\.|!|¡|\\?|¿"));
-            for (int i = 0; i < words.length; ++i){
-                if (!text.containsKey(words[i])) text.put(words[i], 1);
-                else text.put(words[i], text.get(words[i])+1);
+            String[] words = line.split((" |,|\\.|!|¡|\\?|¿"));
+            for (String word : words) {
+                if (!text.containsKey(word)) text.put(word, 1);
+                else if (!stopWords.contains(word)) text.put(word, text.get(word) + 1);
             }
         }
 
-        this.freqContingut.add(text);
-        this.Contingut.add(contingut);
+        freqContingut.add(text);
+        Contingut.add(contingut.toString());
     }
 
     public void afegirContingut(String contingut, String status) throws IOException {
-        status = "";
-        HashMap<String, Integer> text = new HashMap<String, Integer>();
-        String words[] = contingut.split((" |,|\\.|!|¡|\\?|¿"));
-
-        for (int i = 0; i < words.length; ++i) {
-            if (!text.containsKey(words[i])) text.put(words[i], 1);
-            else text.put(words[i], text.get(words[i])+1);
+        if (contingut == "") {
+            System.out.println("Error, contingut buit");
+            return;
         }
 
-        this.Contingut.add(contingut);
-        this.freqContingut.add(text);
+        HashMap<String, Integer> text = new HashMap<String, Integer>();
+        String[] words = contingut.split((" |,|\\.|!|¡|\\?|¿"));
+
+        for (String word : words) {
+            if (!text.containsKey(word)) text.put(word, 1);
+            else if (!stopWords.contains(word)) text.put(word, text.get(word) + 1);
+        }
+
+        Contingut.add(contingut);
+        freqContingut.add(text);
     }
 
-    public void modificarContingut(int id, String contingut, String status) {
-        status = "";
+    public void modificarContingut(int id, String contingut) {
         if (freqContingut.size() <= id) {
-            status = "Error, no es pot modificar un contingut no existent";
+            System.out.println("Error, no es pot modificar un contingut no existent");
+            return;
         }
-        HashMap<String, Integer> text = new HashMap<String, Integer>();
-        String words[] = contingut.split((" |,|\\.|!|¡|\\?|¿"));
+        if (contingut == "") {
+            System.out.println("Error, contingut buit");
+            return;
+        }
 
-        for (int i = 0; i < words.length; ++i) {
-            if (!text.containsKey(words[i])) text.put(words[i], 1);
-            else text.put(words[i], text.get(words[i])+1);
+        HashMap<String, Integer> text = new HashMap<String, Integer>();
+        String[] words = contingut.split((" |,|\\.|!|¡|\\?|¿"));
+
+        for (String word : words) {
+            if (!text.containsKey(word)) text.put(word, 1);
+            else if (!stopWords.contains(word)) text.put(word, text.get(word) + 1);
         }
 
         Contingut.add(id, contingut);
@@ -126,12 +165,12 @@ public class ControladorContingut {
     }
 
     private double tf(String paraula, int id) {
-        HashMap<String, Integer> freq = this.freqContingut.get(id);
+        HashMap<String, Integer> freq = freqContingut.get(id);
         double n = 0;
         for (Map.Entry<String, Integer> set : freq.entrySet()) {
             n += set.getValue();
         }
-        if (this.freqContingut.get(id).containsKey(paraula)) return this.freqContingut.get(id).get(paraula) / n;
+        if (freqContingut.get(id).containsKey(paraula)) return freqContingut.get(id).get(paraula) / n;
         else return 0;
     }
 
@@ -144,25 +183,30 @@ public class ControladorContingut {
     }
 
     public int[] termsTfIdf(String[] paraules, int k) {
-        if (k > this.Contingut.size()) k = this.Contingut.size();
-        double[] tfidf = new double[this.Contingut.size()];
+        if (k > Contingut.size()) k = Contingut.size();
+        double[] tfidf = new double[Contingut.size()];
         for (int i = 0; i < tfidf.length; ++i) tfidf[i] = 0;
 
-        for (int i = 0; i < paraules.length; ++i) {
-            double idf = idf(paraules[i]);
-            for (int j = 0; j < this.Contingut.size(); ++j) {
-                tfidf[j] += (tf(paraules[i], j) * idf);
+        for (String paraula : paraules) {
+            double idf = idf(paraula);
+            for (int j = 0; j < Contingut.size(); ++j) {
+                tfidf[j] += (tf(paraula, j) * idf);
             }
         }
         return IndexValuePair.krellevants(tfidf, k);
     }
 
+    public void escriureContingut(int id) {
+        System.out.println(Contingut.get(id));
+    }
+
     public static void main(String[] args) throws IOException {
+        String status = "";
         ControladorContingut c = new ControladorContingut();
-        c.afegirContingutPath("/Users/alexares/Desktop/subgrup-prop11.3/src/data.txt", "");
-        c.afegirContingut("hola que, espero que separi be ¡jaja!", "");
+        c.afegirContingutPath("/Users/alexares/Desktop/subgrup-prop11.3/src/data.txt", status);
+        c.afegirContingut("hola que, espero que separi be ¡jaja!", status);
         String[] paraules = {"hola", "que", "tal"};
-        int[] sol = c.termsTfIdf(paraules, 2);
-        for (int i = 0; i < sol.length; ++i) System.out.println(c.Contingut.get(i));
+        int[] sol = c.termsTfIdf(paraules, 4);
+        for (int i = 0; i < sol.length; ++i) c.escriureContingut(i);
     }
 }
