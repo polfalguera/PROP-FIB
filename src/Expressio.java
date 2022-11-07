@@ -1,4 +1,4 @@
-package CtrlDomini;
+package src;
 
 import com.sun.source.tree.BinaryTree;
 

@@ -67,7 +67,8 @@ public class ControladorContingut {
         stopWords = assignarStopWords();
     }
 
-    public void afegirContingutPath(String path, String status) throws IOException {
+    public void afegirContingutPath(String path, String[] status) throws IOException {
+        status[0] = "";
         String line;
         FileReader file = new FileReader(path);
         BufferedReader br = new BufferedReader(file);
@@ -97,16 +98,17 @@ public class ControladorContingut {
             }
         }
         if (contingut.isEmpty()) {
-            System.out.println("Error, contingut buit");
+            status[0] = "Error, contingut buit";
             return;
         }
         freqContingut.add(text);
         Contingut.add(contingut.toString());
     }
 
-    public void modificarContingutPath(int id, String path, String status) throws IOException {
+    public void modificarContingutPath(int id, String path, String[] status) throws IOException {
+        status[0] = "";
         if (freqContingut.size() <= id) {
-            System.out.println("Error, no es pot modificar un contingut no existent");
+            status[0] = "Error, no es pot modificar un contingut no existent";
             return;
         }
 
@@ -140,16 +142,17 @@ public class ControladorContingut {
             }
         }
         if (contingut.isEmpty()) {
-            System.out.println("Error, contingut buit");
+            status[0] = "Error, contingut buit";
             return;
         }
         freqContingut.add(id, text);
         Contingut.set(id, contingut.toString());
     }
 
-    public void afegirContingut(String contingut, String status) throws IOException {
+    public void afegirContingut(String contingut, String[] status) throws IOException {
+        status[0] = "";
         if (contingut == "") {
-            System.out.println("Error, contingut buit");
+            status[0] = "Error, contingut buit";
             return;
         }
 
@@ -176,13 +179,14 @@ public class ControladorContingut {
         freqContingut.add(text);
     }
 
-    public void modificarContingut(int id, String contingut) {
+    public void modificarContingut(int id, String contingut, String[] status) {
+        status[0] = "";
         if (freqContingut.size() <= id) {
-            System.out.println("Error, no es pot modificar un contingut no existent");
+            status[0] = "Error, no es pot modificar un contingut no existent";
             return;
         }
         if (contingut == "") {
-            System.out.println("Error, contingut buit");
+            status[0] = "Error, contingut buit";
             return;
         }
 
@@ -247,6 +251,10 @@ public class ControladorContingut {
         System.out.println(Contingut.get(id));
     }
 
+    public String getContingut(int index) {
+        return this.Contingut.get(index);
+    }
+
     public static void eliminarContingut(int id) {
         if (Contingut.size() <= id) return;
         for (Map.Entry<String, List<Integer>> set : paraulaDocuments.entrySet()) {
@@ -261,7 +269,7 @@ public class ControladorContingut {
     }
 
     public static void main(String[] args) throws IOException {
-        String status = "";
+        String status[] = {""};
         ControladorContingut c = new ControladorContingut();
         c.afegirContingutPath("/Users/alexares/Desktop/subgrup-prop11.3/src/data.txt", status);
         c.afegirContingut("hola que tal, espero que separi be ¡jaja!", status);
