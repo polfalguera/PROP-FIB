@@ -39,6 +39,7 @@ public class ControladorContingut {
 
     private static List<HashMap<String, Integer>> freqContingut;
     private static List<String> Contingut;
+    private static HashMap<String, List<Integer>> paraulaDocuments;
     private static Set<String> stopWords;
 
     private Set<String> assignarStopWords() throws IOException {
@@ -62,6 +63,7 @@ public class ControladorContingut {
     public ControladorContingut() throws IOException {
         freqContingut = new ArrayList<HashMap<String, Integer>>();
         Contingut = new ArrayList<String>();
+        paraulaDocuments = new HashMap<String, List<Integer>>();
         stopWords = assignarStopWords();
     }
 
@@ -72,22 +74,32 @@ public class ControladorContingut {
 
         HashMap<String, Integer> text = new HashMap<String, Integer>();
         StringBuilder contingut = new StringBuilder();
-        if ((line = br.readLine()) != null) contingut.append(line);
-        else {
-            System.out.println("Error, contingut buit");
-            return;
-        }
-        //Gets each line till end of file is reached
+
+        int id = Contingut.size();
+
         while((line = br.readLine()) != null) {
-            contingut.append("\n"+line);
+            contingut.append(line+"\n");
             //Splits each line into words
             String[] words = line.split((" |,|\\.|!|¡|\\?|¿"));
             for (String word : words) {
-                if (!text.containsKey(word)) text.put(word, 1);
-                else if (!stopWords.contains(word)) text.put(word, text.get(word) + 1);
+                if (!stopWords.contains(word) && word != "") {
+                    if (!text.containsKey(word)) {
+                        text.put(word, 1);
+                        if (paraulaDocuments.containsKey(word)) paraulaDocuments.get(word).add(id);
+                        else {
+                            List<Integer> l = new ArrayList<Integer>();
+                            l.add(id);
+                            paraulaDocuments.put(word, l);
+                        }
+                    }
+                    else text.put(word, text.get(word)+1);
+                }
             }
         }
-
+        if (contingut.isEmpty()) {
+            System.out.println("Error, contingut buit");
+            return;
+        }
         freqContingut.add(text);
         Contingut.add(contingut.toString());
     }
@@ -98,30 +110,41 @@ public class ControladorContingut {
             return;
         }
 
+        for (Map.Entry<String, List<Integer>> set : paraulaDocuments.entrySet())
+            if (set.getValue().contains(id)) set.getValue().remove(id);
+
         String line;
         FileReader file = new FileReader(path);
         BufferedReader br = new BufferedReader(file);
 
         HashMap<String, Integer> text = new HashMap<String, Integer>();
         StringBuilder contingut = new StringBuilder();
-        if ((line = br.readLine()) != null) contingut.append(line);
-        else {
-            System.out.println("Error, contingut buit");
-            return;
-        }
-        //Gets each line till end of file is reached
+
         while((line = br.readLine()) != null) {
-            contingut.append("\n"+line);
+            contingut.append(line+"\n");
             //Splits each line into words
             String[] words = line.split((" |,|\\.|!|¡|\\?|¿"));
             for (String word : words) {
-                if (!text.containsKey(word)) text.put(word, 1);
-                else if (!stopWords.contains(word)) text.put(word, text.get(word) + 1);
+                if (!stopWords.contains(word) && word != "") {
+                    if (!text.containsKey(word)) {
+                        text.put(word, 1);
+                        if (paraulaDocuments.containsKey(word)) paraulaDocuments.get(word).add(id);
+                        else {
+                            List<Integer> l = new ArrayList<Integer>();
+                            l.add(id);
+                            paraulaDocuments.put(word, l);
+                        }
+                    }
+                    else text.put(word, text.get(word)+1);
+                }
             }
         }
-
-        freqContingut.add(text);
-        Contingut.add(contingut.toString());
+        if (contingut.isEmpty()) {
+            System.out.println("Error, contingut buit");
+            return;
+        }
+        freqContingut.add(id, text);
+        Contingut.set(id, contingut.toString());
     }
 
     public void afegirContingut(String contingut, String status) throws IOException {
@@ -132,10 +155,21 @@ public class ControladorContingut {
 
         HashMap<String, Integer> text = new HashMap<String, Integer>();
         String[] words = contingut.split((" |,|\\.|!|¡|\\?|¿"));
+        int id = Contingut.size();
 
         for (String word : words) {
-            if (!text.containsKey(word)) text.put(word, 1);
-            else if (!stopWords.contains(word)) text.put(word, text.get(word) + 1);
+            if (!stopWords.contains(word) && word != "") {
+                if (!text.containsKey(word)) {
+                    text.put(word, 1);
+                    if (paraulaDocuments.containsKey(word)) paraulaDocuments.get(word).add(id);
+                    else {
+                        List<Integer> l = new ArrayList<Integer>();
+                        l.add(id);
+                        paraulaDocuments.put(word, l);
+                    }
+                }
+                else text.put(word, text.get(word)+1);
+            }
         }
 
         Contingut.add(contingut);
@@ -152,12 +186,25 @@ public class ControladorContingut {
             return;
         }
 
+        for (Map.Entry<String, List<Integer>> set : paraulaDocuments.entrySet())
+            if (set.getValue().contains(id)) set.getValue().remove(id);
+
         HashMap<String, Integer> text = new HashMap<String, Integer>();
         String[] words = contingut.split((" |,|\\.|!|¡|\\?|¿"));
 
         for (String word : words) {
-            if (!text.containsKey(word)) text.put(word, 1);
-            else if (!stopWords.contains(word)) text.put(word, text.get(word) + 1);
+            if (!stopWords.contains(word) && word != "") {
+                if (!text.containsKey(word)) {
+                    text.put(word, 1);
+                    if (paraulaDocuments.containsKey(word)) paraulaDocuments.get(word).add(id);
+                    else {
+                        List<Integer> l = new ArrayList<Integer>();
+                        l.add(id);
+                        paraulaDocuments.put(word, l);
+                    }
+                }
+                else text.put(word, text.get(word)+1);
+            }
         }
 
         Contingut.add(id, contingut);
@@ -200,13 +247,29 @@ public class ControladorContingut {
         System.out.println(Contingut.get(id));
     }
 
+    public static void eliminarContingut(int id) {
+        if (Contingut.size() <= id) return;
+        for (Map.Entry<String, List<Integer>> set : paraulaDocuments.entrySet()) {
+            if (set.getValue().contains(id)) set.getValue().remove(id);
+            List<Integer> l = new ArrayList<Integer>();
+            for (Integer s : set.getValue()) {
+                if (s < id) l.add(s);
+                else l.add(s-1);
+            }
+            set.setValue(l);
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         String status = "";
         ControladorContingut c = new ControladorContingut();
         c.afegirContingutPath("/Users/alexares/Desktop/subgrup-prop11.3/src/data.txt", status);
-        c.afegirContingut("hola que, espero que separi be ¡jaja!", status);
+        c.afegirContingut("hola que tal, espero que separi be ¡jaja!", status);
         String[] paraules = {"hola", "que", "tal"};
         int[] sol = c.termsTfIdf(paraules, 4);
         for (int i = 0; i < sol.length; ++i) c.escriureContingut(i);
+        System.out.println(paraulaDocuments);
+        eliminarContingut(0);
+        System.out.println(paraulaDocuments);
     }
 }
