@@ -25,9 +25,12 @@ public class Expressio {
      * @param ex es l'expressio donat pel usuari.
      * */
     public Expressio(String ex) {
-        this.theTree = new BinaryTree();
-        tractarExpressio(ex,this.theTree);
-        //this.theTree = new BinaryTree();
+        String aux = "("+ex+")";
+        if (esta_ben_Formalitzat(aux)) {
+            this.theTree = new BinaryTree();
+            tractarExpressio(aux,this.theTree);
+            System.out.println("S'ha creat correctament la classe Expressio");
+        }
     }
 
     /**
@@ -177,7 +180,7 @@ public class Expressio {
      * @param op es una paraula o una sequencia de paraules.
      * @return Retorna si el parametre op es tracta d'un operador("&","|").
      * */
-    public static boolean es_operador(String op) {
+    private static boolean es_operador(String op) {
         return op.equals("&") || op.equals("|");
     }
 
@@ -187,7 +190,7 @@ public class Expressio {
      * @param op es una paraula o una sequencia de paraules.
      * @return Retorna si el parametre op conte d'un operador.
      * */
-    public static boolean contiene_op(String op) {
+    private static boolean contiene_op(String op) {
         return op.contains("&") || op.contains("|");
     }
     /**
@@ -196,7 +199,7 @@ public class Expressio {
      * @param ex es l'expressio donat pel usuari.
      * @param r es l'arbre de l'expressio.
      * */
-    public static void tractarExpressio(String ex, BinaryTree r) {
+    private static void tractarExpressio(String ex, BinaryTree r) {
         if (ex != "") {
             //Per fer la tractacio quan hi ha un parentesis
             if (ex.substring(0,1).equals("(")) {
@@ -223,9 +226,9 @@ public class Expressio {
                 }
                 //Si em trobat un operador signifca que l'expressio es pot partir en 2 expressions
                 if (trobat) {
-                    System.out.println("parentesis " + ex.substring(1,i-2));
+                    //System.out.println("parentesis " + ex.substring(1,i-2));
                     tractarExpressio(ex.substring(1,i-2),r);
-                    System.out.println("parentesis 2 " + ex.substring(i+1,ex.length()-1));
+                    //System.out.println("parentesis 2 " + ex.substring(i+1,ex.length()-1));
                     tractarExpressio("("+ex.substring(i+1,ex.length()-1)+")",r);
                 }
                 //Si no em trobat un operador significa que no es pot partir i l'expressio que ens dona
@@ -251,7 +254,7 @@ public class Expressio {
                     }
                     ++i;
                 }
-                System.out.println("expressio 1 " + ex.substring(0,i-2));
+                //System.out.println("expressio 1 " + ex.substring(0,i-2));
                 tractarExpressio(ex.substring(0,i-2),r);
 
                 if (contiene_op(ex.substring(i+1,ex.length()))) {
@@ -260,7 +263,7 @@ public class Expressio {
                 else {
                     tractarExpressio(ex.substring(i+1,ex.length()),r);
                 }
-                System.out.println("expressio 2 " + ex.substring(i+1,ex.length()));
+                //System.out.println("expressio 2 " + ex.substring(i+1,ex.length()));
             }
             //El cas quan tenim {p1 p2 p3 p4}
             //Cada espai suposa un & en el nostre arbre.
@@ -307,7 +310,7 @@ public class Expressio {
      * @param ex es l'expressio donat pel usuari.
      * @param r es la llista de l'expressio.
      * */
-    public static void tractarExpressio1(String ex, ArrayList<String> r) {
+    private static void tractarExpressio1(String ex, ArrayList<String> r) {
         if (ex != "") {
             //Per fer la tractacio quan hi ha un parentesis, parteix l'expressio en 2 fins que troba un operador
             if (ex.substring(0,1).equals("(")) {
@@ -393,67 +396,80 @@ public class Expressio {
         }
     }
 
-    public static void main(String[] args) {
+    /**
+     * Consultora
+     *
+     * @param expr es l'expressio donat pel usuari
+     * @return Retorna si l'expressio donada esta ben formalitzat.
+     */
+    private boolean esta_ben_Formalitzat(String expr){
+        // Using ArrayDeque is faster than using Stack class
+        Deque<Character> stack
+                = new ArrayDeque<Character>();
 
-        //Expressio asd = new Expressio();
+        //variable aux controla el nombre de " que hi ha a l'expressio
+        int aux = 0;
+        //variable aux1 controla el nombre de { que hi ha a l'expressio
+        int aux1 = 0;
+        // Traversing the Expression
+        for (int i = 0; i < expr.length(); i++) {
+            char x = expr.charAt(i);
 
-        /*
-        ArrayList<String> result = new ArrayList<>();
-        tractarExpressio("(!hoal | sd & asd)",result);
-        System.out.println(result.get(0));
-        System.out.println(result.get(1));
-        System.out.println(result.get(2));
-        System.out.println(result.get(3));
-        System.out.println(result.get(4));
-        */
-        //ArrayList<String> result = new ArrayList<>();
-        //tractarExpressio("({p1 p2 p3} & (\"hola adeu\" | pep) & !joan)", asd.theTree);
-        //tractarExpressio("((p1 & p2 & p3))", asd.theTree);
-        //Prova
-        /*
-        for (int i = 0; i < result.size(); ++i) {
-            System.out.println(result.get(i));
-
-            if (result.get(i).equals("&")) {
-                asd.theTree.addNodePre(true,"&");
+            //Tractar els casos que els operadors estan d'estar separats per espais
+            if ( aux1 == 0 && aux%2 == 0 && (x == '&' || x == '|') ) {
+                if (expr.charAt(i-1) != ' ' || expr.charAt(i+1) != ' ') {
+                    System.out.println("Els operadors & i | han de estar separats per espais");
+                    return false;
+                }
             }
-            else if (result.get(i).equals("|")) {
-                asd.theTree.addNodePre(true,"|");
+            //Tractar els casos {}
+            if (x == '{') {
+                ++aux1;
+            }else if (x == '}') {
+                --aux1;
             }
-            else {
-                asd.theTree.addNodePre(true,result.get(i));
+            //Tractar els casos d'aquesta manera (hola a adeu)-> expressio mal escrita;
+            if (x == ' ' && aux%2 == 0 && aux1 == 0) {
+                if ( !((expr.charAt(i-1) == '&' || expr.charAt(i-1) == '|') ||
+                        (expr.charAt(i+1) == '&' || expr.charAt(i+1) == '|'))) {
+                    System.out.println("Has de servir operadors per separar paraules");
+                    return false;
+                }
+            }
+
+            //El cas quan hi ha "
+            if (x == '\"') {
+                ++aux;
+            }
+
+            if ( aux%2 == 0 &&  (x == '(' || x == '{') ) {
+                // Push the element in the stack
+                stack.push(x);
+                continue;
+            }
+            // If current character is not opening
+            // bracket, then it must be closing. So stack
+            // cannot be empty at this point.
+            if (stack.isEmpty())
+                return false;
+            char check;
+            if (aux%2 == 0) {
+                switch (x) {
+                    case ')':
+                        check = stack.pop();
+                        if (check == '{')
+                            return false;
+                        break;
+                    case '}':
+                        check = stack.pop();
+                        if (check == '(' )
+                            return false;
+                        break;
+                }
             }
         }
-        */
-        /*
-        asd.theTree.preorderTraverseTree(asd.theTree.root);
-
-        if ( asd.evaluateTree(asd.theTree.root,"joan p1 p2 p3 hola adeu fk")) {
-            System.out.println(123);
-        }
-         */
-
-        //theTree.preorderTraverseTree(theTree.root);
-
-        /*
-        BinaryTree theTree = new BinaryTree();
-
-        theTree.addNodePre(true,"&");
-        theTree.addNodePre(true,"|");
-        theTree.addNodePre(true,"&");
-        theTree.addNodePre(true,"hola");
-        theTree.addNodePre(true,"adios");
-        theTree.addNodePre(true,"ddd");
-        theTree.addNodePre(true,"&");
-        theTree.addNodePre(true,"&");
-        theTree.addNodePre(true,"123");
-        theTree.addNodePre(true,"455");
-        theTree.addNodePre(true,"222");
-
-        theTree.preorderTraverseTree(theTree.root);
-        */
-
-
+        // Check Empty Stack
+        return (stack.isEmpty());
     }
 
     /**

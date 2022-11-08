@@ -8,10 +8,14 @@ import java.util.Scanner;
  * @author haonan.jin
  */
 public class DriverExpressio {
-
+    /**
+     * Representa la comanda per crear una expressio
+     * */
     private static final String CREAEXPRESSIO = "1";
-
-    private static final String EXIT = "10";
+    /**
+     * Representa la comanda per sortir del programa.
+     * */
+    private static final String EXIT = "2";
 
     private static final String HELPTEXT = "Introduïu un dels següents números per executar la corresponent comanda:\n" +
             "  " + CREAEXPRESSIO       + "-Crea una expressio\n"       +
@@ -44,14 +48,6 @@ public class DriverExpressio {
         ex = new Expressio(readLine(scanner));
     }
 
-
-    public static void testEvaluateExpre(Scanner scanner) {
-        System.out.println("Escrigui la frase/document que vols evaluar:");
-        String frase = readLine(scanner);
-        System.out.println("Escrigui l'expressio que vols evaluar:");
-
-    }
-
     /**
      * Representa totes les comandes que accepta el driver.
      *
@@ -79,9 +75,12 @@ public class DriverExpressio {
 
         if (run) System.out.println(HELPTEXT);
         Scanner in = new Scanner(System.in);
-        while (run)
+        while (run) {
             run = commands(in.nextLine(), in);
-        System.out.println("Gràcies per utilitzar el programa DriverDocument!");
+            System.out.println(HELPTEXT);
+        }
+
+        System.out.println("Gràcies per utilitzar el programa DriverExpressio");
 
     }
 
