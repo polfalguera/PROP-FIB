@@ -193,15 +193,27 @@ public class ControladorExpressions {
         return false;
     }
 
-    public void ConsultaExpreBooleana(String ex,ArrayList<String> docs) {
+    public List<Integer> ConsultaExpressioBooleana(String ex,List<String> cont) {
+        List<Integer> id_docs = new ArrayList<>();
+
         if (anadir_expressio(ex)) {
+            Expressio expressio_avaluar = expressions.get(ex);
 
+            //iteracio dels documents
+            for (int i = 0; i < cont.size(); ++i) {
+                boolean compleix_doc = false;
+                String[] frases = cont.get(i).split(".");
+                //iteracio de les frases
+                for (int j = 0; j  < frases.length && !compleix_doc; ++j) {
+                    if (evaluateTree(expressio_avaluar.getTheTree().root, frases[j])) {
+                        compleix_doc = true;
+                        id_docs.add(i);
+                    }
+                }
+            }
         }
-
+        return id_docs;
     }
-
-
-
 
     public static void main(String[] args) {
         ControladorExpressions asd = new ControladorExpressions();
