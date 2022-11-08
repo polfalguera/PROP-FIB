@@ -224,4 +224,13 @@ public class ConjuntDocuments {
         }
         return -1;
     }
+
+    public List<String> getAutorTitolIndex(int id) {
+        List<String> AutorTitol = new ArrayList<String>();
+
+        AutorTitol.add(documents.get(id).getAutor());
+        AutorTitol.add(documents.get(id).getTitol());
+
+        return AutorTitol;
+    }
 }

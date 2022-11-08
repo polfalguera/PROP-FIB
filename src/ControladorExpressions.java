@@ -6,7 +6,7 @@ import java.util.*;
  * @author haonan jin
  */
 
-public class CtrlExpressions {
+public class ControladorExpressions {
     /**
      * Representa el conjunt d'expressions.
      */
@@ -15,7 +15,7 @@ public class CtrlExpressions {
     /**
      * Constructora d'un conjunt d'expressions
      */
-    public CtrlExpressions() {
+    public ControladorExpressions() {
         this.expressions = new HashMap<>();
     }
 
@@ -204,7 +204,7 @@ public class CtrlExpressions {
 
 
     public static void main(String[] args) {
-        CtrlExpressions asd = new CtrlExpressions();
+        ControladorExpressions asd = new ControladorExpressions();
         if (asd.anadir_expressio("({p1 p2 p3} & (\"hola adeu\" | pep) & !joan)")) {
             System.out.println(123);
             Expressio aux = asd.expressions.get("({p1 p2 p3} & (\"hola adeu\" | pep) & !joan)");

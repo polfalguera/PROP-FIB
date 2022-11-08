@@ -268,6 +268,13 @@ public class ControladorContingut {
         }
     }
 
+    public String[] obtenirParaulesContingut(int id) {
+        String[] contingut = {""};
+        return contingut;
+    }
+
+    public List<String> getConjuntContinguts() { return Contingut; }
+
     public static void main(String[] args) throws IOException {
         String status[] = {""};
         ControladorContingut c = new ControladorContingut();
