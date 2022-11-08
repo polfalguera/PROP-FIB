@@ -19,14 +19,14 @@ public class ControladorDomini {
         }
     }
 
-    public void queryCrearDocument(String titol, String autor, String[] status) {
-        cjtDocuments.crearDocument(titol,autor,status);
+    public void queryCrearDocument(String autor, String titol, String[] status) {
+        cjtDocuments.crearDocument(autor,titol,status);
 
         if (!status[0].equals("")) System.out.println(status);
     }
 
-    public void queryEliminarDocument(String titol, String autor, String[] status) {
-        cjtDocuments.eliminarDocument(titol,autor,status);
+    public void queryEliminarDocument(String autor, String titol, String[] status) {
+        cjtDocuments.eliminarDocument(autor,titol,status);
 
         if (!status[0].equals("")) System.out.println(status);
     }
@@ -47,22 +47,22 @@ public class ControladorDomini {
         return llistat;
     }
 
-    public String queryGetContingutDocument(String titol, String autor, String[] status) {
-        int idDoc = cjtDocuments.indexContingutDocument(autor,titol,status);
+    public String queryGetContingutDocument(String autor, String titol, String[] status) {
+        int id = cjtDocuments.indexContingutDocument(autor,titol,status);
 
-        if (idDoc == -1) {
+        if (id == -1) {
             System.out.println(status);
-            return " ";
+            return "";
         }
 
-        String contingut = CtrlContingut.getContingut(idDoc);
+        String contingut = CtrlContingut.getContingut(id);
 
         return contingut;
     }
 
     private List<String> queryGetTitolAutorIndex(int id) { return cjtDocuments.getAutorTitolIndex(id); }
 
-    public List<String> queryTObtenirKSemblants(String titol, String autor, int k, String[] status) {
+    public List<String> queryTObtenirKSemblants(String autor, String titol, int k, String[] status) {
         int id = cjtDocuments.indexContingutDocument(autor,titol,status);
 
         String[] contingut = CtrlContingut.obtenirParaulesContingut(id);
