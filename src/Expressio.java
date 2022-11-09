@@ -13,11 +13,13 @@ public class Expressio {
      * Representa la expressio emmagatzemades en forma d'un arbol binari.
      * */
     private  BinaryTree theTree;
+    private boolean es_correcte;
     /**
      * Constructora d'una expressio buida.
      * */
     public Expressio() {
         this.theTree = new BinaryTree();
+        this.es_correcte = true;
     }
 
     /**
@@ -29,8 +31,19 @@ public class Expressio {
         if (esta_ben_Formalitzat(aux)) {
             this.theTree = new BinaryTree();
             tractarExpressio(aux,this.theTree);
-            System.out.println("S'ha creat correctament la classe Expressio");
+            this.es_correcte = true;
+        }else {
+            this.es_correcte = false;
         }
+
+    }
+    /**
+     * Consultora de l'expressio esta ben formalitzat
+     *
+     * @return Retorna si l'expressio esta ben formalitzat
+     * */
+    public boolean isEs_correcte() {
+        return es_correcte;
     }
 
     /**

@@ -43,9 +43,14 @@ public class ControladorExpressions {
      * @return Retorna l'expressio arbre binari indentificat pel el parametre ex.
      */
     public Expressio getExpressio(String ex) {
-        return expressions.get(ex);
+        try {
+            return expressions.get(ex);
+        }
+        catch (Exception e) {
+            System.out.println("L'expressio no existeix");
+        }
+        return null;
     }
-
 
     /**
      * Consultora d'una expressio.
@@ -74,9 +79,11 @@ public class ControladorExpressions {
             Expressio new_ex = new Expressio(ex);
             //ex -> l'expressio de frase
             //new_ex -> l'expression convertida en arbol binari
-            expressions.put(ex,new_ex);
-            System.out.println("S'ha afegit correctament la nova expressio");
-            return true;
+            if (new_ex.isEs_correcte()) {
+                expressions.put(ex,new_ex);
+                System.out.println("S'ha afegit correctament la nova expressio");
+                return true;
+            }
         }
         System.out.println("No s'ha pogut afegir l'expressio donada");
         return  false;
@@ -101,9 +108,10 @@ public class ControladorExpressions {
      * @param key es l'indentificador d'una expressio d'arbre binari.
      * Modifica l'expressio d'arbol binari del conjunt d'expressions indentificat per key.
      */
-    public boolean setExpressio(String key) {
+    public boolean setExpressio(String key,String nova_ex) {
         if (deleteExpressio(key)) {
-            if (anadir_expressio(key)) {
+            if (anadir_expressio(nova_ex)) {
+                System.out.println("S'ha modificat coorrectament");
                 return true;
             }
             return false;
@@ -160,22 +168,5 @@ public class ControladorExpressions {
         }
         return id_docs;
     }
-
-    public static void main(String[] args) {
-        ControladorExpressions asd = new ControladorExpressions();
-        if (asd.anadir_expressio("({p1 p2 p3} & (\"hola adeu\" | pep) & !joan)")) {
-            System.out.println(123);
-            Expressio aux = asd.expressions.get("({p1 p2 p3} & (\"hola adeu\" | pep) & !joan)");
-
-            if ( asd.evaluateTree(aux.getTheTree().root, "p1 p2 p3 pep")) {
-                System.out.println("frase trobat");
-            }
-        }
-
-
-    }
-
-
-
 
 }
