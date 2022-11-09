@@ -1,6 +1,5 @@
 package src;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -77,9 +76,15 @@ public class ControladorContingut {
         StringBuilder contingut = new StringBuilder();
 
         int id = Contingut.size();
+        boolean primer = true;
 
         while((line = br.readLine()) != null) {
-            contingut.append(line+"\n");
+            if (primer) {
+                contingut.append(line);
+                primer =  false;
+            }
+            else contingut.append("\n"+line);
+
             //Splits each line into words
             String[] words = line.split((" |,|\\.|!|¡|\\?|¿"));
             for (String word : words) {
@@ -121,9 +126,14 @@ public class ControladorContingut {
 
         HashMap<String, Integer> text = new HashMap<String, Integer>();
         StringBuilder contingut = new StringBuilder();
+        boolean primer = true;
 
         while((line = br.readLine()) != null) {
-            contingut.append(line+"\n");
+            if (primer) {
+                contingut.append(line);
+                primer =  false;
+            }
+            else contingut.append("\n"+line);
             //Splits each line into words
             String[] words = line.split((" |,|\\.|!|¡|\\?|¿"));
             for (String word : words) {
@@ -215,13 +225,14 @@ public class ControladorContingut {
         freqContingut.add(id, text);
     }
 
-    private double tf(String paraula, int id) {
+    private double tf(String paraula, int id, int mode) {
         HashMap<String, Integer> freq = freqContingut.get(id);
         double n = 0;
         for (Map.Entry<String, Integer> set : freq.entrySet()) {
             n += set.getValue();
         }
-        if (freqContingut.get(id).containsKey(paraula)) return freqContingut.get(id).get(paraula) / n;
+        if (mode == 1 && freq.containsKey(paraula)) return Math.log(1+freq.get(paraula));
+        else if (mode != 1 && freq.containsKey(paraula)) return freq.get(paraula) / n;
         else return 0;
     }
 
@@ -233,7 +244,10 @@ public class ControladorContingut {
         return Math.log(Contingut.size() / n);
     }
 
-    public int[] termsTfIdf(String[] paraules, int k) {
+    //mode = 0 -> term frequency/freqTotal
+    //mode = 1 -> log(1+freq)
+    //mode != [0,1] --> 0 per defecte
+    public int[] termsTfIdf(String[] paraules, int k, int mode) {
         if (k > Contingut.size()) k = Contingut.size();
         double[] tfidf = new double[Contingut.size()];
         for (int i = 0; i < tfidf.length; ++i) tfidf[i] = 0;
@@ -241,8 +255,11 @@ public class ControladorContingut {
         for (String paraula : paraules) {
             double idf = idf(paraula);
             for (int j = 0; j < Contingut.size(); ++j) {
-                tfidf[j] += (tf(paraula, j) * idf);
+                tfidf[j] += (tf(paraula, j, mode) * idf);
             }
+        }
+        for (double j : tfidf) {
+            System.out.println(j);
         }
         return IndexValuePair.krellevants(tfidf, k);
     }
@@ -252,25 +269,27 @@ public class ControladorContingut {
     }
 
     public String getContingut(int index) {
-        return this.Contingut.get(index);
+        return Contingut.get(index);
     }
 
-    public static void eliminarContingut(int id) {
+    public void eliminarContingut(int id) {
         if (Contingut.size() <= id) return;
+        List<String> delete = new ArrayList<String>();
         for (Map.Entry<String, List<Integer>> set : paraulaDocuments.entrySet()) {
-            if (set.getValue().contains(id)) set.getValue().remove(id);
             List<Integer> l = new ArrayList<Integer>();
             for (Integer s : set.getValue()) {
                 if (s < id) l.add(s);
-                else l.add(s-1);
+                if (s > id) l.add(s - 1);
             }
-            set.setValue(l);
+            if (!l.isEmpty()) set.setValue(l);
+            else delete.add(set.getKey());
         }
+        for(String key : delete) paraulaDocuments.remove(key);
     }
 
     public String[] obtenirParaulesContingut(int id) {
-        String[] contingut = {""};
-        return contingut;
+        String[] words = Contingut.get(id).split((" |, |\\.|!|¡|\\?|¿"));
+        return words;
     }
 
     public List<String> getConjuntContinguts() { return Contingut; }
@@ -279,12 +298,13 @@ public class ControladorContingut {
         String status[] = {""};
         ControladorContingut c = new ControladorContingut();
         c.afegirContingutPath("/Users/alexares/Desktop/subgrup-prop11.3/src/data.txt", status);
-        c.afegirContingut("hola que tal, espero que separi be ¡jaja!", status);
-        String[] paraules = {"hola", "que", "tal"};
-        int[] sol = c.termsTfIdf(paraules, 4);
-        for (int i = 0; i < sol.length; ++i) c.escriureContingut(i);
+        c.afegirContingut("Lorem ipsum dolor sit amet, consectetur adipiscing elit suspendisse mi, placerat posuere fames.", status);
+        String[] paraules = {"Lorem", "sit", "fames"};
+        int[] sol = c.termsTfIdf(paraules, 4, 1);
+        for (int j : sol) c.escriureContingut(j);
         System.out.println(paraulaDocuments);
-        eliminarContingut(0);
+        c.eliminarContingut(0);
         System.out.println(paraulaDocuments);
+        System.out.println(Arrays.toString(c.obtenirParaulesContingut(0)));
     }
 }

@@ -62,12 +62,12 @@ public class ControladorDomini {
 
     private List<String> queryGetTitolAutorIndex(int id) { return cjtDocuments.getAutorTitolIndex(id); }
 
-    public List<String> queryTObtenirKSemblants(String autor, String titol, int k, String[] status) {
+    public List<String> queryTObtenirKSemblants(String autor, String titol, int k, String[] status, int mode) {
         int id = cjtDocuments.indexContingutDocument(autor,titol,status);
 
         String[] contingut = CtrlContingut.obtenirParaulesContingut(id);
 
-        int[] indexos = CtrlContingut.termsTfIdf(contingut,k);
+        int[] indexos = CtrlContingut.termsTfIdf(contingut,k, mode);
 
         List<String> llistat = new ArrayList<>();
         for (int index : indexos) {
