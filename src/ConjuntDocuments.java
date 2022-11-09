@@ -71,6 +71,12 @@ public class ConjuntDocuments {
 
     }
 
+    public boolean existeixDocument(String autor, String titol) {
+        if (titolsPerAutor.containsKey(autor)) return titolsPerAutor.get(autor).contains(titol);
+
+        return false;
+    }
+
     public void modificarAutor(String anticAutor, String nouAutor, String titol, String[] status) {
         status[0] = "";
         if (nouAutor.equals("")) {
