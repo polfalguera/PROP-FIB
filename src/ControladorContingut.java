@@ -88,6 +88,7 @@ public class ControladorContingut {
             //Splits each line into words
             String[] words = line.split((" |,|\\.|!|¡|\\?|¿"));
             for (String word : words) {
+                word = word.toLowerCase();
                 if (!stopWords.contains(word) && word != "") {
                     if (!text.containsKey(word)) {
                         text.put(word, 1);
@@ -137,6 +138,7 @@ public class ControladorContingut {
             //Splits each line into words
             String[] words = line.split((" |,|\\.|!|¡|\\?|¿"));
             for (String word : words) {
+                word = word.toLowerCase();
                 if (!stopWords.contains(word) && word != "") {
                     if (!text.containsKey(word)) {
                         text.put(word, 1);
@@ -171,6 +173,7 @@ public class ControladorContingut {
         int id = Contingut.size();
 
         for (String word : words) {
+            word = word.toLowerCase();
             if (!stopWords.contains(word) && word != "") {
                 if (!text.containsKey(word)) {
                     text.put(word, 1);
@@ -207,6 +210,7 @@ public class ControladorContingut {
         String[] words = contingut.split((" |,|\\.|!|¡|\\?|¿"));
 
         for (String word : words) {
+            word = word.toLowerCase();
             if (!stopWords.contains(word) && word != "") {
                 if (!text.containsKey(word)) {
                     text.put(word, 1);
@@ -232,16 +236,18 @@ public class ControladorContingut {
             n += set.getValue();
         }
         if (mode == 1 && freq.containsKey(paraula)) return Math.log(1+freq.get(paraula));
-        else if (mode != 1 && freq.containsKey(paraula)) return freq.get(paraula) / n;
+        else if (mode != 1 && freq.containsKey(paraula)) return freq.get(paraula);
         else return 0;
     }
 
-    private static double idf(String paraula) {
+    private static double idf(String paraula, int mode) {
         double n = 0;
         for (HashMap<String, Integer> doc : freqContingut) {
             if (doc.containsKey(paraula)) n += doc.get(paraula);
         }
-        return Math.log(Contingut.size() / n);
+        if (mode == 1) return 1;
+        else if (n == 0) return 0;
+        else return Math.log(Contingut.size() / n);
     }
 
     //mode = 0 -> term frequency/freqTotal
@@ -253,14 +259,13 @@ public class ControladorContingut {
         for (int i = 0; i < tfidf.length; ++i) tfidf[i] = 0;
 
         for (String paraula : paraules) {
-            double idf = idf(paraula);
+            paraula = paraula.toLowerCase();
+            double idf = idf(paraula, mode);
             for (int j = 0; j < Contingut.size(); ++j) {
                 tfidf[j] += (tf(paraula, j, mode) * idf);
             }
         }
-        for (double j : tfidf) {
-            System.out.println(j);
-        }
+        for (double j : tfidf) System.out.println(j);
         return IndexValuePair.krellevants(tfidf, k);
     }
 
@@ -288,8 +293,7 @@ public class ControladorContingut {
     }
 
     public String[] obtenirParaulesContingut(int id) {
-        String[] words = Contingut.get(id).split((" |, |\\.|!|¡|\\?|¿"));
-        return words;
+        return freqContingut.get(id).keySet().toArray(new String[0]);
     }
 
     public List<String> getConjuntContinguts() { return Contingut; }
@@ -298,13 +302,12 @@ public class ControladorContingut {
         String status[] = {""};
         ControladorContingut c = new ControladorContingut();
         c.afegirContingutPath("/Users/alexares/Desktop/subgrup-prop11.3/src/data.txt", status);
-        c.afegirContingut("Lorem ipsum dolor sit amet, consectetur adipiscing elit suspendisse mi, placerat posuere fames.", status);
-        String[] paraules = {"Lorem", "sit", "fames"};
-        int[] sol = c.termsTfIdf(paraules, 4, 1);
-        for (int j : sol) c.escriureContingut(j);
-        System.out.println(paraulaDocuments);
-        c.eliminarContingut(0);
-        System.out.println(paraulaDocuments);
-        System.out.println(Arrays.toString(c.obtenirParaulesContingut(0)));
+        c.afegirContingut("Lorem.", status);
+        String[] paraules = {"Lorem", "ipsum", "dolor"};
+        int[] sol = c.termsTfIdf(paraules, 4, 0);
+        for (int i : sol) {
+            System.out.println(Contingut.get(i));
+            System.out.println(Arrays.toString(c.obtenirParaulesContingut(i)));
+        }
     }
 }
