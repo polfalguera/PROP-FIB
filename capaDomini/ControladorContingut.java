@@ -47,17 +47,17 @@ public class ControladorContingut {
         Set<String> result = new HashSet<String>();
         //empty-ca.txt
         String line;
-        String path = Paths.get("data/empty-ca.txt").toAbsolutePath().toString();
+        String path = Paths.get("data/empty-ca-utf8.txt").toAbsolutePath().toString();
         FileReader file = new FileReader(path);
         BufferedReader br = new BufferedReader(file);
         while((line = br.readLine()) != null) result.add(line);
         //empty-eng.txt
-        path = Paths.get("data/empty-eng.txt").toAbsolutePath().toString();
+        path = Paths.get("data/empty-eng-utf8.txt").toAbsolutePath().toString();
         file = new FileReader(path);
         br = new BufferedReader(file);
         while((line = br.readLine()) != null) result.add(line);
         //empty-sp.txt
-        path = Paths.get("data/empty-sp.txt").toAbsolutePath().toString();
+        path = Paths.get("data/empty-sp-utf8.txt").toAbsolutePath().toString();
         file = new FileReader(path);
         br = new BufferedReader(file);
         while((line = br.readLine()) != null) result.add(line);
@@ -92,10 +92,10 @@ public class ControladorContingut {
             else contingut.append("\n"+line);
 
             //Splits each line into words
-            String[] words = line.split((" |,|\\.|!|¡|\\?|¿"));
+            String[] words = line.split((" |,|\\\\.|!|¡|\\\\?|¿"));
             for (String word : words) {
                 word = word.toLowerCase();
-                if (!stopWords.contains(word) && word != "") {
+                if (!stopWords.contains(word) && word.length() > 1) {
                     if (!text.containsKey(word)) {
                         text.put(word, 1);
                         if (paraulaDocuments.containsKey(word)) paraulaDocuments.get(word).add(id);
@@ -142,10 +142,10 @@ public class ControladorContingut {
             }
             else contingut.append("\n"+line);
             //Splits each line into words
-            String[] words = line.split((" |,|\\.|!|¡|\\?|¿"));
+            String[] words = line.split((" |,|\\\\.|!|¡|\\\\?|¿"));
             for (String word : words) {
                 word = word.toLowerCase();
-                if (!stopWords.contains(word) && word != "") {
+                if (!stopWords.contains(word) && word.length() > 1) {
                     if (!text.containsKey(word)) {
                         text.put(word, 1);
                         if (paraulaDocuments.containsKey(word)) paraulaDocuments.get(word).add(id);
@@ -175,12 +175,12 @@ public class ControladorContingut {
         }
 
         HashMap<String, Integer> text = new HashMap<String, Integer>();
-        String[] words = contingut.split((" |,|\\.|!|¡|\\?|¿"));
+        String[] words = contingut.split((" |,|\\\\.|!|¡|\\\\?|¿"));
         int id = Contingut.size();
 
         for (String word : words) {
             word = word.toLowerCase();
-            if (!stopWords.contains(word) && word != "") {
+            if (!stopWords.contains(word) && word.length() > 1) {
                 if (!text.containsKey(word)) {
                     text.put(word, 1);
                     if (paraulaDocuments.containsKey(word)) paraulaDocuments.get(word).add(id);
@@ -213,11 +213,11 @@ public class ControladorContingut {
             if (set.getValue().contains(id)) set.getValue().remove(id);
 
         HashMap<String, Integer> text = new HashMap<String, Integer>();
-        String[] words = contingut.split((" |,|\\.|!|¡|\\?|¿"));
+        String[] words = contingut.split((" |,|\\\\.|!|¡|\\\\?|¿"));
 
         for (String word : words) {
             word = word.toLowerCase();
-            if (!stopWords.contains(word) && word != "") {
+            if (!stopWords.contains(word) && word.length() > 1) {
                 if (!text.containsKey(word)) {
                     text.put(word, 1);
                     if (paraulaDocuments.containsKey(word)) paraulaDocuments.get(word).add(id);
@@ -309,7 +309,7 @@ public class ControladorContingut {
         ControladorContingut c = new ControladorContingut();
         String path = Paths.get("data/data.txt").toAbsolutePath().toString();
         c.afegirContingutPath(path, status);
-        c.afegirContingut("Lorem algun.", status);
+        c.afegirContingut("Lorem algun canta'n. últim", status);
         String[] paraules = {"Lorem", "ipsum", "dolor"};
         int[] sol = c.termsTfIdf(paraules, 4, 0);
         for (int i : sol) {
