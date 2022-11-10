@@ -1,7 +1,10 @@
 package src;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.nio.file.Paths;
+
 import java.io.IOException;
+
 import java.util.*;
 
 public class ControladorContingut {
@@ -35,7 +38,6 @@ public class ControladorContingut {
             return result;
         }
     }
-
     private static List<HashMap<String, Integer>> freqContingut;
     private static List<String> Contingut;
     private static HashMap<String, List<Integer>> paraulaDocuments;
@@ -45,18 +47,22 @@ public class ControladorContingut {
         Set<String> result = new HashSet<String>();
         //empty-ca.txt
         String line;
-        FileReader file = new FileReader("/Users/alexares/Desktop/subgrup-prop11.3/src/empty-ca.txt");
+        String path = Paths.get("empty-ca.txt").toAbsolutePath().toString();
+        FileReader file = new FileReader(path);
         BufferedReader br = new BufferedReader(file);
         while((line = br.readLine()) != null) result.add(line);
         //empty-eng.txt
-        file = new FileReader("/Users/alexares/Desktop/subgrup-prop11.3/src/empty-eng.txt");
+        path = Paths.get("empty-eng.txt").toAbsolutePath().toString();
+        file = new FileReader(path);
         br = new BufferedReader(file);
         while((line = br.readLine()) != null) result.add(line);
         //empty-sp.txt
-        file = new FileReader("/Users/alexares/Desktop/subgrup-prop11.3/src/empty-sp.txt");
+        path = Paths.get("empty-sp.txt").toAbsolutePath().toString();
+        file = new FileReader(path);
         br = new BufferedReader(file);
         while((line = br.readLine()) != null) result.add(line);
         return result;
+
     }
 
     public ControladorContingut() throws IOException {
@@ -301,8 +307,9 @@ public class ControladorContingut {
     public static void main(String[] args) throws IOException {
         String status[] = {""};
         ControladorContingut c = new ControladorContingut();
-        c.afegirContingutPath("/Users/alexares/Desktop/subgrup-prop11.3/src/data.txt", status);
-        c.afegirContingut("Lorem.", status);
+        String path = Paths.get("data.txt").toAbsolutePath().toString();
+        c.afegirContingutPath(path, status);
+        c.afegirContingut("Lorem algun.", status);
         String[] paraules = {"Lorem", "ipsum", "dolor"};
         int[] sol = c.termsTfIdf(paraules, 4, 0);
         for (int i : sol) {
