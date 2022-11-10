@@ -92,10 +92,11 @@ public class ControladorContingut {
             else contingut.append("\n"+line);
 
             //Splits each line into words
-            String[] words = line.split((" |,|\\\\.|!|¡|\\\\?|¿"));
+            // |,|\.|!|¡|\?|¿|'
+            String[] words = line.split(("\\p{N}|\\P{L}+"));
             for (String word : words) {
                 word = word.toLowerCase();
-                if (!stopWords.contains(word) && word.length() > 1) {
+                if (!stopWords.contains(word) && word != "") {
                     if (!text.containsKey(word)) {
                         text.put(word, 1);
                         if (paraulaDocuments.containsKey(word)) paraulaDocuments.get(word).add(id);
@@ -142,10 +143,10 @@ public class ControladorContingut {
             }
             else contingut.append("\n"+line);
             //Splits each line into words
-            String[] words = line.split((" |,|\\\\.|!|¡|\\\\?|¿"));
+            String[] words = line.split(("\\p{N}|\\P{L}+"));
             for (String word : words) {
                 word = word.toLowerCase();
-                if (!stopWords.contains(word) && word.length() > 1) {
+                if (!stopWords.contains(word) && word != "") {
                     if (!text.containsKey(word)) {
                         text.put(word, 1);
                         if (paraulaDocuments.containsKey(word)) paraulaDocuments.get(word).add(id);
@@ -175,12 +176,12 @@ public class ControladorContingut {
         }
 
         HashMap<String, Integer> text = new HashMap<String, Integer>();
-        String[] words = contingut.split((" |,|\\\\.|!|¡|\\\\?|¿"));
+        String[] words = contingut.split(("\\P{L}+"));
         int id = Contingut.size();
 
         for (String word : words) {
             word = word.toLowerCase();
-            if (!stopWords.contains(word) && word.length() > 1) {
+            if (!stopWords.contains(word) && word != "") {
                 if (!text.containsKey(word)) {
                     text.put(word, 1);
                     if (paraulaDocuments.containsKey(word)) paraulaDocuments.get(word).add(id);
@@ -213,11 +214,11 @@ public class ControladorContingut {
             if (set.getValue().contains(id)) set.getValue().remove(id);
 
         HashMap<String, Integer> text = new HashMap<String, Integer>();
-        String[] words = contingut.split((" |,|\\\\.|!|¡|\\\\?|¿"));
+        String[] words = contingut.split(("\\P{L}+"));
 
         for (String word : words) {
             word = word.toLowerCase();
-            if (!stopWords.contains(word) && word.length() > 1) {
+            if (!stopWords.contains(word) && word != "") {
                 if (!text.containsKey(word)) {
                     text.put(word, 1);
                     if (paraulaDocuments.containsKey(word)) paraulaDocuments.get(word).add(id);
@@ -309,7 +310,7 @@ public class ControladorContingut {
         ControladorContingut c = new ControladorContingut();
         String path = Paths.get("data/data.txt").toAbsolutePath().toString();
         c.afegirContingutPath(path, status);
-        c.afegirContingut("Lorem algun canta'n. últim", status);
+        c.afegirContingut("Lorem algun canta'n. últim ú 332", status);
         String[] paraules = {"Lorem", "ipsum", "dolor"};
         int[] sol = c.termsTfIdf(paraules, 4, 0);
         for (int i : sol) {
