@@ -1,6 +1,6 @@
-package src;
+package drivers;
 
-import src.ConjuntDocuments;
+import capaDomini.ConjuntDocuments;
 import java.util.*;
 
 public class DriverControladorDocuments {
@@ -30,8 +30,12 @@ public class DriverControladorDocuments {
         if (op == 0) {
             System.out.println("Introdueix parelles autor-títol, cada element en una línia diferent:");
             while (sc.hasNext()) {
-                String[] status = {""};
-                CtrlDocuments.crearDocument(sc.nextLine(),sc.nextLine(),status);
+                try  {
+                    CtrlDocuments.crearDocument(sc.nextLine(),sc.nextLine());
+                } catch (Exception e) {
+                    System.out.println(e.toString());
+                    return;
+                }
             }
         }
         else {
@@ -44,8 +48,13 @@ public class DriverControladorDocuments {
         String autor = sc.nextLine();
         System.out.println("Escriu un títol per al document a crear: ");
         String titol = sc.nextLine();
-        String[] status = {""};
-        CtrlDocuments.crearDocument(autor,titol,status);
+        try  {
+            CtrlDocuments.crearDocument(autor,titol);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return;
+        }
+
         System.out.println("Document creat correctament.");
     }
 
@@ -57,8 +66,12 @@ public class DriverControladorDocuments {
         String titol = sc.nextLine();
 
         if (CtrlDocuments.existeixDocument(autor,titol)) {
-            String[] status = {""};
-            CtrlDocuments.eliminarDocument(autor,titol,status);
+            try {
+                CtrlDocuments.eliminarDocument(autor,titol);
+            } catch (Exception e) {
+                System.out.println(e.toString());
+                return;
+            }
             System.out.println("Document eliminat correctament.");
         }
         else System.out.println("ERROR: no existeix cap document amb l'autor i el títol introduïts.");
@@ -74,8 +87,12 @@ public class DriverControladorDocuments {
         String nouAutor = sc.nextLine();
 
         if (CtrlDocuments.existeixDocument(autor,titol)) {
-            String[] status = {""};
-            CtrlDocuments.modificarAutor(autor,nouAutor,titol,status);
+            try {
+                CtrlDocuments.modificarAutor(autor, nouAutor, titol);
+            } catch (Exception e) {
+                System.out.println(e.toString());
+                return;
+            }
             System.out.println("Autor del document actualitzat correctament.");
         }
         else System.out.println("ERROR: no existeix cap document amb l'autor i el títol introduïts.");

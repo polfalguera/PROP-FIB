@@ -1,6 +1,5 @@
-package src;
+package capaDomini;
 
-import src.Expressio;
 import java.util.Scanner;
 
 /**

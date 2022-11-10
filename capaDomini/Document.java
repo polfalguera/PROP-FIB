@@ -1,4 +1,4 @@
-package src;
+package capaDomini;
 
 public class Document {
     private String titol;

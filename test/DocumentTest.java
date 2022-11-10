@@ -1,7 +1,7 @@
-package src;
+package test;
 import org.junit.Test;
+import capaDomini.Document;
 
-import src.Document;
 import static org.junit.Assert.*;
 
 

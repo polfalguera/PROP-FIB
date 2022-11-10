@@ -1,4 +1,4 @@
-package src;
+package capaDomini;
 
 import java.util.*;
 
@@ -12,22 +12,18 @@ public class ConjuntDocuments {
         this.titolsPerAutor = new TreeMap<String, List<String>>();
     }
 
-    public void crearDocument(String autor, String titol, String[] status) {
-        status[0] = "";
+    public void crearDocument(String autor, String titol) throws Exception {
         if (autor.equals("")) {
-            status[0] = "Error, autor buit";
-            return;
+            throw new Exception("Error, autor buit");
         }
         if (titol.equals("")) {
-            status[0] = "Error, titol buit";
-            return;
+            throw new Exception("Error, titol buit");
         }
         if (titolsPerAutor.containsKey(autor)) {
             if (!titolsPerAutor.get(autor).contains(titol)) {
                 titolsPerAutor.get(autor).add(titol);
             } else {
-                status[0] = "Error, titol de l'autor ja existent";
-                return;
+                throw new Exception("Error, titol de l'autor ja existent");
             }
         } else {
             List<String> titols = new ArrayList<String>();
@@ -38,26 +34,21 @@ public class ConjuntDocuments {
         documents.add(nouDocument);
 
     }
-    public void eliminarDocument(String autor, String titol, String[] status) {
-        status[0] = "";
-        if (titol.equals("")) {
-            status[0] = "Error, titol buit";
-            return;
-        }
+    public void eliminarDocument(String autor, String titol) throws Exception {
         if (autor.equals("")) {
-            status[0] = "Error, autor buit";
-            return;
+            throw new Exception("Error, autor buit");
+        }
+        if (titol.equals("")) {
+            throw new Exception("Error, titol buit");
         }
 
         if (!titolsPerAutor.containsKey(autor)) {
-            status[0] = "Error, autor no existent";
-            return;
+            throw new Exception("Error, autor no existent");
+
         }
         if (!titolsPerAutor.get(autor).contains(titol)) {
-            status[0] = "Error, titol de l'autor no existent";
-            return;
+            throw new Exception("Error, titol de l'autor no existent");
         }
-
         for (int i = 0; i < documents.size(); ++i) {
             Document doc = documents.get(i);
             if (doc.getTitol().equals(titol) && doc.getAutor().equals(autor)) {
@@ -65,23 +56,24 @@ public class ConjuntDocuments {
                 break;
             }
         }
-
         titolsPerAutor.get(autor).remove(titol);
         if (titolsPerAutor.get(autor).isEmpty()) titolsPerAutor.remove(autor);
-
     }
 
     public boolean existeixDocument(String autor, String titol) {
         if (titolsPerAutor.containsKey(autor)) return titolsPerAutor.get(autor).contains(titol);
-
         return false;
     }
 
-    public void modificarAutor(String anticAutor, String nouAutor, String titol, String[] status) {
-        status[0] = "";
+    public void modificarAutor(String anticAutor, String nouAutor, String titol) throws Exception {
         if (nouAutor.equals("")) {
-            status[0] = "Error, autor buit";
-            return;
+            throw new Exception("Error, nou autor buit");
+        }
+        if (anticAutor.equals("")) {
+            throw new Exception("Error, autor buit");
+        }
+        if (titol.equals("")) {
+            throw new Exception("Error, titol buit");
         }
         if (nouAutor.equals((anticAutor))) return;
 
@@ -99,8 +91,7 @@ public class ConjuntDocuments {
                         }
                         documents.get(index).setAutor(nouAutor);
                     } else {
-                        status[0] = "Error, titol del nou autor ja existent";
-                        return;
+                        throw new Exception("Error, titol del nou autor ja existent");
                     }
                 } else {
                     titolsPerAutor.get(anticAutor).remove(titol);
@@ -118,20 +109,22 @@ public class ConjuntDocuments {
                 }
 
             } else {
-                status[0] = "Error, titol de l'autor no existent";
-                return;
+                throw new Exception("Error, titol de l'autor no existent");
             }
         } else {
-            status[0] = "Error, autor no existent";
-            return;
+            throw new Exception("Error, autor no existent");
         }
 
     }
-    public void modificarTitol(String autor, String anticTitol, String nouTitol, String[] status) {
-        status[0] = "";
+    public void modificarTitol(String autor, String anticTitol, String nouTitol) throws Exception {
         if (nouTitol.equals("")) {
-            status[0] = "Error, autor buit";
-            return;
+            throw new Exception("Error, nou titol buit");
+        }
+        if (anticTitol.equals("")) {
+            throw new Exception("Error, titol buit");
+        }
+        if (autor.equals("")) {
+            throw new Exception("Error, autor buit");
         }
 
         if (anticTitol.equals(nouTitol)) return;
@@ -154,25 +147,21 @@ public class ConjuntDocuments {
                     }
                     titolsPerAutor.get(autor).set(index, nouTitol);
                 } else {
-                    status[0] = "Error, l'autor ja te un titol com el nou titol";
-                    return;
+                    throw new Exception("Error, l'autor ja te un titol com el nou titol");
                 }
             } else {
-                status[0] = "Error, titol de l'autor no existent";
-                return;
+                throw new Exception("Error, titol de l'autor no existent");
             }
         } else {
-            status[0] = "Error, autor no existent";
-            return;
+            throw new Exception("Error, autor no existent");
         }
     }
 
-    public List<String> llistarTitolsAutor(String autor, String[] status) {
-        status[0] = "";
+    public List<String> llistarTitolsAutor(String autor) throws Exception{
         List<String> llistat = new ArrayList<>();
 
         if (titolsPerAutor.containsKey(autor)) llistat = titolsPerAutor.get(autor);
-        if (llistat.isEmpty()) status[0] = "No existeix cap titol de l'autor introduit";
+        if (llistat.isEmpty()) throw new Exception("No existeix cap titol de l'autor introduit");
         return llistat;
     }
 
@@ -187,8 +176,7 @@ public class ConjuntDocuments {
         return true;
     }
 
-    public List<String> llistarAutorsPrefix(String prefix, String[] status) {
-        status[0] = "";
+    public List<String> llistarAutorsPrefix(String prefix) {
         List<String> llistat = new ArrayList<>();
 
         Set<String> autors = titolsPerAutor.keySet();
@@ -203,23 +191,18 @@ public class ConjuntDocuments {
 
     // Retorna: -1 -> Docuemnt no trobat
     // Altrament: index del document
-    public int indexContingutDocument(String autor, String titol, String[] status) {
-        status[0] = "";
+    public int indexContingutDocument(String autor, String titol) throws Exception{
         if (titol.equals("")) {
-            status[0] = "Error, titol buit";
-            return -1;
+            throw new Exception("Error, titol buit");
         }
         if (autor.equals("")) {
-            status[0] = "Error, autor buit";
-            return -1;
+            throw new Exception("Error, autor buit");
         }
         if (!titolsPerAutor.containsKey(autor)) {
-            status[0] = "Error, autor no existent";
-            return -1;
+            throw new Exception("Error, autor no existent");
         }
         if (!titolsPerAutor.get(autor).contains(titol)) {
-            status[0] = "Error, titol de l'autor no existent";
-            return -1;
+            throw new Exception("Error, titol de l'autor no existent");
         }
         for (int i = 0; i < documents.size(); ++i) {
             Document doc = documents.get(i);
@@ -230,7 +213,8 @@ public class ConjuntDocuments {
         return -1;
     }
 
-    public List<String> getAutorTitolIndex(int id) {
+    public List<String> getAutorTitolIndex(int id) throws Exception {
+        if (id >= documents.size() || id < 0) throw new Exception("Error, index out of bounds");
         List<String> AutorTitol = new ArrayList<String>();
 
         AutorTitol.add(documents.get(id).getAutor());

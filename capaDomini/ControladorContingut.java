@@ -1,4 +1,4 @@
-package src;
+package capaDomini;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.file.Paths;
@@ -47,17 +47,17 @@ public class ControladorContingut {
         Set<String> result = new HashSet<String>();
         //empty-ca.txt
         String line;
-        String path = Paths.get("empty-ca.txt").toAbsolutePath().toString();
+        String path = Paths.get("data/empty-ca.txt").toAbsolutePath().toString();
         FileReader file = new FileReader(path);
         BufferedReader br = new BufferedReader(file);
         while((line = br.readLine()) != null) result.add(line);
         //empty-eng.txt
-        path = Paths.get("empty-eng.txt").toAbsolutePath().toString();
+        path = Paths.get("data/empty-eng.txt").toAbsolutePath().toString();
         file = new FileReader(path);
         br = new BufferedReader(file);
         while((line = br.readLine()) != null) result.add(line);
         //empty-sp.txt
-        path = Paths.get("empty-sp.txt").toAbsolutePath().toString();
+        path = Paths.get("data/empty-sp.txt").toAbsolutePath().toString();
         file = new FileReader(path);
         br = new BufferedReader(file);
         while((line = br.readLine()) != null) result.add(line);
@@ -307,7 +307,7 @@ public class ControladorContingut {
     public static void main(String[] args) throws IOException {
         String status[] = {""};
         ControladorContingut c = new ControladorContingut();
-        String path = Paths.get("data.txt").toAbsolutePath().toString();
+        String path = Paths.get("data/data.txt").toAbsolutePath().toString();
         c.afegirContingutPath(path, status);
         c.afegirContingut("Lorem algun.", status);
         String[] paraules = {"Lorem", "ipsum", "dolor"};
