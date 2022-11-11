@@ -1,5 +1,6 @@
 package drivers;
 
+import capaDomini.ControladorDocuments;
 import capaDomini.ControladorDomini;
 import java.util.*;
 
@@ -32,23 +33,23 @@ public class DriverControladorDomini {
             " "+queryConsultaExpressioBooleana+" Donada una expressió booleana, retorna els documents que la satisfan."+
             " "+tancar_driver+" Finalitza l'execució del driver";
 
-    public static void llegirConjuntDocuments(int op) {
+    private static void llegirConjuntDocuments() {
         Scanner sc = new Scanner(System.in);
-        if (op == 0) {
-            System.out.println("Introdueix parelles autor-títol, cada element en una línia diferent:");
-            int i = 0;
-            while (i < 3) {
-                try  {
-                    CtrlDomini.queryCrearDocument(sc.nextLine(),sc.nextLine());
-                } catch (Exception e) {
-                    System.out.println(e.toString());
-                    return;
-                }
-                ++i;
+        System.out.println("Digues el nombre de documents que vols introduir: ");
+        int nDocs = sc.nextInt();
+        sc.nextLine();
+        System.out.println("Introdueix " + nDocs + " parelles autor-títol, cada autor i titol en una línia diferent:");
+        for (int i = 0; i < nDocs; ++i) {
+            try  {
+                System.out.println("Autor: ");
+                String autor = sc.nextLine();
+                System.out.println("Titol: ");
+                String titol = sc.nextLine();
+                CtrlDomini.queryCrearDocument(autor, titol);
+            } catch (Exception e) {
+                System.out.println(e.toString());
+                return;
             }
-        }
-        else {
-            System.out.println("Funció PATH no implementada. :(");
         }
     }
     public static void testQueryCrearDocument() {
@@ -75,16 +76,14 @@ public class DriverControladorDomini {
         System.out.println("Escriu el títol del document a eliminar: ");
         String titol = sc.nextLine();
 
-        if (CtrlDomini.queryExisteixDocument(autor,titol)) {
-            try {
-                CtrlDomini.queryEliminarDocument(autor,titol);
-            } catch (Exception e) {
-                System.out.println(e.toString());
-                return;
-            }
-            System.out.println("Document eliminat correctament.");
+        try {
+            CtrlDomini.queryEliminarDocument(autor,titol);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return;
         }
-        else System.out.println("ERROR: no existeix cap document amb l'autor i el títol introduïts.");
+        System.out.println("Document eliminat correctament.");
+
     }
 
     public static void testQueryModificarAutor() {
@@ -97,16 +96,14 @@ public class DriverControladorDomini {
         System.out.println("Escriu el nou autor a assignar: ");
         String nouAutor = sc.nextLine();
 
-        if (CtrlDomini.queryExisteixDocument(autor,titol)) {
-            try {
-                CtrlDomini.queryModificarAutor(autor, nouAutor, titol);
-            } catch (Exception e) {
-                System.out.println(e.toString());
-                return;
-            }
-            System.out.println("Autor del document actualitzat correctament.");
+        try {
+            CtrlDomini.queryModificarAutor(autor, nouAutor, titol);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return;
         }
-        else System.out.println("ERROR: no existeix cap document amb l'autor i el títol introduïts.");
+        System.out.println("Autor del document actualitzat correctament.");
+
     }
 
     public static void testQueryModificarTitol() {
@@ -118,16 +115,14 @@ public class DriverControladorDomini {
         System.out.println("Escriu el nou títol a assignar: ");
         String nouTitol = sc.nextLine();
 
-        if (CtrlDomini.queryExisteixDocument(autor,titol)) {
-            try {
-                CtrlDomini.queryModificarTitol(autor, titol, nouTitol);
-            } catch (Exception e) {
-                System.out.println(e.toString());
-                return;
-            }
-            System.out.println("Títol del document actualitzat correctament.");
+        try {
+            CtrlDomini.queryModificarTitol(autor, titol, nouTitol);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return;
         }
-        else System.out.println("ERROR: no existeix cap document amb l'autor i el títol introduïts.");
+        System.out.println("Títol del document actualitzat correctament.");
+
     }
 
     public static void main(String[] args) {
@@ -136,12 +131,7 @@ public class DriverControladorDomini {
         System.out.println("\n| Driver de la classe ControladorDomini |\n");
         System.out.println("Abans de testejar funcionalitats cal declarar un conjunt de documents sobre els quals testejar, un conjunt" +
                            " de continguts i un controlador d'expressions booleanes.\n");
-        //System.out.println("Proporcioneu un conjunt de documents, introduint el seu autor i el seu títol i el contingut.");
-        System.out.println("Escull una opció:\n- 0 Introduir autors, titols i contingut per terminal\n" +
-                           "- 1 Escriure path d'un fitxer .txt amb els autors, títols i continguts");
-        Scanner sc = new Scanner(System.in);
-        int op = sc.nextInt();
-        llegirConjuntDocuments(op);
+        llegirConjuntDocuments();
 
         System.out.println(AJUDA+"\n");
         int comanda = 0;

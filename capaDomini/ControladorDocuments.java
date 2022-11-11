@@ -169,7 +169,8 @@ public class ControladorDocuments {
         int i = 0;
         String[] p = prefix.split("");
         String[] a = autor.split("");
-        while (i < autor.length()) {
+        if (p.length > a.length) return false;
+        while (i < p.length) {
             if (!p[i].equals(a[i])) return false;
             ++i;
         }

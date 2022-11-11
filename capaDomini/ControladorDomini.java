@@ -35,6 +35,22 @@ public class ControladorDomini {
         }
     }
 
+    public void queryModificarAutor(String autor, String titol, String nouAutor) {
+        try {
+            cjtDocuments.modificarAutor(autor, titol, nouAutor);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    public void queryModificarTitol(String autor, String titol, String nouTitol) {
+        try {
+            cjtDocuments.modificarTitol(autor, titol, nouTitol);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
     public List<String> queryLlistarTitolsAutor(String autor) {
         try {
             List<String> llistat = cjtDocuments.llistarTitolsAutor(autor);
