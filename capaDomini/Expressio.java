@@ -35,7 +35,6 @@ public class Expressio {
         }else {
             this.es_correcte = false;
         }
-
     }
     /**
      * Consultora de l'expressio esta ben formalitzat

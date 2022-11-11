@@ -1,4 +1,5 @@
 package capaDomini;
+
 import java.util.*;
 
 /**
@@ -152,11 +153,10 @@ public class ControladorExpressions {
 
         if (anadir_expressio(ex)) {
             Expressio expressio_avaluar = expressions.get(ex);
-
             //iteracio dels documents
             for (int i = 0; i < cont.size(); ++i) {
                 boolean compleix_doc = false;
-                String[] frases = cont.get(i).split(".");
+                String[] frases = cont.get(i).split("\\.");
                 //iteracio de les frases
                 for (int j = 0; j  < frases.length && !compleix_doc; ++j) {
                     if (evaluateTree(expressio_avaluar.getTheTree().root, frases[j])) {

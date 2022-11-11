@@ -3,6 +3,7 @@ package drivers;
 import capaDomini.ControladorExpressions;
 import capaDomini.Expressio;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 /**
@@ -138,6 +139,23 @@ public class DriverControladorExpressions {
         //Per comprovar seria mostrar d'alguna forma els documents trobats.
 
     }
+    private static void llegirConjuntDocuments(List<String> docs) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Digues el nombre de documents que vols introduir: ");
+        int nDocs = sc.nextInt();
+        sc.nextLine();
+        System.out.println("Introdueix " + nDocs + " els diferents continguts en lines diferents:");
+        for (int i = 0; i < nDocs; ++i) {
+            try  {
+                System.out.println("Contingut "+i+": ");
+                String contingut = sc.nextLine();
+                docs.add(contingut);
+            } catch (Exception e) {
+                System.out.println(e.toString());
+                return;
+            }
+        }
+    }
 
     /**
      * Representa totes les comandes que accepta el driver.
@@ -166,7 +184,9 @@ public class DriverControladorExpressions {
                 testExistExpressio(scanner);
                 break;
             case CONSULTAEXPRE:
-                //testConsultaExpre(scanner,cont);
+                List<String> cont = new ArrayList<>();
+                llegirConjuntDocuments(cont);
+                testConsultaExpre(scanner,cont);
                 break;
             case EXIT:
                 return false;
@@ -180,10 +200,7 @@ public class DriverControladorExpressions {
      * @param args accepta un argument d'un path d'un arxiu txt en cas de voler introduir les comandes des d'un arxiu.
      * */
     public static void main(String[] args) {
-
-        //List<String> cont = arguments;
         boolean run  = true;
-
         if (run) System.out.println(HELPTEXT);
         Scanner in = new Scanner(System.in);
         while (run) {
