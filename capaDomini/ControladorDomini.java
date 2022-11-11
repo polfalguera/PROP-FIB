@@ -73,7 +73,7 @@ public class ControladorDomini {
 
     public String queryGetContingutDocument(String autor, String titol) {
         try {
-            int id = cjtDocuments.indexContingutDocument(autor,titol);
+            int id = cjtDocuments.indexDocument(autor,titol);
             String contingut = CtrlContingut.getContingut(id);
             return contingut;
         } catch (Exception e ) {
@@ -93,7 +93,7 @@ public class ControladorDomini {
 
     public List<String> queryTObtenirKSemblants(String autor, String titol, int k, int mode) {
         try {
-            int id = cjtDocuments.indexContingutDocument(autor,titol);
+            int id = cjtDocuments.indexDocument(autor,titol);
 
             String[] contingut = CtrlContingut.obtenirParaulesContingut(id);
 

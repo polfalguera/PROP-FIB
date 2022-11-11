@@ -192,7 +192,7 @@ public class ControladorDocuments {
 
     // Retorna: -1 -> Docuemnt no trobat
     // Altrament: index del document
-    public int indexContingutDocument(String autor, String titol) throws Exception{
+    public int indexDocument(String autor, String titol) throws Exception{
         if (titol.equals("")) {
             throw new Exception("Error, titol buit");
         }
