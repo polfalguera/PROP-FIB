@@ -2,12 +2,12 @@ package capaDomini;
 
 import java.util.*;
 
-public class ConjuntDocuments {
+public class ControladorDocuments {
 
     private List<Document> documents;
     private TreeMap<String, List<String>> titolsPerAutor;
 
-    public ConjuntDocuments() {
+    public ControladorDocuments() {
         this.documents = new ArrayList<Document>();
         this.titolsPerAutor = new TreeMap<String, List<String>>();
     }

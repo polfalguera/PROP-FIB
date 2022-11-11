@@ -4,13 +4,13 @@ import java.util.*;
 
 public class ControladorDomini {
 
-    private ConjuntDocuments cjtDocuments;
+    private ControladorDocuments cjtDocuments;
     private ControladorContingut CtrlContingut;
     private ControladorExpressions CtrlExpressions;
 
     public ControladorDomini() {
         try {
-            this.cjtDocuments = new ConjuntDocuments();
+            this.cjtDocuments = new ControladorDocuments();
             this.CtrlContingut = new ControladorContingut();
             this.CtrlExpressions = new ControladorExpressions();
         }

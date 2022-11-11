@@ -1,11 +1,11 @@
 package drivers;
 
-import capaDomini.ConjuntDocuments;
+import capaDomini.ControladorDocuments;
 import java.util.*;
 
 public class DriverControladorDocuments {
 
-    private static final ConjuntDocuments CtrlDocuments = new ConjuntDocuments();
+    private static final ControladorDocuments CtrlDocuments = new ControladorDocuments();
     private static final String numero_comanda = "0";
     private static final String crearDocument = "1";
     private static final String eliminarDocument = "2";

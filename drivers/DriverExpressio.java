@@ -1,6 +1,8 @@
-package capaDomini;
+package drivers;
 
 import java.util.Scanner;
+
+import capaDomini.Expressio;
 
 /**
  * És el driver de la classe Expressio.
