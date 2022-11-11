@@ -137,6 +137,11 @@ public class DriverControladorExpressions {
         String frase = readLine(scanner);
         List<Integer> aux = Ctrlexpressions.ConsultaExpressioBooleana(frase,cont);
         //Per comprovar seria mostrar d'alguna forma els documents trobats.
+        System.out.println("S'han trobat els seguents index dels documents");
+        for (int i = 0; i < aux.size(); ++i) {
+            System.out.println(aux.get(i));
+        }
+
 
     }
     private static void llegirConjuntDocuments(List<String> docs) {
@@ -144,7 +149,7 @@ public class DriverControladorExpressions {
         System.out.println("Digues el nombre de documents que vols introduir: ");
         int nDocs = sc.nextInt();
         sc.nextLine();
-        System.out.println("Introdueix " + nDocs + " els diferents continguts en lines diferents:");
+        System.out.println("Introdueix els diferents continguts en lines diferents:");
         for (int i = 0; i < nDocs; ++i) {
             try  {
                 System.out.println("Contingut "+i+": ");
