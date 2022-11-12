@@ -40,202 +40,42 @@ public class ControladorContingut {
     }
     private static List<HashMap<String, Integer>> freqContingut;
     private static List<String> Contingut;
-    private static HashMap<String, List<Integer>> paraulaDocuments;
     private static Set<String> stopWords;
 
-    private Set<String> assignarStopWords() throws IOException {
-        Set<String> result = new HashSet<String>();
-        //empty-ca.txt
-        String line;
-        String path = Paths.get("data/empty-ca-utf8.txt").toAbsolutePath().toString();
-        FileReader file = new FileReader(path);
-        BufferedReader br = new BufferedReader(file);
-        while((line = br.readLine()) != null) result.add(line);
-        //empty-eng.txt
-        path = Paths.get("data/empty-eng-utf8.txt").toAbsolutePath().toString();
-        file = new FileReader(path);
-        br = new BufferedReader(file);
-        while((line = br.readLine()) != null) result.add(line);
-        //empty-sp.txt
-        path = Paths.get("data/empty-sp-utf8.txt").toAbsolutePath().toString();
-        file = new FileReader(path);
-        br = new BufferedReader(file);
-        while((line = br.readLine()) != null) result.add(line);
-        return result;
-
-    }
-
-    public ControladorContingut() throws IOException {
+    public ControladorContingut() throws Exception {
         freqContingut = new ArrayList<HashMap<String, Integer>>();
         Contingut = new ArrayList<String>();
-        paraulaDocuments = new HashMap<String, List<Integer>>();
-        stopWords = assignarStopWords();
+        try {
+            stopWords = assignarStopWords();
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
-    public void afegirContingutPath(String path, String[] status) throws IOException {
-        status[0] = "";
-        String line;
-        FileReader file = new FileReader(path);
-        BufferedReader br = new BufferedReader(file);
-
-        HashMap<String, Integer> text = new HashMap<String, Integer>();
-        StringBuilder contingut = new StringBuilder();
-
-        int id = Contingut.size();
-        boolean primer = true;
-
-        while((line = br.readLine()) != null) {
-            if (primer) {
-                contingut.append(line);
-                primer =  false;
-            }
-            else contingut.append("\n"+line);
-
-            //Splits each line into words
-            // |,|\.|!|¡|\?|¿|'
-            String[] words = line.split(("\\p{N}|\\P{L}+"));
-            for (String word : words) {
-                word = word.toLowerCase();
-                if (!stopWords.contains(word) && word != "") {
-                    if (!text.containsKey(word)) {
-                        text.put(word, 1);
-                        if (paraulaDocuments.containsKey(word)) paraulaDocuments.get(word).add(id);
-                        else {
-                            List<Integer> l = new ArrayList<Integer>();
-                            l.add(id);
-                            paraulaDocuments.put(word, l);
-                        }
-                    }
-                    else text.put(word, text.get(word)+1);
-                }
-            }
+    private Set<String> assignarStopWords() throws Exception {
+        try {
+            Set<String> result = new HashSet<String>();
+            //empty-ca.txt
+            String line;
+            String path = Paths.get("data/empty-ca-utf8.txt").toAbsolutePath().toString();
+            FileReader file = new FileReader(path);
+            BufferedReader br = new BufferedReader(file);
+            while((line = br.readLine()) != null) result.add(line);
+            //empty-eng.txt
+            path = Paths.get("data/empty-eng-utf8.txt").toAbsolutePath().toString();
+            file = new FileReader(path);
+            br = new BufferedReader(file);
+            while((line = br.readLine()) != null) result.add(line);
+            //empty-sp.txt
+            path = Paths.get("data/empty-sp-utf8.txt").toAbsolutePath().toString();
+            file = new FileReader(path);
+            br = new BufferedReader(file);
+            while((line = br.readLine()) != null) result.add(line);
+            return result;
+        } catch (Exception e) {
+            throw new Exception("Error, no s'han pogut carregar les stopwords");
         }
-        if (contingut.isEmpty()) {
-            status[0] = "Error, contingut buit";
-            return;
-        }
-        freqContingut.add(text);
-        Contingut.add(contingut.toString());
     }
-
-    public void modificarContingutPath(int id, String path, String[] status) throws IOException {
-        status[0] = "";
-        if (freqContingut.size() <= id) {
-            status[0] = "Error, no es pot modificar un contingut no existent";
-            return;
-        }
-
-        for (Map.Entry<String, List<Integer>> set : paraulaDocuments.entrySet())
-            if (set.getValue().contains(id)) set.getValue().remove(id);
-
-        String line;
-        FileReader file = new FileReader(path);
-        BufferedReader br = new BufferedReader(file);
-
-        HashMap<String, Integer> text = new HashMap<String, Integer>();
-        StringBuilder contingut = new StringBuilder();
-        boolean primer = true;
-
-        while((line = br.readLine()) != null) {
-            if (primer) {
-                contingut.append(line);
-                primer =  false;
-            }
-            else contingut.append("\n"+line);
-            //Splits each line into words
-            String[] words = line.split(("\\p{N}|\\P{L}+"));
-            for (String word : words) {
-                word = word.toLowerCase();
-                if (!stopWords.contains(word) && word != "") {
-                    if (!text.containsKey(word)) {
-                        text.put(word, 1);
-                        if (paraulaDocuments.containsKey(word)) paraulaDocuments.get(word).add(id);
-                        else {
-                            List<Integer> l = new ArrayList<Integer>();
-                            l.add(id);
-                            paraulaDocuments.put(word, l);
-                        }
-                    }
-                    else text.put(word, text.get(word)+1);
-                }
-            }
-        }
-        if (contingut.isEmpty()) {
-            status[0] = "Error, contingut buit";
-            return;
-        }
-        freqContingut.add(id, text);
-        Contingut.set(id, contingut.toString());
-    }
-
-    public void afegirContingut(String contingut, String[] status) throws IOException {
-        status[0] = "";
-        if (contingut == "") {
-            status[0] = "Error, contingut buit";
-            return;
-        }
-
-        HashMap<String, Integer> text = new HashMap<String, Integer>();
-        String[] words = contingut.split(("\\P{L}+"));
-        int id = Contingut.size();
-
-        for (String word : words) {
-            word = word.toLowerCase();
-            if (!stopWords.contains(word) && word != "") {
-                if (!text.containsKey(word)) {
-                    text.put(word, 1);
-                    if (paraulaDocuments.containsKey(word)) paraulaDocuments.get(word).add(id);
-                    else {
-                        List<Integer> l = new ArrayList<Integer>();
-                        l.add(id);
-                        paraulaDocuments.put(word, l);
-                    }
-                }
-                else text.put(word, text.get(word)+1);
-            }
-        }
-
-        Contingut.add(contingut);
-        freqContingut.add(text);
-    }
-
-    public void modificarContingut(int id, String contingut, String[] status) {
-        status[0] = "";
-        if (freqContingut.size() <= id) {
-            status[0] = "Error, no es pot modificar un contingut no existent";
-            return;
-        }
-        if (contingut == "") {
-            status[0] = "Error, contingut buit";
-            return;
-        }
-
-        for (Map.Entry<String, List<Integer>> set : paraulaDocuments.entrySet())
-            if (set.getValue().contains(id)) set.getValue().remove(id);
-
-        HashMap<String, Integer> text = new HashMap<String, Integer>();
-        String[] words = contingut.split(("\\P{L}+"));
-
-        for (String word : words) {
-            word = word.toLowerCase();
-            if (!stopWords.contains(word) && word != "") {
-                if (!text.containsKey(word)) {
-                    text.put(word, 1);
-                    if (paraulaDocuments.containsKey(word)) paraulaDocuments.get(word).add(id);
-                    else {
-                        List<Integer> l = new ArrayList<Integer>();
-                        l.add(id);
-                        paraulaDocuments.put(word, l);
-                    }
-                }
-                else text.put(word, text.get(word)+1);
-            }
-        }
-
-        Contingut.add(id, contingut);
-        freqContingut.add(id, text);
-    }
-
     private double tf(String paraula, int id, int mode) {
         HashMap<String, Integer> freq = freqContingut.get(id);
         double n = 0;
@@ -246,7 +86,6 @@ public class ControladorContingut {
         else if (mode != 1 && freq.containsKey(paraula)) return freq.get(paraula);
         else return 0;
     }
-
     private static double idf(String paraula, int mode) {
         double n = 0;
         for (HashMap<String, Integer> doc : freqContingut) {
@@ -257,9 +96,111 @@ public class ControladorContingut {
         else return Math.log(Contingut.size() / n);
     }
 
-    //mode = 0 -> term frequency/freqTotal
-    //mode = 1 -> log(1+freq)
-    //mode != [0,1] --> 0 per defecte
+    public void afegirContingutPath(String path) throws Exception {
+        try {
+            String line;
+            FileReader file = new FileReader(path);
+            BufferedReader br = new BufferedReader(file);
+
+            HashMap<String, Integer> text = new HashMap<String, Integer>();
+            StringBuilder contingut = new StringBuilder();
+            boolean primer = true;
+
+            while((line = br.readLine()) != null) {
+                if (primer) {
+                    contingut.append(line);
+                    primer =  false;
+                }
+                else contingut.append("\n"+line);
+                //Splits each line into words
+                String[] words = line.split("\\p{Punct}| |\\n|¿|¡");
+                for (String word : words) {
+                    word = word.toLowerCase();
+                    if (!stopWords.contains(word) && word != "") {
+                        if (!text.containsKey(word)) text.put(word, 1);
+                        else text.put(word, text.get(word)+1);
+                    }
+                }
+            }
+
+            if (contingut.isEmpty()) throw new Exception("Error, contingut buit");
+            freqContingut.add(text);
+            Contingut.add(contingut.toString());
+        } catch (Exception e) {
+            throw new Exception("Error, path del document incorrecte");
+        }
+    }
+    public void modificarContingutPath(int id, String path) throws Exception {
+        if (freqContingut.size() <= id) throw new Exception("Error, index out of bounds");
+        try {
+            String line;
+            FileReader file = new FileReader(path);
+            BufferedReader br = new BufferedReader(file);
+
+            HashMap<String, Integer> text = new HashMap<String, Integer>();
+            StringBuilder contingut = new StringBuilder();
+            boolean primer = true;
+
+            while((line = br.readLine()) != null) {
+                if (primer) {
+                    contingut.append(line);
+                    primer =  false;
+                }
+                else contingut.append("\n"+line);
+                //Splits each line into words
+                String[] words = line.split("\\p{Punct}| |\\n|¿|¡");
+                for (String word : words) {
+                    word = word.toLowerCase();
+                    if (!stopWords.contains(word) && word != "") {
+                        if (!text.containsKey(word)) text.put(word, 1);
+                        else text.put(word, text.get(word)+1);
+                    }
+                }
+            }
+
+            if (contingut.isEmpty()) throw new Exception("Error, contingut buit");
+            freqContingut.add(id, text);
+            Contingut.set(id, contingut.toString());
+        } catch (Exception e) {
+            throw new Exception("Error, path del document incorrecte");
+        }
+    }
+    public void afegirContingut(String contingut) throws Exception {
+        if (contingut == "") throw new Exception("Error, contingut buit");
+
+        HashMap<String, Integer> text = new HashMap<String, Integer>();
+        String[] words = contingut.split("\\p{Punct}| |\\n|¿|¡");
+        int id = Contingut.size();
+
+        for (String word : words) {
+            word = word.toLowerCase();
+            if (!stopWords.contains(word) && word != "") {
+                if (!text.containsKey(word)) text.put(word, 1);
+                else text.put(word, text.get(word)+1);
+            }
+        }
+
+        Contingut.add(contingut);
+        freqContingut.add(text);
+    }
+    public void modificarContingut(int id, String contingut) throws Exception {
+        if (freqContingut.size() <= id) throw new Exception("Error, index out of bounds");
+        if (contingut == "") throw new Exception("Error, contingut buit");
+
+        HashMap<String, Integer> text = new HashMap<String, Integer>();
+        String[] words = contingut.split("\\p{Punct}| |\\n|¿|¡");
+
+        for (String word : words) {
+            word = word.toLowerCase();
+            if (!stopWords.contains(word) && word != "") {
+                if (!text.containsKey(word)) text.put(word, 1);
+                else text.put(word, text.get(word)+1);
+            }
+        }
+
+        Contingut.add(id, contingut);
+        freqContingut.add(id, text);
+    }
     public int[] termsTfIdf(String[] paraules, int k, int mode) {
         if (k > Contingut.size()) k = Contingut.size();
         double[] tfidf = new double[Contingut.size()];
@@ -272,50 +213,22 @@ public class ControladorContingut {
                 tfidf[j] += (tf(paraula, j, mode) * idf);
             }
         }
-        for (double j : tfidf) System.out.println(j);
         return IndexValuePair.krellevants(tfidf, k);
     }
-
-    public void escriureContingut(int id) {
-        System.out.println(Contingut.get(id));
+    public String getContingut(int id) throws Exception {
+        if (id >= Contingut.size()) throw new Exception("Error, index out of bounds");
+        return Contingut.get(id);
     }
-
-    public String getContingut(int index) {
-        return Contingut.get(index);
+    public void eliminarContingut(int id) throws Exception {
+        if (id >= Contingut.size()) throw new Exception("Error, index out of bounds");
+        freqContingut.remove(id);
+        Contingut.remove(id);
     }
-
-    public void eliminarContingut(int id) {
-        if (Contingut.size() <= id) return;
-        List<String> delete = new ArrayList<String>();
-        for (Map.Entry<String, List<Integer>> set : paraulaDocuments.entrySet()) {
-            List<Integer> l = new ArrayList<Integer>();
-            for (Integer s : set.getValue()) {
-                if (s < id) l.add(s);
-                if (s > id) l.add(s - 1);
-            }
-            if (!l.isEmpty()) set.setValue(l);
-            else delete.add(set.getKey());
-        }
-        for(String key : delete) paraulaDocuments.remove(key);
+    public String[] obtenirParaulesContingut(int id) throws Exception {
+        if (id >= Contingut.size()) throw new Exception("Error, index out of bounds");
+        return Contingut.get(id).split("\\p{Punct}| |\\n|¿|¡");
     }
-
-    public String[] obtenirParaulesContingut(int id) {
-        return freqContingut.get(id).keySet().toArray(new String[0]);
-    }
-
-    public List<String> getConjuntContinguts() { return Contingut; }
-
-    public static void main(String[] args) throws IOException {
-        String status[] = {""};
-        ControladorContingut c = new ControladorContingut();
-        String path = Paths.get("data/data.txt").toAbsolutePath().toString();
-        c.afegirContingutPath(path, status);
-        c.afegirContingut("Lorem algun canta'n. últim ú 332", status);
-        String[] paraules = {"Lorem", "ipsum", "dolor"};
-        int[] sol = c.termsTfIdf(paraules, 4, 0);
-        for (int i : sol) {
-            System.out.println(Contingut.get(i));
-            System.out.println(Arrays.toString(c.obtenirParaulesContingut(i)));
-        }
+    public List<String> getConjuntContinguts() {
+        return Contingut;
     }
 }
