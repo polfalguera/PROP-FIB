@@ -29,7 +29,7 @@ public class DocumentTest {
      */
     @Test
     public void setNouAutorDoc_returnNouAutorDoc() {
-        Document doc = new Document("autor","titol");
+        Document doc = new Document("titol","autor");
         doc.setAutor("nouAutor");
         assertEquals("nouAutor",doc.getAutor());
     }
@@ -39,7 +39,7 @@ public class DocumentTest {
      */
     @Test
     public void setNouTitolDoc_returnNouTitolDoc() {
-        Document doc = new Document("autor","titol");
+        Document doc = new Document("titol","autor");
         doc.setTitol("nouTitol");
         assertEquals("nouTitol",doc.getTitol());
     }
