@@ -11,7 +11,7 @@ public class DocumentTest {
      */
     @Test
     public void getAutorDoc_returnAutorDoc() {
-        Document doc = new Document("autor","titol");
+        Document doc = new Document("titol","autor");
         assertEquals("autor",doc.getAutor());
     }
 
@@ -20,7 +20,7 @@ public class DocumentTest {
      */
     @Test
     public void getTitolDoc_returnTitolDoc() {
-        Document doc = new Document("autor","titol");
+        Document doc = new Document("titol","autor");
         assertEquals("titol",doc.getTitol());
     }
 
