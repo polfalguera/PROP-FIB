@@ -81,7 +81,9 @@ public class ControladorDocuments {
             if (titolsPerAutor.get(anticAutor).contains(titol)) {
                 if (titolsPerAutor.containsKey(nouAutor)) {
                     if (!titolsPerAutor.get(nouAutor).contains(titol)) {
-                        titolsPerAutor.get(anticAutor).remove(titol);
+                        if (titolsPerAutor.get(anticAutor).size() == 1) {
+                            titolsPerAutor.remove(anticAutor);
+                        } else titolsPerAutor.get(anticAutor).remove(titol);
                         titolsPerAutor.get(nouAutor).add(titol);
 
                         int index = 0;
@@ -94,7 +96,9 @@ public class ControladorDocuments {
                         throw new Exception("Error, titol del nou autor ja existent");
                     }
                 } else {
-                    titolsPerAutor.get(anticAutor).remove(titol);
+                    if (titolsPerAutor.get(anticAutor).size() == 1) {
+                        titolsPerAutor.remove(anticAutor);
+                    } else titolsPerAutor.get(anticAutor).remove(titol);
 
                     List<String> titols = new ArrayList<String>();
                     titols.add(titol);
