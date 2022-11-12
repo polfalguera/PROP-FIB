@@ -19,9 +19,10 @@ public class ControladorDomini {
         }
     }
 
-    public void queryCrearDocument(String autor, String titol) throws Exception {
+    public void queryCrearDocument(String autor, String titol, String contingut) throws Exception {
         try {
             cjtDocuments.crearDocument(autor,titol);
+            CtrlContingut.afegirContingut(contingut);
         } catch (Exception e) {
             throw new Exception(e.toString());
         }
@@ -29,7 +30,9 @@ public class ControladorDomini {
 
     public void queryEliminarDocument(String autor, String titol) throws Exception{
         try{
+            int id = cjtDocuments.indexDocument(autor,titol);
             cjtDocuments.eliminarDocument(autor,titol);
+            CtrlContingut.eliminarContingut(id);
         } catch (Exception e){
             throw new Exception(e.toString());
         }
@@ -79,7 +82,14 @@ public class ControladorDomini {
         }
     }
 
-    private List<String> queryGetTitolAutorIndex(int id) throws Exception {
+    public int queryGetIndexDocument(String autor, String titol) throws Exception {
+        try {
+            return cjtDocuments.indexDocument(autor,titol);
+        } catch (Exception e) {
+            throw new Exception(e.toString());
+        }
+    }
+    public List<String> queryGetAutorTitolIndex(int id) throws Exception {
         try {
             return cjtDocuments.getAutorTitolIndex(id);
         } catch (Exception e) {
@@ -87,7 +97,7 @@ public class ControladorDomini {
         }
     }
 
-    public List<String> queryTObtenirKSemblants(String autor, String titol, int k, int mode) throws Exception {
+    public List<String> queryObtenirKSemblants(String autor, String titol, int k, int mode) throws Exception {
         try {
             int id = cjtDocuments.indexDocument(autor,titol);
 
@@ -123,5 +133,3 @@ public class ControladorDomini {
     }
 
 }
-
-

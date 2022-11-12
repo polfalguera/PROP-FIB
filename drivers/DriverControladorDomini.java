@@ -38,14 +38,17 @@ public class DriverControladorDomini {
         System.out.println("Digues el nombre de documents que vols introduir: ");
         int nDocs = sc.nextInt();
         sc.nextLine();
-        System.out.println("Introdueix " + nDocs + " parelles autor-títol, cada autor i titol en una línia diferent:");
+        System.out.println("Introdueix " + nDocs + " trios autor-títol-contingut, cada autor i titol en una línia diferent:");
         for (int i = 0; i < nDocs; ++i) {
             try  {
                 System.out.println("Autor: ");
                 String autor = sc.nextLine();
                 System.out.println("Titol: ");
                 String titol = sc.nextLine();
-                CtrlDomini.queryCrearDocument(autor, titol);
+                System.out.println("Contingut: ");
+                String contingut = sc.nextLine();
+                CtrlDomini.queryCrearDocument(autor,titol,contingut);
+
             } catch (Exception e) {
                 System.out.println(e.toString());
                 return;
@@ -59,8 +62,10 @@ public class DriverControladorDomini {
         String autor = sc.nextLine();
         System.out.println("Escriu un títol per al document a crear: ");
         String titol = sc.nextLine();
+        System.out.println("Escriu el contingut per al document a crear:");
+        String contingut = sc.nextLine();
         try  {
-            CtrlDomini.queryCrearDocument(autor,titol);
+            CtrlDomini.queryCrearDocument(autor,titol,contingut);
         } catch (Exception e) {
             System.out.println(e.toString());
             return;
@@ -102,11 +107,12 @@ public class DriverControladorDomini {
             System.out.println(e.toString());
             return;
         }
-        System.out.println("Autor del document actualitzat correctament.");
+        System.out.println("\nAutor del document actualitzat correctament.\n");
 
     }
 
     public static void testQueryModificarTitol() {
+        System.out.println("queryModificarTitol");
         Scanner sc = new Scanner(System.in);
         System.out.println("Escriu l'autor del document a modificar: ");
         String autor = sc.nextLine();
@@ -121,34 +127,114 @@ public class DriverControladorDomini {
             System.out.println(e.toString());
             return;
         }
-        System.out.println("Títol del document actualitzat correctament.");
+        System.out.println("\nTítol del document actualitzat correctament.\n");
 
     }
 
     public static void testQueryLlistarTitolsAutor() {
+        System.out.println("queryLlistarTitolsAutor");
         Scanner sc = new Scanner(System.in);
         System.out.println("Escriu l'autor del qual llistar els seus títols:");
         String autor = sc.nextLine();
         try {
             List<String> titols = CtrlDomini.queryLlistarTitolsAutor(autor);
-            System.out.println("Llista de títols de l'autor "+autor+":\n"+titols);
+            System.out.println("Llista de títols de l'autor "+autor+":");
+            titols.forEach((titol) -> {
+                System.out.println(titol);
+            });
         } catch (Exception e) {
             System.out.println(e.toString());
             return;
         }
-        System.out.println("Títols de l'autor llistats correctament.");
+        System.out.println("\nTítols de l'autor " +autor+" llistats correctament.\n");
+    }
+
+    public static void testQueryLlistarAutorsPrefix() {
+        System.out.println("queryLlistarAutorsPrefix");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Escriu el prefix a consultar:");
+        String prefix = sc.nextLine();
+        try {
+            List<String> autors = CtrlDomini.queryLlistarAutorsPrefix(prefix);
+            System.out.println("Llista d'autors amb prefix "+prefix+":");
+            autors.forEach((autor) -> {
+                System.out.println(autor);
+            });
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return;
+        }
+        System.out.println("\nAutors amb prefix "+prefix+" llistats correctament.\n");
+    }
+
+    public static void testQueryGetContingutDocument() {
+        System.out.println("queryGetContingutDocument");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Escriu l'autor del document:");
+        String autor = sc.nextLine();
+        System.out.println("Escriu el títol del document:");
+        String titol = sc.nextLine();
+
+        try {
+            String contingut = CtrlDomini.queryGetContingutDocument(autor,titol);
+            System.out.println("Contingut del document amb autor "+autor+" i títol "+titol+":");
+            System.out.println(contingut);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    public static void testQueryObtenirKSemblants() {
+        System.out.println("queryObtenirKSemblants");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Escriu l'autor del document base:");
+        String autor = sc.nextLine();
+        System.out.println("Escriu el títol del document base:");
+        String titol = sc.nextLine();
+        System.out.println("Escriu el valor de k:");
+        String k = sc.nextLine();
+        System.out.println("Selecciona el mode d'assignació de pesos:");
+        String mode = sc.nextLine();
+
+        try {
+            List<String> llistat = CtrlDomini.queryObtenirKSemblants(autor,titol,Integer.parseInt(k),Integer.parseInt(mode));
+            System.out.println("Llista dels "+k+" document més semblants:");
+            llistat.forEach((s) -> {
+                System.out.println(s);
+            });
+        } catch(Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    public static void testQueryConsultaExpressioBooleana() {
+        System.out.println("queryConsultaExpressioBooleana");
+        Scanner sc = new Scanner(System.in);
+        System.out.println();
+        System.out.println("Escriu l'expressió booleana a satisfer:");
+        String expressio = sc.nextLine();
+
+        try {
+            List<String> llistat = CtrlDomini.queryConsultaExpressioBooleana(expressio);
+            System.out.println("Llista dels documents que satisfan <"+expressio+">:");
+            llistat.forEach((s) -> {
+                System.out.println(s);
+            });
+        }catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }
 
     public static void main(String[] args) {
         DriverControladorDomini dcd = new DriverControladorDomini();
         try {
             CtrlDomini = new ControladorDomini();
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e.toString());
         }
         System.out.println("\n| Driver de la classe ControladorDomini |\n");
         System.out.println("Abans de testejar funcionalitats cal declarar un conjunt de documents sobre els quals testejar i un conjunt" +
-                           " de continguts.\n");
+                " de continguts.\n");
         llegirConjuntDocuments();
 
         System.out.println(AJUDA+"\n");
@@ -177,6 +263,16 @@ public class DriverControladorDomini {
                 case queryLlistarTitolsAutor:
                     dcd.testQueryLlistarTitolsAutor();
                     break;
+                case queryLlistarAutorsPrefix:
+                    dcd.testQueryLlistarAutorsPrefix();
+                    break;
+                case queryGetContingutDocument:
+                    dcd.testQueryGetContingutDocument();
+                    break;
+                case queryTObtenirKSemblants:
+                    dcd.testQueryObtenirKSemblants();
+                    break;
+                case queryConsultaExpressioBooleana:
 
                 case tancar_driver:
                     return;
