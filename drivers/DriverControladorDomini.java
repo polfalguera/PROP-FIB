@@ -125,37 +125,61 @@ public class DriverControladorDomini {
 
     }
 
+    public static void testQueryLlistarTitolsAutor() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Escriu l'autor del qual llistar els seus títols:");
+        String autor = sc.nextLine();
+        try {
+            List<String> titols = CtrlDomini.queryLlistarTitolsAutor(autor);
+            System.out.println("Llista de títols de l'autor "+autor+":\n"+titols);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return;
+        }
+        System.out.println("Títols de l'autor llistats correctament.");
+    }
+
     public static void main(String[] args) {
         DriverControladorDomini dcd = new DriverControladorDomini();
-        CtrlDomini = new ControladorDomini();
+        try {
+            CtrlDomini = new ControladorDomini();
+        } catch(Exception e) {
+            System.out.println(e.toString());
+        }
         System.out.println("\n| Driver de la classe ControladorDomini |\n");
-        System.out.println("Abans de testejar funcionalitats cal declarar un conjunt de documents sobre els quals testejar, un conjunt" +
-                           " de continguts i un controlador d'expressions booleanes.\n");
+        System.out.println("Abans de testejar funcionalitats cal declarar un conjunt de documents sobre els quals testejar i un conjunt" +
+                           " de continguts.\n");
         llegirConjuntDocuments();
 
         System.out.println(AJUDA+"\n");
-        int comanda = 0;
-        while (comanda != 10) {
+        String comanda = numero_comanda;
+        while (comanda != tancar_driver) {
             System.out.println("Selecciona el número de la comanda que vulguis executar: ");
             Scanner sc1 = new Scanner(System.in);
-            comanda = sc1.nextInt();
+            comanda = sc1.nextLine();
 
             switch(comanda) {
-                case 0:
+                case numero_comanda:
                     System.out.println(dcd.AJUDA);
                     break;
-                case 1:
+                case queryCrearDocument:
                     dcd.testQueryCrearDocument();
                     break;
-                case 2:
+                case queryEliminarDocument:
                     dcd.testQueryEliminarDocument();
                     break;
-                case 3:
+                case queryModificarAutor:
                     dcd.testQueryModificarAutor();
                     break;
-                case 4:
+                case queryModificarTitol:
                     dcd.testQueryModificarTitol();
                     break;
+                case queryLlistarTitolsAutor:
+                    dcd.testQueryLlistarTitolsAutor();
+                    break;
+
+                case tancar_driver:
+                    return;
 
             }
         }
