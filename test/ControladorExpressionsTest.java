@@ -24,7 +24,7 @@ public class ControladorExpressionsTest {
      * Test que retorna una expressio correctament
      */
     @Test
-    public void getExpressio() {
+    public void getExpressio() throws Exception {
         ControladorExpressions ctrlExpre = new ControladorExpressions();
         boolean add = ctrlExpre.anadir_expressio("hola & adeu");
         Expressio result = ctrlExpre.getExpressio("hola & adeu");

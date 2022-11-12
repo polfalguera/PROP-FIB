@@ -26,8 +26,7 @@ public class ControladorExpressions {
      * @return Retorna l'expressio arbre binari indentificat pel el parametre ex.
      */
     public Expressio crearExpressio(String ex) {
-        Expressio aux = new Expressio(ex);
-        return aux;
+        return new Expressio(ex);
     }
 
     /**
@@ -43,14 +42,14 @@ public class ControladorExpressions {
      * @param ex es l'expressio donat pel usuari
      * @return Retorna l'expressio arbre binari indentificat pel el parametre ex.
      */
-    public Expressio getExpressio(String ex) {
+    public Expressio getExpressio(String ex) throws Exception{
         try {
             return expressions.get(ex);
         }
         catch (Exception e) {
-            System.out.println("L'expressio no existeix");
+            System.out.println("L'expressio no existeix ");
+            throw new Exception("L'expressio no existeix");
         }
-        return null;
     }
 
     /**
@@ -59,8 +58,7 @@ public class ControladorExpressions {
      * @return Retorna l'expressio indentificat pel el parametre ex.
      */
     public boolean ExistExpressio(String key) {
-        if (expressions.containsKey(key)) return true;
-        return false;
+        return expressions.containsKey(key);
     }
     /**
      * Consultora del nombre d'expressions.
@@ -86,7 +84,7 @@ public class ControladorExpressions {
                 return true;
             }
         }
-        System.out.println("No s'ha pogut afegir l'expressio donada");
+        System.out.println("No existeis l'expressio donat");
         return  false;
     }
 

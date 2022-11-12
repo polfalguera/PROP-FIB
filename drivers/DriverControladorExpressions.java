@@ -48,7 +48,7 @@ public class DriverControladorExpressions {
             ;
 
 
-    private static ControladorExpressions Ctrlexpressions = new ControladorExpressions();
+    private static final ControladorExpressions Ctrlexpressions = new ControladorExpressions();
 
     /**
      * Llegeix una línia per la terminal.
@@ -77,9 +77,7 @@ public class DriverControladorExpressions {
      * */
     public static void testAddExpressio(Scanner scanner) {
         System.out.println("Escrigui l'expressio que vols afegir:");
-        if (Ctrlexpressions.anadir_expressio(readLine(scanner))) {
-
-        }
+        Ctrlexpressions.anadir_expressio(readLine(scanner));
     }
     /**
      * Dona baixa una expressio
@@ -88,9 +86,7 @@ public class DriverControladorExpressions {
      * */
     public static void testDeleteExpressio(Scanner scanner) {
         System.out.println("Escrigui l'expressio que vols eliminar:");
-        if (Ctrlexpressions.deleteExpressio(readLine(scanner))) {
-            return;
-        }
+        Ctrlexpressions.deleteExpressio(readLine(scanner));
     }
     /**
      * Modificar una expressio
@@ -128,21 +124,30 @@ public class DriverControladorExpressions {
      *
      * @param scanner mètode per fer l'input.
      * */
-    public static void testGetExpressio(Scanner scanner) {
+    public static void testGetExpressio(Scanner scanner) throws Exception {
         System.out.println("Escrigui l'expressio que vols consultar:");
-        Ctrlexpressions.getExpressio(readLine(scanner));
+        String aux = readLine(scanner);
+        if (Ctrlexpressions.ExistExpressio(aux)) {
+            Ctrlexpressions.getExpressio(aux);
+        }else {
+            System.out.println("No existeix l'expressio");
+        }
+
     }
     public static void testConsultaExpre(Scanner scanner, List<String> cont) {
         System.out.println("Escrigui l'expressio que vols evaluar:");
-        String frase = readLine(scanner);
-        List<Integer> aux = Ctrlexpressions.ConsultaExpressioBooleana(frase,cont);
-        //Per comprovar seria mostrar d'alguna forma els documents trobats.
-        System.out.println("S'han trobat els seguents index dels documents");
-        for (int i = 0; i < aux.size(); ++i) {
-            System.out.println(aux.get(i));
+        String ex = readLine(scanner);
+        if (Ctrlexpressions.ExistExpressio(ex)) {
+            List<Integer> aux = Ctrlexpressions.ConsultaExpressioBooleana(ex,cont);
+            //Per comprovar seria mostrar d'alguna forma els documents trobats.
+            System.out.println("S'han trobat els seguents index dels documents");
+            for (Integer integer : aux) {
+                System.out.println(integer);
+            }
         }
-
-
+        else {
+            System.out.println("No existeix l'expressio");
+        }
     }
     private static void llegirConjuntDocuments(List<String> docs) {
         Scanner sc = new Scanner(System.in);
@@ -156,7 +161,7 @@ public class DriverControladorExpressions {
                 String contingut = sc.nextLine();
                 docs.add(contingut);
             } catch (Exception e) {
-                System.out.println(e.toString());
+                System.out.println(e);
                 return;
             }
         }
@@ -168,7 +173,7 @@ public class DriverControladorExpressions {
      * @param command la comanda que verificarà.
      * @param scanner mètode per fer l'input.
      * */
-    private static boolean commands(String command, Scanner scanner) {
+    private static boolean commands(String command, Scanner scanner) throws Exception {
         switch (command) {
             case CREAEXPRESSIO:
                 testCreaExpressio(scanner);
@@ -204,9 +209,9 @@ public class DriverControladorExpressions {
      *
      * @param args accepta un argument d'un path d'un arxiu txt en cas de voler introduir les comandes des d'un arxiu.
      * */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         boolean run  = true;
-        if (run) System.out.println(HELPTEXT);
+        System.out.println(HELPTEXT);
         Scanner in = new Scanner(System.in);
         while (run) {
             run = commands(in.nextLine(), in);
