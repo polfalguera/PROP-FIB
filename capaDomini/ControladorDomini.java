@@ -47,17 +47,17 @@ public class ControladorDomini {
         }
     }
 
-    public void queryModificarAutor(String autor, String titol, String nouAutor) throws Exception {
+    public void queryModificarAutor(String anticAutor, String nouAutor, String titol) throws Exception {
         try {
-            cjtDocuments.modificarAutor(autor, titol, nouAutor);
+            cjtDocuments.modificarAutor(anticAutor, titol, nouAutor);
         } catch (Exception e) {
             throw new Exception(e.toString());
         }
     }
 
-    public void queryModificarTitol(String autor, String titol, String nouTitol) throws Exception {
+    public void queryModificarTitol(String autor, String anticTitol, String nouTitol) throws Exception {
         try {
-            cjtDocuments.modificarTitol(autor, titol, nouTitol);
+            cjtDocuments.modificarTitol(autor,anticTitol, nouTitol);
         } catch (Exception e) {
             throw new Exception(e.toString());
         }
@@ -140,6 +140,35 @@ public class ControladorDomini {
         } catch (Exception e) {
             throw new Exception(e.toString());
         }
+    }
+
+    public List<String> queryObtenirKRellevants(String paraules, int k, int mode) throws Exception {
+        try {
+
+            String[] p = paraules.split("\\p{Punct}| |\\n|¿|¡");
+
+            int[] indexos = CtrlContingut.kRellevants(p,k, mode);
+
+            List<String> llistat = new ArrayList<>();
+            for (int index : indexos) {
+                llistat.addAll(cjtDocuments.getAutorTitolIndex(index));
+            }
+            return llistat;
+        }catch (Exception e) {
+            throw new Exception(e.toString());
+        }
+    }
+
+    public void queryCrearExpressioBooleana(String expressio) throws Exception {
+        if (!CtrlExpressions.anadir_expressio(expressio)) throw new Exception("Error, no s'ha pogut crear l'expressió");
+    }
+
+    public void queryEliminarExpressioBooleana(String expressio) throws Exception {
+        if (!CtrlExpressions.deleteExpressio(expressio)) throw new Exception("Error, no s'ha pogut eliminar l'expressió");
+    }
+
+    public void queryModificarExpressioBooleana(String antigaExpressio, String novaExpressio) throws Exception {
+        if (!CtrlExpressions.setExpressio(antigaExpressio,novaExpressio)) throw new Exception("Error, no s'ha pogut modificar l'expressió");
     }
 
     public List<String> queryConsultaExpressioBooleana(String expressio) throws Exception{

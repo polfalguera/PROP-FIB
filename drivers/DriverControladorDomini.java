@@ -19,9 +19,13 @@ public class DriverControladorDomini {
     private static final String queryLlistarTitolsAutor = "8";
     private static final String queryLlistarAutorsPrefix = "9";
     private static final String queryGetContingutDocument = "10";
-    private static final String queryTObtenirKSemblants = "11";
-    private static final String queryConsultaExpressioBooleana = "12";
-    private static final String tancar_driver = "13";
+    private static final String queryObtenirKSemblants = "11";
+    private static final String queryObtenirKRevellants = "12";
+    private static final String queryCrearExpressioBooleana = "13";
+    private static final String queryEliminarExpressioBooleana = "14";
+    private static final String queryModificarExpressioBooleana = "15";
+    private static final String queryConsultaExpressioBooleana = "16";
+    private static final String tancar_driver = "17";
 
     private static final String AJUDA = "\nNúmeros associats a cada comanada del driver:  \n"+
             " "+numero_comanda+" Llista els números associats a cada comanda del driver.\n"+
@@ -35,7 +39,11 @@ public class DriverControladorDomini {
             " "+queryLlistarTitolsAutor+" Llista els títols dels documents d'un autor.\n"+
             " "+queryLlistarAutorsPrefix+" Llista els autors que comencen per un prefix donat.\n"+
             " "+queryGetContingutDocument+" Donat un document retorna el seu contingut.\n"+
-            " "+queryTObtenirKSemblants+" Donat un document i un enter k retorna els k documents més semblants al document d'entrada.\n"+
+            " "+queryObtenirKSemblants+" Donat un document i un enter k retorna els k documents més semblants al document d'entrada.\n"+
+            " "+queryObtenirKRevellants+" Donades unes paraules i un enter k retorna els k documents més rellevants.\n"+
+            " "+queryCrearExpressioBooleana+" Crea una expressió booleana.\n"+
+            " "+queryEliminarExpressioBooleana+" Elimina una expressió booleana.\n"+
+            " "+queryModificarExpressioBooleana+" Modifica una expressió booleana existent.\n"+
             " "+queryConsultaExpressioBooleana+" Donada una expressió booleana, retorna els documents que la satisfan.\n"+
             " "+tancar_driver+" Finalitza l'execució del driver\n";
 
@@ -270,6 +278,57 @@ public class DriverControladorDomini {
         }
     }
 
+    public static void testQueryObtenirKRellevants() {
+        System.out.println("queryObtenirKRellevants");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Escriu les paraules a contenir:");
+        String paraules = sc.nextLine();
+        System.out.println("Escriu el valor de k:");
+        String k = sc.nextLine();
+        System.out.println("Selecciona el mode d'assignació de pesos:");
+        String mode = sc.nextLine();
+
+        try {
+            List<String> llistat = CtrlDomini.queryObtenirKRellevants(paraules,Integer.parseInt(k),Integer.parseInt(mode));
+            System.out.println("Llista dels "+k+" document rellevants:");
+            llistat.forEach((s) -> {
+                System.out.println(s);
+            });
+        } catch(Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    public static void testQueryCrearExpressioBooleana() {
+        System.out.println("queryCrearExpressioBooleana");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Escriu l'expressió booleana a crear:");
+        String expressio = sc.nextLine();
+
+        try {
+            CtrlDomini.queryCrearExpressioBooleana(expressio);
+        }catch (Exception e) {
+            System.out.println(e.toString());
+            return;
+        }
+        System.out.println("Expressió booleana creada correctament.");
+    }
+
+    public static void testQueryEliminarExpressioBooleana() {
+        System.out.println("queryEliminarExpressioBooleana");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Escriu l'expressió booleana a eliminar:");
+        String expressio = sc.nextLine();
+
+        try {
+            CtrlDomini.queryEliminarExpressioBooleana(expressio);
+        }catch (Exception e) {
+            System.out.println(e.toString());
+            return;
+        }
+        System.out.println("Expressió booleana eliminada correctament.");
+    }
+
     public static void testQueryConsultaExpressioBooleana() {
         System.out.println("queryConsultaExpressioBooleana");
         Scanner sc = new Scanner(System.in);
@@ -286,6 +345,23 @@ public class DriverControladorDomini {
             System.out.println(e.toString());
         }
         System.out.println("Documents que satisfan l'expressió booleana "+expressio+" impresos correctament");
+    }
+
+    public static void testQueryCModificarExpressioBooleana() {
+        System.out.println("queryModificarExpressioBooleana");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Escriu l'expressió booleana a modificar:");
+        String antigaExpressio = sc.nextLine();
+        System.out.println("Escriu la nova expressió booleana:");
+        String novaExpressio = sc.nextLine();
+
+        try {
+            CtrlDomini.queryModificarExpressioBooleana(antigaExpressio,novaExpressio);
+        }catch (Exception e) {
+            System.out.println(e.toString());
+            return;
+        }
+        System.out.println("Expressió booleana actualitzada correctament.");
     }
 
     public static void main(String[] args) {
@@ -341,13 +417,26 @@ public class DriverControladorDomini {
                 case queryGetContingutDocument:
                     dcd.testQueryGetContingutDocument();
                     break;
-                case queryTObtenirKSemblants:
+                case queryObtenirKSemblants:
                     dcd.testQueryObtenirKSemblants();
+                    break;
+                case queryObtenirKRevellants:
+                    dcd.testQueryObtenirKRellevants();
+                    break;
+                case queryCrearExpressioBooleana:
+                    dcd.testQueryCrearExpressioBooleana();
+                    break;
+                case queryEliminarExpressioBooleana:
+                    dcd.testQueryEliminarExpressioBooleana();
+                    break;
+                case queryModificarExpressioBooleana:
+                    dcd.testQueryCModificarExpressioBooleana();
                     break;
                 case queryConsultaExpressioBooleana:
                     dcd.testQueryConsultaExpressioBooleana();
                     break;
                 case tancar_driver:
+                    System.out.println("| Execució del driver finalitzada |");
                     return;
                 default:
                     System.out.println("ERROR: Número de comanda no vàlid.");
