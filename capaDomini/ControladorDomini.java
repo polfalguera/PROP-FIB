@@ -28,6 +28,15 @@ public class ControladorDomini {
         }
     }
 
+    public void queryCrearDocumentPath(String autor, String titol, String path) throws Exception {
+        try {
+            cjtDocuments.crearDocument(autor,titol);
+            CtrlContingut.afegirContingutPath(path);
+        }catch (Exception e) {
+            throw new Exception(e.toString());
+        }
+    }
+
     public void queryEliminarDocument(String autor, String titol) throws Exception{
         try{
             int id = cjtDocuments.indexDocument(autor,titol);
@@ -50,6 +59,24 @@ public class ControladorDomini {
         try {
             cjtDocuments.modificarTitol(autor, titol, nouTitol);
         } catch (Exception e) {
+            throw new Exception(e.toString());
+        }
+    }
+
+    public void queryModificarContingut(String autor, String titol, String nouContingut) throws Exception {
+        try {
+            int id = cjtDocuments.indexDocument(autor,titol);
+            CtrlContingut.modificarContingut(id,nouContingut);
+        }catch (Exception e) {
+            throw new Exception(e.toString());
+        }
+    }
+
+    public void queryModificarContingutPath(String autor, String titol, String path) throws Exception {
+        try {
+            int id = cjtDocuments.indexDocument(autor,titol);
+            CtrlContingut.modificarContingutPath(id,path);
+        }catch (Exception e) {
             throw new Exception(e.toString());
         }
     }

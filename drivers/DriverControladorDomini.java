@@ -10,28 +10,34 @@ public class DriverControladorDomini {
 
     private static final String numero_comanda = "0";
     private static final String queryCrearDocument = "1";
-    private static final String queryEliminarDocument = "2";
-    private static final String queryModificarAutor = "3";
-    private static final String queryModificarTitol = "4";
-    private static final String queryLlistarTitolsAutor = "5";
-    private static final String queryLlistarAutorsPrefix = "6";
-    private static final String queryGetContingutDocument = "7";
-    private static final String queryTObtenirKSemblants = "8";
-    private static final String queryConsultaExpressioBooleana = "9";
-    private static final String tancar_driver = "10";
+    private static final String queryCrearDocumentPath = "2";
+    private static final String queryEliminarDocument = "3";
+    private static final String queryModificarAutor = "4";
+    private static final String queryModificarTitol = "5";
+    private static final String queryModificarContingut = "6";
+    private static final String queryModificarContingutPath = "7";
+    private static final String queryLlistarTitolsAutor = "8";
+    private static final String queryLlistarAutorsPrefix = "9";
+    private static final String queryGetContingutDocument = "10";
+    private static final String queryTObtenirKSemblants = "11";
+    private static final String queryConsultaExpressioBooleana = "12";
+    private static final String tancar_driver = "13";
 
     private static final String AJUDA = "\nNúmeros associats a cada comanada del driver:  \n"+
             " "+numero_comanda+" Llista els números associats a cada comanda del driver.\n"+
             " "+queryCrearDocument+" Crea un document.\n"+
+            " "+queryCrearDocumentPath+" Crea un document a partir d'un fitxer que conté el seu contingut.\n"+
             " "+queryEliminarDocument+" Elimina un document.\n"+
             " "+queryModificarAutor+" Actualitza l'autor d'un document.\n"+
             " "+queryModificarTitol+" Actualitza el títol d'un document.\n"+
+            " "+queryModificarContingut+" Modifica el contingut d'un document\n"+
+            " "+queryModificarContingutPath+" Modifica el contingut d'un document a partir d'un nou contingut trobat en un fitxer.\n"+
             " "+queryLlistarTitolsAutor+" Llista els títols dels documents d'un autor.\n"+
             " "+queryLlistarAutorsPrefix+" Llista els autors que comencen per un prefix donat.\n"+
             " "+queryGetContingutDocument+" Donat un document retorna el seu contingut.\n"+
             " "+queryTObtenirKSemblants+" Donat un document i un enter k retorna els k documents més semblants al document d'entrada.\n"+
-            " "+queryConsultaExpressioBooleana+" Donada una expressió booleana, retorna els documents que la satisfan."+
-            " "+tancar_driver+" Finalitza l'execució del driver";
+            " "+queryConsultaExpressioBooleana+" Donada una expressió booleana, retorna els documents que la satisfan.\n"+
+            " "+tancar_driver+" Finalitza l'execució del driver\n";
 
     private static void llegirConjuntDocuments() {
         Scanner sc = new Scanner(System.in);
@@ -70,6 +76,24 @@ public class DriverControladorDomini {
             System.out.println(e.toString());
             return;
         }
+        System.out.println("\nDocument creat correctament.");
+    }
+
+    public static void testQueryCrearDocumentPath() {
+        System.out.println("queryCrearDocumentPath");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Escriu un autor per al document a crear: ");
+        String autor = sc.nextLine();
+        System.out.println("Escriu un títol per al document a crear: ");
+        String titol = sc.nextLine();
+        System.out.println("Escriu el path del fitxer on es troba el contingut:");
+        String path = sc.nextLine();
+        try  {
+            CtrlDomini.queryCrearDocumentPath(autor,titol,path);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return;
+        }
         System.out.println("Document creat correctament.");
     }
 
@@ -104,10 +128,10 @@ public class DriverControladorDomini {
         try {
             CtrlDomini.queryModificarAutor(autor, nouAutor, titol);
         } catch (Exception e) {
-            System.out.println(e.toString());
+            System.out.println("\n"+e.toString());
             return;
         }
-        System.out.println("\nAutor del document actualitzat correctament.\n");
+        System.out.println("\nAutor del document actualitzat correctament.");
 
     }
 
@@ -127,8 +151,45 @@ public class DriverControladorDomini {
             System.out.println(e.toString());
             return;
         }
-        System.out.println("\nTítol del document actualitzat correctament.\n");
+        System.out.println("\nTítol del document actualitzat correctament.");
 
+    }
+
+    public static void testQueryModificarContingut() {
+        System.out.println("queryModificarContingut");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Escriu l'autor del document a modificar: ");
+        String autor = sc.nextLine();
+        System.out.println("Escriu el títol del document a modificar: ");
+        String titol = sc.nextLine();
+        System.out.println("Escriu el nou contingut a assignar: ");
+        String nouContingut = sc.nextLine();
+
+        try {
+            CtrlDomini.queryModificarContingut(autor,titol,nouContingut);
+        }catch (Exception e) {
+            System.out.println(e.toString());
+            return;
+        }
+        System.out.println("Contingut del document amb autor "+autor+" i títol "+titol+" modificat correctament.");
+    }
+
+    public static void testQueryModificarContingutPath() {
+        System.out.println("queryModificarContingutPath");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Escriu l'autor del document a modificar:");
+        String autor = sc.nextLine();
+        System.out.println("Escriu el títol del document a modificar:");
+        String titol = sc.nextLine();
+        System.out.println("Escriu el path del fitxer que conté el nou contingut a assignar:");
+        String path = sc.nextLine();
+
+        try {
+            CtrlDomini.queryModificarContingutPath(autor,titol,path);
+        }catch (Exception e) {
+            System.out.println(e.toString());
+            return;
+        }
     }
 
     public static void testQueryLlistarTitolsAutor() {
@@ -146,7 +207,7 @@ public class DriverControladorDomini {
             System.out.println(e.toString());
             return;
         }
-        System.out.println("\nTítols de l'autor " +autor+" llistats correctament.\n");
+        System.out.println("\nTítols de l'autor " +autor+" llistats correctament.");
     }
 
     public static void testQueryLlistarAutorsPrefix() {
@@ -164,7 +225,7 @@ public class DriverControladorDomini {
             System.out.println(e.toString());
             return;
         }
-        System.out.println("\nAutors amb prefix "+prefix+" llistats correctament.\n");
+        System.out.println("\nAutors amb prefix "+prefix+" llistats correctament.");
     }
 
     public static void testQueryGetContingutDocument() {
@@ -181,7 +242,9 @@ public class DriverControladorDomini {
             System.out.println(contingut);
         } catch (Exception e) {
             System.out.println(e.toString());
+            return;
         }
+        System.out.println("\nContingut del document amb autor "+autor+" i títol "+titol+" imprès correctament.");
     }
 
     public static void testQueryObtenirKSemblants() {
@@ -210,19 +273,19 @@ public class DriverControladorDomini {
     public static void testQueryConsultaExpressioBooleana() {
         System.out.println("queryConsultaExpressioBooleana");
         Scanner sc = new Scanner(System.in);
-        System.out.println();
         System.out.println("Escriu l'expressió booleana a satisfer:");
         String expressio = sc.nextLine();
 
         try {
             List<String> llistat = CtrlDomini.queryConsultaExpressioBooleana(expressio);
-            System.out.println("Llista dels documents que satisfan <"+expressio+">:");
+            System.out.println("Llista dels documents que satisfan "+expressio+":");
             llistat.forEach((s) -> {
                 System.out.println(s);
             });
         }catch (Exception e) {
             System.out.println(e.toString());
         }
+        System.out.println("Documents que satisfan l'expressió booleana "+expressio+" impresos correctament");
     }
 
     public static void main(String[] args) {
@@ -234,10 +297,10 @@ public class DriverControladorDomini {
         }
         System.out.println("\n| Driver de la classe ControladorDomini |\n");
         System.out.println("Abans de testejar funcionalitats cal declarar un conjunt de documents sobre els quals testejar i un conjunt" +
-                " de continguts.\n");
+                " de continguts associats als documents.\n");
         llegirConjuntDocuments();
 
-        System.out.println(AJUDA+"\n");
+        System.out.println(AJUDA);
         String comanda = numero_comanda;
         while (comanda != tancar_driver) {
             System.out.println("Selecciona el número de la comanda que vulguis executar: ");
@@ -251,6 +314,9 @@ public class DriverControladorDomini {
                 case queryCrearDocument:
                     dcd.testQueryCrearDocument();
                     break;
+                case queryCrearDocumentPath:
+                    dcd.testQueryCrearDocumentPath();
+                    break;
                 case queryEliminarDocument:
                     dcd.testQueryEliminarDocument();
                     break;
@@ -259,6 +325,12 @@ public class DriverControladorDomini {
                     break;
                 case queryModificarTitol:
                     dcd.testQueryModificarTitol();
+                    break;
+                case queryModificarContingut:
+                    dcd.testQueryModificarContingut();
+                    break;
+                case queryModificarContingutPath:
+                    dcd.testQueryModificarContingutPath();
                     break;
                 case queryLlistarTitolsAutor:
                     dcd.testQueryLlistarTitolsAutor();
@@ -273,13 +345,14 @@ public class DriverControladorDomini {
                     dcd.testQueryObtenirKSemblants();
                     break;
                 case queryConsultaExpressioBooleana:
-
+                    dcd.testQueryConsultaExpressioBooleana();
+                    break;
                 case tancar_driver:
                     return;
-
+                default:
+                    System.out.println("ERROR: Número de comanda no vàlid.");
+                    break;
             }
         }
-
     }
-
 }
