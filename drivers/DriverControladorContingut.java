@@ -116,7 +116,7 @@ public class DriverControladorContingut {
         System.out.println("1 log(1+freq)");
         int mode = Integer.parseInt(sc.nextLine());
         try {
-            int [] res = CtrlContingut.termsTfIdf(paraules, k, mode);
+            int [] res = CtrlContingut.kRellevants(paraules, k, mode);
             for (int i = 0; i < res.length; ++i) System.out.println(CtrlContingut.getContingut(res[i]));
         } catch (Exception e) {
             System.out.println(e.toString());

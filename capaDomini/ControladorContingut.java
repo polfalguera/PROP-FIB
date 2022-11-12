@@ -3,11 +3,16 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.file.Paths;
 
-import java.io.IOException;
-
 import java.util.*;
 
+/**
+ * Representa el controlador del Contingut.
+ * @author Alex Ares Marin.
+ */
 public class ControladorContingut {
+    /**
+     * Representa el conjunt de Continguts.
+     */
     public static class IndexValuePair {
         private int index;
         private double value;
@@ -42,6 +47,9 @@ public class ControladorContingut {
     private static List<String> Contingut;
     private static Set<String> stopWords;
 
+    /**
+     * Constructora d'un conjunt de Continguts.
+     */
     public ControladorContingut() throws Exception {
         freqContingut = new ArrayList<HashMap<String, Integer>>();
         Contingut = new ArrayList<String>();
@@ -52,6 +60,10 @@ public class ControladorContingut {
         }
     }
 
+    /**
+     * Llegeix dels fitxers amb les paraules considerades StopWords.
+     * @return Retorna un conjunt amb les paraules considerades StopWords.
+     */
     private Set<String> assignarStopWords() throws Exception {
         try {
             Set<String> result = new HashSet<String>();
@@ -76,6 +88,10 @@ public class ControladorContingut {
             throw new Exception("Error, no s'han pogut carregar les stopwords");
         }
     }
+    /**
+     * Calcula depenent del mode escollit el tf per a l'assignació de pesos.
+     * @return retorna un double amb els càlculs corresponents.
+     */
     private double tf(String paraula, int id, int mode) {
         HashMap<String, Integer> freq = freqContingut.get(id);
         double n = 0;
@@ -86,6 +102,10 @@ public class ControladorContingut {
         else if (mode != 1 && freq.containsKey(paraula)) return freq.get(paraula);
         else return 0;
     }
+    /**
+     * Calcula depenent del mode escollit l'idf per a l'assignació de pesos.
+     * @return retorna un double amb els càlculs corresponents.
+     */
     private static double idf(String paraula, int mode) {
         double n = 0;
         for (HashMap<String, Integer> doc : freqContingut) {
@@ -96,6 +116,10 @@ public class ControladorContingut {
         else return Math.log(Contingut.size() / n);
     }
 
+    /**
+     * Afegeix un nou Contingut llegint d'un fitxer.
+     * @param path és la ruta on es troba el fitxer.
+     */
     public void afegirContingutPath(String path) throws Exception {
         try {
             String line;
@@ -130,6 +154,33 @@ public class ControladorContingut {
             throw new Exception("Error, path del document incorrecte");
         }
     }
+    /**
+     * Afegeix un nou Contingut.
+     * @param contingut és el Contingut a introduir.
+     */
+    public void afegirContingut(String contingut) throws Exception {
+        if (contingut == "") throw new Exception("Error, contingut buit");
+
+        HashMap<String, Integer> text = new HashMap<String, Integer>();
+        String[] words = contingut.split("\\p{Punct}| |\\n|¿|¡");
+        int id = Contingut.size();
+
+        for (String word : words) {
+            word = word.toLowerCase();
+            if (!stopWords.contains(word) && word != "") {
+                if (!text.containsKey(word)) text.put(word, 1);
+                else text.put(word, text.get(word)+1);
+            }
+        }
+
+        Contingut.add(contingut);
+        freqContingut.add(text);
+    }
+    /**
+     * Modifica el Contingut llegint el nou Contingut d'un fitxer.
+     * @param id és l'índex del Document.
+     * @param path és la ruta on es troba el fitxer.
+     */
     public void modificarContingutPath(int id, String path) throws Exception {
         if (freqContingut.size() <= id) throw new Exception("Error, index out of bounds");
         try {
@@ -165,24 +216,11 @@ public class ControladorContingut {
             throw new Exception("Error, path del document incorrecte");
         }
     }
-    public void afegirContingut(String contingut) throws Exception {
-        if (contingut == "") throw new Exception("Error, contingut buit");
-
-        HashMap<String, Integer> text = new HashMap<String, Integer>();
-        String[] words = contingut.split("\\p{Punct}| |\\n|¿|¡");
-        int id = Contingut.size();
-
-        for (String word : words) {
-            word = word.toLowerCase();
-            if (!stopWords.contains(word) && word != "") {
-                if (!text.containsKey(word)) text.put(word, 1);
-                else text.put(word, text.get(word)+1);
-            }
-        }
-
-        Contingut.add(contingut);
-        freqContingut.add(text);
-    }
+    /**
+     * Modifica el Contingut per un altre nou.
+     * @param id és l'índex del Document.
+     * @param contingut és el nou Contingut a reemplaçar.
+     */
     public void modificarContingut(int id, String contingut) throws Exception {
         if (freqContingut.size() <= id) throw new Exception("Error, index out of bounds");
         if (contingut == "") throw new Exception("Error, contingut buit");
@@ -201,7 +239,16 @@ public class ControladorContingut {
         Contingut.add(id, contingut);
         freqContingut.add(id, text);
     }
-    public int[] termsTfIdf(String[] paraules, int k, int mode) {
+    /**
+     * Indica els índexs dels k Continguts més rellevants amb el conjunt de paraules.
+     * @param paraules és el conjunt de paraules pel que buscar rellevancia.
+     * @param k és el nombre de Continguts a buscar.
+     * @param mode indica amb quin mode calcular l'assignació de pesos en tf-idf.
+     *             0 --> freq*log(N/n).
+     *             1 --> log(1+freq).
+     * @return retorna un conjunt amb els índexs més rellevants.
+     */
+    public int[] kRellevants(String[] paraules, int k, int mode) {
         if (k > Contingut.size()) k = Contingut.size();
         double[] tfidf = new double[Contingut.size()];
         for (int i = 0; i < tfidf.length; ++i) tfidf[i] = 0;
@@ -215,19 +262,37 @@ public class ControladorContingut {
         }
         return IndexValuePair.krellevants(tfidf, k);
     }
+    /**
+     * Obtenim el Contingut del Document amb índex id.
+     * @param id és l'índex del Document.
+     * @return retorna un String amb el Contingut del Document amb índex id.
+     */
     public String getContingut(int id) throws Exception {
         if (id >= Contingut.size()) throw new Exception("Error, index out of bounds");
         return Contingut.get(id);
     }
+    /**
+     * Eliminem el Contingut del Document amb índex id.
+     * @param id és l'índex del Document.
+     */
     public void eliminarContingut(int id) throws Exception {
         if (id >= Contingut.size()) throw new Exception("Error, index out of bounds");
         freqContingut.remove(id);
         Contingut.remove(id);
     }
+    /**
+     * Obtenim totes les paraules del Contingut del Document amb índex id.
+     * @param id és l'índex del Document.
+     * @return retorna un vector de String amb les paraules del Document amb índex id.
+     */
     public String[] obtenirParaulesContingut(int id) throws Exception {
         if (id >= Contingut.size()) throw new Exception("Error, index out of bounds");
         return Contingut.get(id).split("\\p{Punct}| |\\n|¿|¡");
     }
+    /**
+     * Obtenim tots els Continguts dels Documents que hi ha fins al moment.
+     * @return retorna una llista amb el Contingut de cada un dels Documents.
+     */
     public List<String> getConjuntContinguts() {
         return Contingut;
     }

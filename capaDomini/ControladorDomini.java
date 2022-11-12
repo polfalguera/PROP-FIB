@@ -103,7 +103,7 @@ public class ControladorDomini {
 
             String[] contingut = CtrlContingut.obtenirParaulesContingut(id);
 
-            int[] indexos = CtrlContingut.termsTfIdf(contingut,k, mode);
+            int[] indexos = CtrlContingut.kRellevants(contingut,k, mode);
 
             List<String> llistat = new ArrayList<>();
             for (int index : indexos) {

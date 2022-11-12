@@ -75,13 +75,13 @@ public class ControladorContingutTest {
      * Test que comprova que es retorna el k elements més rellevants ordenats correctament amb l'assignació de pesos.
      */
     @Test
-    public void termsTfIdf() {
+    public void kRellevants() {
         try {
             ControladorContingut contingut = new ControladorContingut();
             contingut.afegirContingut("test 1.");
             contingut.afegirContingut("prova 2.");
             String [] paraules = {"test"};
-            int [] res = contingut.termsTfIdf(paraules, 1, 0);
+            int [] res = contingut.kRellevants(paraules, 1, 0);
             assertEquals(0, res[0]);
         } catch (Exception e) {
             System.out.println(e.toString());
