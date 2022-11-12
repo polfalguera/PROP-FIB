@@ -25,7 +25,10 @@ public class ControladorExpressions {
      * @param ex es l'expressio donat pel usuari
      * @return Retorna l'expressio arbre binari indentificat pel el parametre ex.
      */
-    public Expressio crearExpressio(String ex) {
+    public Expressio crearExpressio(String ex) throws Exception{
+        if(ex.equals("")) {
+            throw new Exception("Error, expressio buida");
+        }
         return new Expressio(ex);
     }
 
@@ -43,13 +46,13 @@ public class ControladorExpressions {
      * @return Retorna l'expressio arbre binari indentificat pel el parametre ex.
      */
     public Expressio getExpressio(String ex) throws Exception{
-        try {
-            return expressions.get(ex);
+        if(ex.equals("")) {
+            throw new Exception("Error, expressio buida");
         }
-        catch (Exception e) {
-            System.out.println("L'expressio no existeix ");
-            throw new Exception("L'expressio no existeix");
+        if(!expressions.containsKey(ex)) {
+            throw new Exception("Error, expressio no existeix");
         }
+        return expressions.get(ex);
     }
 
     /**
@@ -73,19 +76,23 @@ public class ControladorExpressions {
      * Afegeix l'expressio donada pel usuari al conjunt d'expressions
      * @param ex es l'expressio donat pel usuari.
      */
-    public boolean anadir_expressio(String ex) {
-        if (!expressions.containsKey(ex)) {
-            Expressio new_ex = new Expressio(ex);
-            //ex -> l'expressio de frase
-            //new_ex -> l'expression convertida en arbol binari
-            if (new_ex.isEs_correcte()) {
-                expressions.put(ex,new_ex);
-                System.out.println("S'ha afegit correctament la nova expressio");
-                return true;
-            }
+    public void anadir_expressio(String ex) throws Exception{
+        if(ex.equals("")) {
+            throw new Exception("Error, expressio buida");
         }
-        System.out.println("No existeis l'expressio donat");
-        return  false;
+        if (expressions.containsKey(ex)) {
+            throw new Exception("Error, Expressio ja existeix");
+        }
+        Expressio new_ex = new Expressio(ex);
+        //ex -> l'expressio de frase
+        //new_ex -> l'expression convertida en arbol binari
+        if (new_ex.isEs_correcte()) {
+            expressions.put(ex,new_ex);
+            //System.out.println("S'ha afegit correctament la nova expressio");
+        }else {
+            throw new Exception("Error, L'expressio mal formalitzat");
+        }
+
     }
 
     /**
@@ -93,29 +100,31 @@ public class ControladorExpressions {
      * @param key es l'indentificador d'una expressio d'arbre binari.
      * Elimina l'expressio d'arbol binari del conjunt d'expressions indentificat per key.
      */
-    public boolean deleteExpressio(String key) {
-        if (expressions.containsKey(key)) {
-            expressions.remove(key);
-            System.out.println("S'ha eliminat correctament l'expressio");
-            return true;
+    public void deleteExpressio(String key) throws Exception{
+        if(key.equals("")) {
+            throw new Exception("Error, expressio buida");
         }
-        System.out.println("No existeix l'expressio donat");
-        return false;
+        if(!expressions.containsKey(key)){
+            throw new Exception("Error, No existeix l'expressio");
+        }
+        expressions.remove(key);
+        //System.out.println("S'ha eliminat correctament l'expressio");
+        //System.out.println("No existeix l'expressio donat");
     }
     /**
      * Modificadora
      * @param key es l'indentificador d'una expressio d'arbre binari.
      * Modifica l'expressio d'arbol binari del conjunt d'expressions indentificat per key.
      */
-    public boolean setExpressio(String key,String nova_ex) {
-        if (deleteExpressio(key)) {
-            if (anadir_expressio(nova_ex)) {
-                System.out.println("S'ha modificat coorrectament");
-                return true;
-            }
-            return false;
+    public void setExpressio(String key,String nova_ex) throws Exception{
+        if(key.equals("")) {
+            throw new Exception("Error, expressio buida");
         }
-        return false;
+        if(nova_ex.equals("")) {
+            throw new Exception("Error, expressio nova buida");
+        }
+        deleteExpressio(key);
+        anadir_expressio(nova_ex);
     }
 
     /**
@@ -146,24 +155,28 @@ public class ControladorExpressions {
         return false;
     }
 
-    public List<Integer> ConsultaExpressioBooleana(String ex,List<String> cont) {
-        List<Integer> id_docs = new ArrayList<>();
+    public List<Integer> ConsultaExpressioBooleana(String ex,List<String> cont) throws Exception {
+        if (cont.isEmpty()) {
+            throw new Exception("Error, Contingut buit");
+        }
 
-        if (anadir_expressio(ex)) {
-            Expressio expressio_avaluar = expressions.get(ex);
-            //iteracio dels documents
-            for (int i = 0; i < cont.size(); ++i) {
-                boolean compleix_doc = false;
-                String[] frases = cont.get(i).split("\\.");
-                //iteracio de les frases
-                for (int j = 0; j  < frases.length && !compleix_doc; ++j) {
-                    if (evaluateTree(expressio_avaluar.getTheTree().root, frases[j])) {
-                        compleix_doc = true;
-                        id_docs.add(i);
-                    }
+        List<Integer> id_docs = new ArrayList<>();
+        anadir_expressio(ex);
+        Expressio expressio_avaluar = expressions.get(ex);
+
+        //iteracio dels documents
+        for (int i = 0; i < cont.size(); ++i) {
+            boolean compleix_doc = false;
+            String[] frases = cont.get(i).split("\\.");
+            //iteracio de les frases
+            for (int j = 0; j  < frases.length && !compleix_doc; ++j) {
+                if (evaluateTree(expressio_avaluar.getTheTree().root, frases[j])) {
+                    compleix_doc = true;
+                    id_docs.add(i);
                 }
             }
         }
+
         return id_docs;
     }
 

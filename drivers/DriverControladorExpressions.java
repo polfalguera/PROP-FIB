@@ -67,43 +67,58 @@ public class DriverControladorExpressions {
      * */
     public static void testCreaExpressio(Scanner scanner) {
         System.out.println("Escrigui l'expressio que vols formalitzar:");
-        Expressio aux = new Expressio(readLine(scanner));
-    }
+        try {
+            Expressio aux = Ctrlexpressions.crearExpressio(readLine(scanner));
 
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+    }
     /**
      * Dona d'alta una expressio
      *
      * @param scanner mètode per fer l'input.
      * */
-    public static void testAddExpressio(Scanner scanner) {
+    public static void testAddExpressio(Scanner scanner) throws Exception {
         System.out.println("Escrigui l'expressio que vols afegir:");
-        Ctrlexpressions.anadir_expressio(readLine(scanner));
+        try {
+            Ctrlexpressions.anadir_expressio(readLine(scanner));
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }
     /**
      * Dona baixa una expressio
      *
      * @param scanner mètode per fer l'input.
      * */
-    public static void testDeleteExpressio(Scanner scanner) {
+    public static void testDeleteExpressio(Scanner scanner) throws Exception {
         System.out.println("Escrigui l'expressio que vols eliminar:");
-        Ctrlexpressions.deleteExpressio(readLine(scanner));
+        try {
+            Ctrlexpressions.deleteExpressio(readLine(scanner));
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
     }
     /**
      * Modificar una expressio
      *
      * @param scanner mètode per fer l'input.
      * */
-    public static void testSetExpressio(Scanner scanner) {
+    public static void testSetExpressio(Scanner scanner) throws Exception {
         System.out.println("Escrigui l'expressio que vols modificar:");
         String mod = readLine(scanner);
-        if (Ctrlexpressions.ExistExpressio(mod)) {
-            System.out.println("Introdueix l'expressio nova");
-            String nova_ex = readLine(scanner);
+
+        System.out.println("Introdueix l'expressio nova");
+        String nova_ex = readLine(scanner);
+
+        try {
             Ctrlexpressions.setExpressio(mod,nova_ex);
-            return;
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
-        System.out.println("L'expressio que has introduit no existeix torna a intronduir un de nou");
-        testSetExpressio(scanner);
     }
 
     /**
@@ -127,34 +142,35 @@ public class DriverControladorExpressions {
     public static void testGetExpressio(Scanner scanner) throws Exception {
         System.out.println("Escrigui l'expressio que vols consultar:");
         String aux = readLine(scanner);
-        if (Ctrlexpressions.ExistExpressio(aux)) {
+        try {
             Ctrlexpressions.getExpressio(aux);
-        }else {
-            System.out.println("No existeix l'expressio");
+            System.out.println("Si que existeix expressio");
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
 
     }
-    public static void testConsultaExpre(Scanner scanner, List<String> cont) {
+    public static void testConsultaExpre(Scanner scanner, List<String> cont) throws Exception {
         System.out.println("Escrigui l'expressio que vols evaluar:");
         String ex = readLine(scanner);
-        if (Ctrlexpressions.ExistExpressio(ex)) {
+        try {
             List<Integer> aux = Ctrlexpressions.ConsultaExpressioBooleana(ex,cont);
             //Per comprovar seria mostrar d'alguna forma els documents trobats.
             System.out.println("S'han trobat els seguents index dels documents");
             for (Integer integer : aux) {
                 System.out.println(integer);
             }
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
-        else {
-            System.out.println("No existeix l'expressio");
-        }
+
     }
     private static void llegirConjuntDocuments(List<String> docs) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Digues el nombre de documents que vols introduir: ");
         int nDocs = sc.nextInt();
         sc.nextLine();
-        System.out.println("Introdueix els diferents continguts en lines diferents:");
+        System.out.println("Introdueix els diferents continguts acabats en punt \".\":");
         for (int i = 0; i < nDocs; ++i) {
             try  {
                 System.out.println("Contingut "+i+": ");
@@ -200,6 +216,9 @@ public class DriverControladorExpressions {
                 break;
             case EXIT:
                 return false;
+            default:
+                System.out.println("ERROR: Número de comanda no vàlid.");
+                break;
         }
         return true;
     }

@@ -44,9 +44,13 @@ public class DriverExpressio {
      *
      * @param scanner mètode per fer l'input.
      * */
-    public static void testCreaExpressio(Scanner scanner) {
+    public static void testCreaExpressio(Scanner scanner) throws Exception {
         System.out.println("Escrigui l'expressio que vols formalitzar:");
-        ex = new Expressio(readLine(scanner));
+        try {
+            ex = new Expressio(readLine(scanner));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -55,13 +59,16 @@ public class DriverExpressio {
      * @param command la comanda que verificarà.
      * @param scanner mètode per fer l'input.
      * */
-    private static boolean commands(String command, Scanner scanner) {
+    private static boolean commands(String command, Scanner scanner) throws Exception {
         switch (command) {
             case CREAEXPRESSIO:
                 testCreaExpressio(scanner);
                 break;
             case EXIT:
                 return false;
+            default:
+                System.out.println("ERROR: Número de comanda no vàlid.");
+                break;
         }
         return true;
     }
@@ -71,7 +78,7 @@ public class DriverExpressio {
      *
      * @param args accepta un argument d'un path d'un arxiu txt en cas de voler introduir les comandes des d'un arxiu.
      * */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         boolean run  = true;
 
         if (run) System.out.println(HELPTEXT);
@@ -80,7 +87,6 @@ public class DriverExpressio {
             run = commands(in.nextLine(), in);
             System.out.println(HELPTEXT);
         }
-
         System.out.println("Gràcies per utilitzar el programa DriverExpressio");
 
     }

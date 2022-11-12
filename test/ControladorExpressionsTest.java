@@ -14,7 +14,7 @@ public class ControladorExpressionsTest {
      * Test que comprova que donat una expressio s'ha creat correctament l'expressio
      */
     @Test
-    public void crearExpressio() {
+    public void crearExpressio() throws Exception {
         ControladorExpressions ctrlExpre = new ControladorExpressions();
         Expressio aux = ctrlExpre.crearExpressio("hola & adeu");
         boolean result = aux.isEs_correcte();
@@ -26,7 +26,7 @@ public class ControladorExpressionsTest {
     @Test
     public void getExpressio() throws Exception {
         ControladorExpressions ctrlExpre = new ControladorExpressions();
-        boolean add = ctrlExpre.anadir_expressio("hola & adeu");
+        ctrlExpre.anadir_expressio("hola & adeu");
         Expressio result = ctrlExpre.getExpressio("hola & adeu");
         assertNotNull("Test get Expressio",result);
     }
@@ -34,9 +34,10 @@ public class ControladorExpressionsTest {
      * Test que comprova que donat una expressio existeix correctament
      */
     @Test
-    public void existExpressio() {
+    public void existExpressio() throws Exception {
         ControladorExpressions ctrlExpre = new ControladorExpressions();
-        boolean add = ctrlExpre.anadir_expressio("hola & adeu");
+        ctrlExpre.anadir_expressio("hola & adeu");
+
         boolean result = ctrlExpre.ExistExpressio("hola & adeu");
         assertTrue("Test existeix Expressio",result);
     }
@@ -44,9 +45,9 @@ public class ControladorExpressionsTest {
      * Test que comprova que retorna el nombre de expressions creats correctament
      */
     @Test
-    public void getNumExpressions() {
+    public void getNumExpressions() throws Exception {
         ControladorExpressions ctrlExpre = new ControladorExpressions();
-        boolean add = ctrlExpre.anadir_expressio("hola & adeu");
+        ctrlExpre.anadir_expressio("hola & adeu");
         assertEquals(1,ctrlExpre.getNumExpressions());
 
     }
@@ -54,46 +55,45 @@ public class ControladorExpressionsTest {
      * Test que comprova que donat una expressio s'ha afegit correctament l'expressio
      */
     @Test
-    public void anadir_expressio() {
+    public void anadir_expressio() throws Exception {
         ControladorExpressions ctrlExpre = new ControladorExpressions();
-        boolean result = ctrlExpre.anadir_expressio("hola & adeu");
-        assertTrue("Test Afegir Expressio",result);
+        ctrlExpre.anadir_expressio("hola & adeu");
+        //Canviar per equal
+        assertTrue("Test anadir_expressio",ctrlExpre.ExistExpressio("hola & adeu"));
+
     }
     /**
      * Test que comprova que donat una expressio s'ha eliminat correctament l'expressio
      */
     @Test
-    public void deleteExpressio() {
+    public void deleteExpressio() throws Exception {
         String ex = "hola & adeu";
         ControladorExpressions ctrlExpre = new ControladorExpressions();
-        boolean result = ctrlExpre.anadir_expressio(ex);
-        boolean fin = false;
-        if (result) {
-            fin = ctrlExpre.deleteExpressio(ex);
-        }
-        assertTrue("Test Eliminar Expressio",fin);
+
+        ctrlExpre.anadir_expressio(ex);
+        ctrlExpre.deleteExpressio(ex);
+
+        assertEquals(0,ctrlExpre.getNumExpressions());
     }
     /**
      * Test que comprova que donat una expressio s'ha modificat correctament l'expressio
      */
     @Test
-    public void setExpressio() {
+    public void setExpressio() throws Exception {
         String modificar = "hola & adeu";
         String nova_ex = "hola | adeu & que";
         ControladorExpressions ctrlExpre = new ControladorExpressions();
 
-        boolean add = ctrlExpre.anadir_expressio(modificar);
-        boolean result = false;
-        if (add) {
-            result = ctrlExpre.setExpressio(modificar,nova_ex);
-        }
-        assertTrue("Test Modificar Expressio",result);
+        ctrlExpre.anadir_expressio(modificar);
+        ctrlExpre.setExpressio(modificar,nova_ex);
+
+        assertFalse("Test set expressio",ctrlExpre.ExistExpressio("hola & adeu"));
     }
     /**
      * Test que comprova que una consulta retorna els documents correctament
      */
     @Test
-    public void ConsultaExpressioBooleana() {
+    public void ConsultaExpressioBooleana() throws Exception {
         ControladorExpressions ctrlExpre = new ControladorExpressions();
         List<String> cont = new ArrayList<>();
 

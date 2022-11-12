@@ -26,7 +26,10 @@ public class Expressio {
      * Constructora d'una expressio.
      * @param ex es l'expressio donat pel usuari.
      * */
-    public Expressio(String ex) {
+    public Expressio(String ex) throws Exception {
+        if (ex.equals("")) {
+            throw new Exception("Expressio buida");
+        }
         String aux = "("+ex+")";
         if (esta_ben_Formalitzat(aux)) {
             this.theTree = new BinaryTree();
@@ -414,7 +417,7 @@ public class Expressio {
      * @param expr es l'expressio donat pel usuari
      * @return Retorna si l'expressio donada esta ben formalitzat.
      */
-    private boolean esta_ben_Formalitzat(String expr){
+    private boolean esta_ben_Formalitzat(String expr) throws Exception{
         // Using ArrayDeque is faster than using Stack class
         Deque<Character> stack
                 = new ArrayDeque<Character>();
@@ -430,8 +433,7 @@ public class Expressio {
             //Tractar els casos que els operadors estan d'estar separats per espais
             if ( aux1 == 0 && aux%2 == 0 && (x == '&' || x == '|') ) {
                 if (expr.charAt(i-1) != ' ' || expr.charAt(i+1) != ' ') {
-                    System.out.println("Els operadors & i | han de estar separats per espais");
-                    return false;
+                    throw new Exception("Error, Els operadors & i | han de estar separats per espais");
                 }
             }
             //Tractar els casos {}
@@ -444,8 +446,7 @@ public class Expressio {
             if (x == ' ' && aux%2 == 0 && aux1 == 0) {
                 if ( !((expr.charAt(i-1) == '&' || expr.charAt(i-1) == '|') ||
                         (expr.charAt(i+1) == '&' || expr.charAt(i+1) == '|'))) {
-                    System.out.println("Has de servir operadors per separar paraules");
-                    return false;
+                    throw new Exception("Error, Has de servir operadors per separar paraules");
                 }
             }
 
@@ -481,7 +482,10 @@ public class Expressio {
             }
         }
         // Check Empty Stack
-        return (stack.isEmpty());
+        if (!stack.isEmpty()) {
+            throw new Exception("Error, Expressio mal formalitzat");
+        }
+        return true;
     }
 
     /**
