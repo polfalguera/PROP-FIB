@@ -133,7 +133,7 @@ public class DriverControladorDocuments {
 
     public static void testLlistarAutorsPrefix() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Escriu l'autor desitjat");
+        System.out.println("Escriu el prefix desitjat");
         String prefix = sc.nextLine();
         try {
             List<String> autors = CtrlDocuments.llistarAutorsPrefix(prefix);

@@ -165,7 +165,7 @@ public class ControladorDocuments {
         return llistat;
     }
 
-    public boolean esPrefix(String prefix, String autor) {
+    private boolean esPrefix(String prefix, String autor) {
         int i = 0;
         String[] p = prefix.split("");
         String[] a = autor.split("");
@@ -182,9 +182,15 @@ public class ControladorDocuments {
 
         Set<String> autors = titolsPerAutor.keySet();
 
+        boolean primerTrobat = false;
         for (String a: autors) {
-            if (esPrefix(prefix,a)) llistat.add(a);
-            else break;
+            if (esPrefix(prefix,a)) {
+                llistat.add(a);
+                if (!primerTrobat) primerTrobat = true;
+            }
+            else {
+                if (primerTrobat) break;
+            }
         }
 
         return llistat;
