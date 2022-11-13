@@ -1,4 +1,6 @@
 package test;
+import capaDomini.ControladorDocuments;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import capaDomini.ControladorContingut;
 
@@ -13,17 +15,87 @@ public class ControladorContingutTest {
     /**
      * Test que comprova que es retornen els continguts de forma correcta.
      */
+    private static ControladorContingut getConjuntContinguts;
+    private static ControladorContingut obtenirParaulesContingut;
+    private static ControladorContingut eliminarContingut;
+    private static ControladorContingut getContingut;
+    private static ControladorContingut kRellevants;
+    private static ControladorContingut modificarContingut;
+    private static ControladorContingut modificarContingutPath;
+
+    @BeforeClass
+    public static void inicialitzacio() {
+        //Creacio del contingut per a getConjuntContinguts()
+        try {
+            getConjuntContinguts = new ControladorContingut();
+            getConjuntContinguts.afegirContingut("contingut 1.");
+            getConjuntContinguts.afegirContingut("contingut 2., ");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        //Creacio del contingut per a obtenirParaulesContingut()
+        try {
+            obtenirParaulesContingut = new ControladorContingut();
+            obtenirParaulesContingut.afegirContingut("prova 1.");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        //Creacio del contingut per a eliminarContingut()
+        try {
+            eliminarContingut = new ControladorContingut();
+            eliminarContingut.afegirContingut("prova 1.");
+            eliminarContingut.afegirContingut("prova 2.");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        //Creacio del contingut per a getContingut()
+        try {
+            getContingut = new ControladorContingut();
+            getContingut.afegirContingut("prova 1.");
+            getContingut.afegirContingut("prova 2.");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        //Creacio del contingut per a kRellevants()
+        try {
+            kRellevants = new ControladorContingut();
+            kRellevants.afegirContingut("test 1.");
+            kRellevants.afegirContingut("prova 2.");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        //Creacio del contingut per a modificarContingut()
+        try {
+            modificarContingut = new ControladorContingut();
+            modificarContingut.afegirContingut("test 1.");
+            modificarContingut.afegirContingut("prova 2.");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        //Creacio del contingut per a modificarContingutPath()
+        try {
+            modificarContingutPath = new ControladorContingut();
+            modificarContingutPath.afegirContingut("test 1.");
+
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
     @Test
     public void getConjuntContinguts() {
         try {
-            ControladorContingut contingut = new ControladorContingut();
-            contingut.afegirContingut("contingut 1.");
-            contingut.afegirContingut("contingut 2., ");
-            List<String> res = contingut.getConjuntContinguts();
-            assertEquals("contingut 1.", res.get(0));
-            assertEquals("contingut 2., ", res.get(1));
+            List<String> esperat = new ArrayList<String>();
+            esperat.add("contingut 1.");
+            esperat.add("contingut 2., ");
+            assertEquals(esperat, getConjuntContinguts.getConjuntContinguts());
         } catch (Exception e) {
-           System.out.println(e.toString());
+            System.out.println(e.toString());
         }
     }
     /**
@@ -32,10 +104,8 @@ public class ControladorContingutTest {
     @Test
     public void obtenirParaulesContingut() {
         try {
-            ControladorContingut contingut = new ControladorContingut();
-            contingut.afegirContingut("prova 1.");
             String [] esperat = {"prova", "1"};
-            assertEquals(esperat, contingut.obtenirParaulesContingut(0));
+            assertArrayEquals(esperat, obtenirParaulesContingut.obtenirParaulesContingut(0));
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -46,13 +116,11 @@ public class ControladorContingutTest {
     @Test
     public void eliminarContingut() {
         try {
-            ControladorContingut contingut = new ControladorContingut();
-            contingut.afegirContingut("prova 1.");
-            contingut.afegirContingut("prova 2.");
-            contingut.eliminarContingut(0);
-            List<String> esperat = new ArrayList<String>();
-            esperat.add("prova 2.");
-            assertEquals(esperat, contingut.getConjuntContinguts());
+            assertEquals("prova 1.", eliminarContingut.getContingut(0));
+            int n = eliminarContingut.getConjuntContinguts().size();
+            eliminarContingut.eliminarContingut(0);
+            assertEquals("prova 2.", eliminarContingut.getContingut(0));
+            assertEquals(n-1, eliminarContingut.getConjuntContinguts().size());
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -63,10 +131,7 @@ public class ControladorContingutTest {
     @Test
     public void getContingut() {
         try {
-            ControladorContingut contingut = new ControladorContingut();
-            contingut.afegirContingut("prova 1.");
-            contingut.afegirContingut("prova 2.");
-            assertEquals("prova 2.", contingut.getContingut(1));
+            assertEquals("prova 2.", getContingut.getContingut(1));
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -77,11 +142,9 @@ public class ControladorContingutTest {
     @Test
     public void kRellevants() {
         try {
-            ControladorContingut contingut = new ControladorContingut();
-            contingut.afegirContingut("test 1.");
-            contingut.afegirContingut("prova 2.");
+
             String [] paraules = {"test"};
-            int [] res = contingut.kRellevants(paraules, 1, 0);
+            int [] res = kRellevants.kRellevants(paraules, 1, 0);
             assertEquals(0, res[0]);
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -93,11 +156,9 @@ public class ControladorContingutTest {
     @Test
     public void modificarContingut() {
         try {
-            ControladorContingut contingut = new ControladorContingut();
-            contingut.afegirContingut("test 1.");
-            contingut.afegirContingut("prova 2.");
-            contingut.modificarContingut(0, "prova 1.");
-            assertEquals("prova 1.", contingut.getContingut(0));
+            assertEquals("test 1.", modificarContingut.getContingut(0));
+            modificarContingut.modificarContingut(0, "prova 1.");
+            assertEquals("prova 1.", modificarContingut.getContingut(0));
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -121,11 +182,10 @@ public class ControladorContingutTest {
     @Test
     public void modificarContingutPath() {
         try {
-            ControladorContingut contingut = new ControladorContingut();
-            contingut.afegirContingut("test 1.");
+            assertEquals("test 1.", modificarContingutPath.getContingut(0));
             String path = Paths.get("data/data.txt").toAbsolutePath().toString();
-            contingut.modificarContingutPath(0, path);
-            assertEquals("prova 1.", contingut.getContingut(0));
+            modificarContingutPath.modificarContingutPath(0, path);
+            assertEquals("prova 1.", modificarContingutPath.getContingut(0));
         } catch (Exception e) {
             System.out.println(e.toString());
         }

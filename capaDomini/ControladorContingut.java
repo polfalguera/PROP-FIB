@@ -13,7 +13,7 @@ public class ControladorContingut {
     /**
      * Representa el conjunt de Continguts.
      */
-    public static class IndexValuePair {
+    private static class IndexValuePair {
         private int index;
         private double value;
 
@@ -43,18 +43,18 @@ public class ControladorContingut {
             return result;
         }
     }
-    private static List<HashMap<String, Integer>> freqContingut;
-    private static List<String> Contingut;
-    private static Set<String> stopWords;
+    private List<HashMap<String, Integer>> freqContingut;
+    private List<String> Contingut;
+    private Set<String> stopWords;
 
     /**
      * Constructora d'un conjunt de Continguts.
      */
     public ControladorContingut() throws Exception {
-        freqContingut = new ArrayList<HashMap<String, Integer>>();
-        Contingut = new ArrayList<String>();
+        this.freqContingut = new ArrayList<HashMap<String, Integer>>();
+        this.Contingut = new ArrayList<String>();
         try {
-            stopWords = assignarStopWords();
+            this.stopWords = assignarStopWords();
         } catch (Exception e) {
             throw e;
         }
@@ -93,7 +93,7 @@ public class ControladorContingut {
      * @return retorna un double amb els càlculs corresponents.
      */
     private double tf(String paraula, int id, int mode) {
-        HashMap<String, Integer> freq = freqContingut.get(id);
+        HashMap<String, Integer> freq = this.freqContingut.get(id);
         double n = 0;
         for (Map.Entry<String, Integer> set : freq.entrySet()) {
             n += set.getValue();
@@ -106,14 +106,14 @@ public class ControladorContingut {
      * Calcula depenent del mode escollit l'idf per a l'assignació de pesos.
      * @return retorna un double amb els càlculs corresponents.
      */
-    private static double idf(String paraula, int mode) {
+    private double idf(String paraula, int mode) {
         double n = 0;
-        for (HashMap<String, Integer> doc : freqContingut) {
+        for (HashMap<String, Integer> doc : this.freqContingut) {
             if (doc.containsKey(paraula)) n += doc.get(paraula);
         }
         if (mode == 1) return 1;
         else if (n == 0) return 0;
-        else return Math.log(Contingut.size() / n);
+        else return Math.log(this.Contingut.size() / n);
     }
 
     /**
@@ -140,7 +140,7 @@ public class ControladorContingut {
                 String[] words = line.split("\\p{Punct}| |\\n|¿|¡");
                 for (String word : words) {
                     word = word.toLowerCase();
-                    if (!stopWords.contains(word) && word != "") {
+                    if (!this.stopWords.contains(word) && word != "") {
                         if (!text.containsKey(word)) text.put(word, 1);
                         else text.put(word, text.get(word)+1);
                     }
@@ -148,8 +148,8 @@ public class ControladorContingut {
             }
 
             if (contingut.isEmpty()) throw new Exception("Error, contingut buit");
-            freqContingut.add(text);
-            Contingut.add(contingut.toString());
+            this.freqContingut.add(text);
+            this.Contingut.add(contingut.toString());
         } catch (Exception e) {
             throw new Exception("Error, path del document incorrecte");
         }
@@ -163,18 +163,17 @@ public class ControladorContingut {
 
         HashMap<String, Integer> text = new HashMap<String, Integer>();
         String[] words = contingut.split("\\p{Punct}| |\\n|¿|¡");
-        int id = Contingut.size();
 
         for (String word : words) {
             word = word.toLowerCase();
-            if (!stopWords.contains(word) && word != "") {
+            if (!this.stopWords.contains(word) && word != "") {
                 if (!text.containsKey(word)) text.put(word, 1);
                 else text.put(word, text.get(word)+1);
             }
         }
 
-        Contingut.add(contingut);
-        freqContingut.add(text);
+        this.Contingut.add(contingut);
+        this.freqContingut.add(text);
     }
     /**
      * Modifica el Contingut llegint el nou Contingut d'un fitxer.
@@ -182,7 +181,7 @@ public class ControladorContingut {
      * @param path és la ruta on es troba el fitxer.
      */
     public void modificarContingutPath(int id, String path) throws Exception {
-        if (freqContingut.size() <= id) throw new Exception("Error, index out of bounds");
+        if (this.freqContingut.size() <= id) throw new Exception("Error, index out of bounds");
         try {
             String line;
             FileReader file = new FileReader(path);
@@ -202,7 +201,7 @@ public class ControladorContingut {
                 String[] words = line.split("\\p{Punct}| |\\n|¿|¡");
                 for (String word : words) {
                     word = word.toLowerCase();
-                    if (!stopWords.contains(word) && word != "") {
+                    if (!this.stopWords.contains(word) && word != "") {
                         if (!text.containsKey(word)) text.put(word, 1);
                         else text.put(word, text.get(word)+1);
                     }
@@ -210,8 +209,8 @@ public class ControladorContingut {
             }
 
             if (contingut.isEmpty()) throw new Exception("Error, contingut buit");
-            freqContingut.add(id, text);
-            Contingut.set(id, contingut.toString());
+            this.freqContingut.set(id, text);
+            this.Contingut.set(id, contingut.toString());
         } catch (Exception e) {
             throw new Exception("Error, path del document incorrecte");
         }
@@ -222,7 +221,7 @@ public class ControladorContingut {
      * @param contingut és el nou Contingut a reemplaçar.
      */
     public void modificarContingut(int id, String contingut) throws Exception {
-        if (freqContingut.size() <= id) throw new Exception("Error, index out of bounds");
+        if (this.freqContingut.size() <= id) throw new Exception("Error, index out of bounds");
         if (contingut == "") throw new Exception("Error, contingut buit");
 
         HashMap<String, Integer> text = new HashMap<String, Integer>();
@@ -230,14 +229,14 @@ public class ControladorContingut {
 
         for (String word : words) {
             word = word.toLowerCase();
-            if (!stopWords.contains(word) && word != "") {
+            if (!this.stopWords.contains(word) && word != "") {
                 if (!text.containsKey(word)) text.put(word, 1);
                 else text.put(word, text.get(word)+1);
             }
         }
 
-        Contingut.add(id, contingut);
-        freqContingut.add(id, text);
+        this.Contingut.set(id, contingut);
+        this.freqContingut.set(id, text);
     }
     /**
      * Indica els índexs dels k Continguts més rellevants amb el conjunt de paraules.
@@ -249,14 +248,14 @@ public class ControladorContingut {
      * @return retorna un conjunt amb els índexs més rellevants.
      */
     public int[] kRellevants(String[] paraules, int k, int mode) {
-        if (k > Contingut.size()) k = Contingut.size();
-        double[] tfidf = new double[Contingut.size()];
+        if (k > this.Contingut.size()) k = this.Contingut.size();
+        double[] tfidf = new double[this.Contingut.size()];
         for (int i = 0; i < tfidf.length; ++i) tfidf[i] = 0;
 
         for (String paraula : paraules) {
             paraula = paraula.toLowerCase();
             double idf = idf(paraula, mode);
-            for (int j = 0; j < Contingut.size(); ++j) {
+            for (int j = 0; j < this.Contingut.size(); ++j) {
                 tfidf[j] += (tf(paraula, j, mode) * idf);
             }
         }
@@ -268,17 +267,17 @@ public class ControladorContingut {
      * @return retorna un String amb el Contingut del Document amb índex id.
      */
     public String getContingut(int id) throws Exception {
-        if (id >= Contingut.size()) throw new Exception("Error, index out of bounds");
-        return Contingut.get(id);
+        if (id >= this.Contingut.size()) throw new Exception("Error, index out of bounds");
+        return this.Contingut.get(id);
     }
     /**
      * Eliminem el Contingut del Document amb índex id.
      * @param id és l'índex del Document.
      */
     public void eliminarContingut(int id) throws Exception {
-        if (id >= Contingut.size()) throw new Exception("Error, index out of bounds");
-        freqContingut.remove(id);
-        Contingut.remove(id);
+        if (id >= this.Contingut.size()) throw new Exception("Error, index out of bounds");
+        this.freqContingut.remove(id);
+        this.Contingut.remove(id);
     }
     /**
      * Obtenim totes les paraules del Contingut del Document amb índex id.
@@ -286,14 +285,14 @@ public class ControladorContingut {
      * @return retorna un vector de String amb les paraules del Document amb índex id.
      */
     public String[] obtenirParaulesContingut(int id) throws Exception {
-        if (id >= Contingut.size()) throw new Exception("Error, index out of bounds");
-        return Contingut.get(id).split("\\p{Punct}| |\\n|¿|¡");
+        if (id >= this.Contingut.size()) throw new Exception("Error, index out of bounds");
+        return this.Contingut.get(id).split("\\p{Punct}| |\\n|¿|¡");
     }
     /**
      * Obtenim tots els Continguts dels Documents que hi ha fins al moment.
      * @return retorna una llista amb el Contingut de cada un dels Documents.
      */
     public List<String> getConjuntContinguts() {
-        return Contingut;
+        return this.Contingut;
     }
 }
