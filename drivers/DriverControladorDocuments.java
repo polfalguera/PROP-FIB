@@ -16,7 +16,6 @@ public class DriverControladorDocuments {
     private static final String tancar_driver = "7";
 
     private static final String AJUDA = "Números associats a cada comanada del driver:  \n"+
-            " "+numero_comanda+" Llista els números associats a cada comanda del driver\n"+
             " "+crearDocument+" Crea un document\n"+
             " "+eliminarDocument+" Elimina un document\n"+
             " "+modificarAutor+" Actualitza l'autor d'un document\n"+
@@ -174,14 +173,14 @@ public class DriverControladorDocuments {
      * */
     public static void main(String[] args) {
         DriverControladorDocuments dcd = new DriverControladorDocuments();
-        System.out.println("| Driver de la classe ControladorDocuments |\n");
+        System.out.println("\n| Driver de la classe ControladorDocuments |\n");
         System.out.println("Abans de testejar funcionalitats cal declarar un conjunt de documents sobre els quals treballar.");
         llegirConjuntDocuments();
 
-        System.out.println(AJUDA+"\n");
         String comanda = numero_comanda;
         while (comanda != tancar_driver) {
             System.out.println("Selecciona el número de la comanda que vulguis executar: ");
+            System.out.println(AJUDA+"\n");
             Scanner sc1 = new Scanner(System.in);
             comanda = sc1.nextLine();
 
@@ -208,7 +207,11 @@ public class DriverControladorDocuments {
                     dcd.testLlistarAutorsPrefix();
                     break;
                 case tancar_driver:
+                    System.out.println("| Execució del driver finalitzada |");
                     return;
+                default:
+                    System.out.println("ERROR: Número de comanda no vàlid.");
+                    break;
             }
         }
 

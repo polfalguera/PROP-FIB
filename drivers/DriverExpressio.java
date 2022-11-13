@@ -18,7 +18,7 @@ public class DriverExpressio {
      * */
     private static final String EXIT = "2";
 
-    private static final String HELPTEXT = "Introduïu un dels següents números per executar la corresponent comanda:\n" +
+    private static final String HELPTEXT = "Selecciona el número de la comanda que vulguis executar: \n" +
             "  " + CREAEXPRESSIO       + "-Crea una expressio\n"       +
             "  " + EXIT                + "-Sortir del programa\n"
 
@@ -80,15 +80,14 @@ public class DriverExpressio {
      * */
     public static void main(String[] args) throws Exception {
         boolean run  = true;
-
-        if (run) System.out.println(HELPTEXT);
+        System.out.println("\n| Driver de la classe Expressio |\n");
+        System.out.println(HELPTEXT);
         Scanner in = new Scanner(System.in);
         while (run) {
             run = commands(in.nextLine(), in);
-            System.out.println(HELPTEXT);
+            if (run) System.out.println(HELPTEXT);
         }
-        System.out.println("Gràcies per utilitzar el programa DriverExpressio");
-
+        System.out.println("| Execució del driver finalitzada |");
     }
 
 }

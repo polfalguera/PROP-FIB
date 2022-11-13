@@ -28,7 +28,6 @@ public class DriverControladorDomini {
     private static final String tancar_driver = "17";
 
     private static final String AJUDA = "\nNúmeros associats a cada comanada del driver:  \n"+
-            " "+numero_comanda+" Llista els números associats a cada comanda del driver.\n"+
             " "+queryCrearDocument+" Crea un document.\n"+
             " "+queryCrearDocumentPath+" Crea un document a partir d'un fitxer que conté el seu contingut.\n"+
             " "+queryEliminarDocument+" Elimina un document.\n"+
@@ -376,10 +375,10 @@ public class DriverControladorDomini {
                 " de continguts associats als documents.\n");
         llegirConjuntDocuments();
 
-        System.out.println(AJUDA);
         String comanda = numero_comanda;
         while (comanda != tancar_driver) {
             System.out.println("Selecciona el número de la comanda que vulguis executar: ");
+            System.out.println(AJUDA+"\n");
             Scanner sc1 = new Scanner(System.in);
             comanda = sc1.nextLine();
 

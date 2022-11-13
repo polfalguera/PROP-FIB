@@ -82,7 +82,11 @@ public class DriverDocument {
                     dd.testSetTitol();
                     break;
                 case tancar_driver:
+                    System.out.println("| Execució del driver finalitzada |");
                     return;
+                default:
+                    System.out.println("ERROR: Número de comanda no vàlid.");
+                    break;
             }
         }
 
