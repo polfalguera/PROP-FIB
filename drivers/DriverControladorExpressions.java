@@ -37,7 +37,6 @@ public class DriverControladorExpressions {
             "  " + SETEXPRESSIO        + "-Modifica una expressio\n"                    +
             "  " + CONSULTAEXPRE       + "-Consulta l'expressio en els contingus que has proposat\n"   +
             "  " + EXISTEXPRESSIO      + "-Comprova si una expressios existeix\n"       +
-
             "  " + EXIT                + "-Sortir del programa\n"
 
             ;

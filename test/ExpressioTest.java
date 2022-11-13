@@ -2,6 +2,7 @@ package test;
 import capaDomini.ControladorExpressions;
 import capaDomini.Expressio;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.*;
@@ -18,16 +19,38 @@ public class ExpressioTest {
 
     private static Expressio nodeAddPre;
 
+    @BeforeClass
+    public static void inicialitzacio() {
+        try {
+            is_Correcte = new Expressio("hola & adeu");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        try {
+            getTree = new Expressio("hola & adeu");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        try {
+            equalTree= new Expressio();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        try {
+            nodeAddPre = new Expressio();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+    }
+
     /**
      * Test que comprova que donat una expressio s'ha creat correctament l'expressio
      */
     @Test
     public void testisEs_correcte() throws Exception {
         try {
-            is_Correcte = new Expressio("hola");
-            Expressio aux1 = new Expressio("hola & adeu");
             assertTrue(is_Correcte.isEs_correcte());
-            assertTrue(aux1.isEs_correcte());
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -39,7 +62,6 @@ public class ExpressioTest {
     @Test
     public void testgetTree() throws Exception {
         try {
-            getTree = new Expressio("hola & adeu");
             Expressio.BinaryTree BinaryTree = new Expressio.BinaryTree();
             BinaryTree.addNodePre(true,"&");
             BinaryTree.addNodePre(true,"hola");
@@ -55,8 +77,6 @@ public class ExpressioTest {
     @Test
     public void testEqualTree() throws Exception {
         try {
-            equalTree= new Expressio();
-
             Expressio.BinaryTree tree1 = equalTree.getTheTree();
             tree1.addNodePre(true,"&");
             tree1.addNodePre(true,"hola");
@@ -77,8 +97,6 @@ public class ExpressioTest {
     @Test
     public void testaddNodePreTree() throws Exception {
         try {
-            nodeAddPre = new Expressio();
-
             Expressio.BinaryTree tree1 = nodeAddPre.getTheTree();
             tree1.addNodePre(true,"&");
             tree1.addNodePre(true,"|");

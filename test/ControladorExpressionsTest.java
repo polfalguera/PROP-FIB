@@ -2,6 +2,7 @@ package test;
 
 import capaDomini.ControladorExpressions;
 import capaDomini.Expressio;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -18,16 +19,69 @@ public class ControladorExpressionsTest {
     private static ControladorExpressions setExpressio;
     private static ControladorExpressions ConsultaExpressioBooleana;
 
+    @BeforeClass
+    public static void inicialitzacio() {
+        try {
+            getCjtExpreesions = new ControladorExpressions();
+            getCjtExpreesions.anadir_expressio("hola & adeu");
+            getCjtExpreesions.anadir_expressio("hola");
+            getCjtExpreesions.anadir_expressio("adeu");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        try {
+            ExistExpressio = new ControladorExpressions();
+            ExistExpressio.anadir_expressio("hola & adeu");
+
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        try {
+            getNumExpressions = new ControladorExpressions();
+            getNumExpressions.anadir_expressio("hola & adeu");
+            getNumExpressions.anadir_expressio("hola");
+            getNumExpressions.anadir_expressio("adeu");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        try {
+            addExpressions = new ControladorExpressions();
+            addExpressions.anadir_expressio("hola & adeu");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        try {
+            String ex = "hola & adeu";
+            deleteExpressio = new ControladorExpressions();
+            deleteExpressio.anadir_expressio(ex);
+            deleteExpressio.deleteExpressio(ex);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        try {
+            String modificar = "hola & adeu";
+            String nova_ex = "hola | adeu & que";
+            setExpressio = new ControladorExpressions();
+            setExpressio.anadir_expressio(modificar);
+            setExpressio.setExpressio(modificar,nova_ex);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        try {
+            ConsultaExpressioBooleana = new ControladorExpressions();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+
+    }
     /**
      * Test que comprova que donat una expressio s'ha creat correctament l'expressio
      */
     @Test
     public void testgetCjtExpressions() throws Exception {
-        getCjtExpreesions = new ControladorExpressions();
         try{
-            getCjtExpreesions.anadir_expressio("hola & adeu");
-            getCjtExpreesions.anadir_expressio("hola");
-            getCjtExpreesions.anadir_expressio("adeu");
             assertTrue("Test getCjtExpressio",getCjtExpreesions.ExistExpressio("hola & adeu"));
             assertTrue("Test getCjtExpressio",getCjtExpreesions.ExistExpressio("hola"));
             assertTrue("Test getCjtExpressio",getCjtExpreesions.ExistExpressio("adeu"));
@@ -40,9 +94,7 @@ public class ControladorExpressionsTest {
      */
     @Test
     public void testexistExpressio() throws Exception {
-        ExistExpressio = new ControladorExpressions();
         try {
-            ExistExpressio.anadir_expressio("hola & adeu");
             boolean result = ExistExpressio.ExistExpressio("hola & adeu");
             assertTrue("Test existeix Expressio",result);
         } catch (Exception e) {
@@ -55,11 +107,7 @@ public class ControladorExpressionsTest {
      */
     @Test
     public void testgetNumExpressions() throws Exception {
-        getNumExpressions = new ControladorExpressions();
         try {
-            getNumExpressions.anadir_expressio("hola & adeu");
-            getNumExpressions.anadir_expressio("hola");
-            getNumExpressions.anadir_expressio("adeu");
             assertEquals(3,getNumExpressions.getNumExpressions());
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -72,9 +120,7 @@ public class ControladorExpressionsTest {
      */
     @Test
     public void testanadir_expressio() throws Exception {
-        addExpressions = new ControladorExpressions();
         try {
-            addExpressions.anadir_expressio("hola & adeu");
             assertTrue("Test anadir_expressio",addExpressions.ExistExpressio("hola & adeu"));
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -87,11 +133,7 @@ public class ControladorExpressionsTest {
      */
     @Test
     public void testdeleteExpressio() throws Exception {
-        String ex = "hola & adeu";
-        deleteExpressio = new ControladorExpressions();
         try {
-            deleteExpressio.anadir_expressio(ex);
-            deleteExpressio.deleteExpressio(ex);
             assertEquals(0,deleteExpressio.getNumExpressions());
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -103,12 +145,7 @@ public class ControladorExpressionsTest {
      */
     @Test
     public void testsetExpressio() throws Exception {
-        String modificar = "hola & adeu";
-        String nova_ex = "hola | adeu & que";
         try {
-            setExpressio = new ControladorExpressions();
-            setExpressio.anadir_expressio(modificar);
-            setExpressio.setExpressio(modificar,nova_ex);
             assertFalse("Test set expressio",setExpressio.ExistExpressio("hola & adeu"));
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -120,10 +157,8 @@ public class ControladorExpressionsTest {
      */
     @Test
     public void testConsultaExpressioBooleana() throws Exception {
-        ConsultaExpressioBooleana = new ControladorExpressions();
         try {
             List<String> cont = new ArrayList<>();
-
             cont.add("hola adeu soc joan. M'agrada.");
             cont.add("m'agrada les coses blaves i el joan. Adeu i hola joan");
             cont.add("hola soc en Sol. Estem tots.");
