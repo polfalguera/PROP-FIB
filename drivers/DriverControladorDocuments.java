@@ -24,7 +24,9 @@ public class DriverControladorDocuments {
             " "+llistarTitolsAutor+" Llista els títols dels documents d'un autor\n"+
             " "+llistarAutorsPrefix+" Llista els autors que comencen per un prefix donat\n"+
             " "+tancar_driver+" Finalitza l'execució del driver";
-
+    /**
+     * Llegex un conjunt de documents introduits per titol i autor
+     * */
     private static void llegirConjuntDocuments() {
         CtrlDocuments = new ControladorDocuments();
         Scanner sc = new Scanner(System.in);
@@ -45,6 +47,10 @@ public class DriverControladorDocuments {
             }
         }
     }
+
+    /**
+     * Crea un document
+     * */
     public static void testCrearDocument() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Escriu un autor per al document a crear: ");
@@ -61,6 +67,9 @@ public class DriverControladorDocuments {
         System.out.println("Document creat correctament.");
     }
 
+    /**
+     * Elimina un document
+     * */
     public static void testEliminarDocument() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Escriu l'autor del document a eliminar: ");
@@ -78,6 +87,9 @@ public class DriverControladorDocuments {
 
     }
 
+    /**
+     * Modifica l'autor d'un document
+     * */
     public static void testModificarAutor() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Escriu l'autor del document a modificar: ");
@@ -96,6 +108,9 @@ public class DriverControladorDocuments {
         System.out.println("Autor del document actualitzat correctament.");
     }
 
+    /**
+     * Modifica el titol d'un document
+     * */
     public static void testModificarTitol() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Escriu l'autor del document a modificar: ");
@@ -114,6 +129,9 @@ public class DriverControladorDocuments {
         System.out.println("Titol del document actualitzat correctament.");
     }
 
+    /**
+     * Llista els titols d'un autor
+     * */
     public static void testLlistarTitolsAutor() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Escriu l'autor desitjat");
@@ -131,6 +149,9 @@ public class DriverControladorDocuments {
         System.out.println("Titols de l'autor llistats correctament");
     }
 
+    /**
+     * Llista els autors que contenen un prefix
+     * */
     public static void testLlistarAutorsPrefix() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Escriu el prefix desitjat");
@@ -148,6 +169,9 @@ public class DriverControladorDocuments {
         System.out.println("Titols de l'autor llistats correctament");
     }
 
+    /**
+     * Main on es van llegint les comandes a executar
+     * */
     public static void main(String[] args) {
         DriverControladorDocuments dcd = new DriverControladorDocuments();
         System.out.println("| Driver de la classe ControladorDocuments |\n");

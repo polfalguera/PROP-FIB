@@ -2,16 +2,36 @@ package capaDomini;
 
 import java.util.*;
 
-public class ControladorDocuments {
+/**
+ * Representa el controlador de documents.
+ * @author Marc Quel.
+ */
 
+public class ControladorDocuments {
+    /**
+     * Representa el conjunt de documents
+     */
     private List<Document> documents;
+    /**
+     * Representa els titols que te cada autor
+     */
     private TreeMap<String, List<String>> titolsPerAutor;
 
+    /**
+     * Constructora del controlador de documents
+     * Inicialitza les estructures de dades
+     */
     public ControladorDocuments() {
         this.documents = new ArrayList<Document>();
         this.titolsPerAutor = new TreeMap<String, List<String>>();
     }
 
+    /**
+     * Modificadora
+     * Afegeix un document a documents
+     * @param autor es l'autor del document a crear.
+     * @param titol es el titol del document a crear.
+     */
     public void crearDocument(String autor, String titol) throws Exception {
         if (autor.equals("")) {
             throw new Exception("Error, autor buit");
@@ -34,6 +54,13 @@ public class ControladorDocuments {
         documents.add(nouDocument);
 
     }
+
+    /**
+     * Modificadora
+     * Elimina un document de documents
+     * @param autor es l'autor del document a crear.
+     * @param titol es el titol del document a crear.
+     */
     public void eliminarDocument(String autor, String titol) throws Exception {
         if (autor.equals("")) {
             throw new Exception("Error, autor buit");
@@ -60,11 +87,24 @@ public class ControladorDocuments {
         if (titolsPerAutor.get(autor).isEmpty()) titolsPerAutor.remove(autor);
     }
 
+    /**
+     * Consultora
+     * @param autor es l'autor del document que volem comprovar si existeix
+     * @param titol es el titol del document que volem comprovar si existeix
+     * @return Retorna true si el document existeix, sino retorna false.
+     * */
     public boolean existeixDocument(String autor, String titol) {
         if (titolsPerAutor.containsKey(autor)) return titolsPerAutor.get(autor).contains(titol);
         return false;
     }
 
+    /**
+     * Modificadora
+     * Modifica l'autor d'un document
+     * @param anticAutor es l'autor del document a modificar.
+     * @param nouAutor es el nou autor que tindra el document a modificar.
+     * @param titol es el titol del document a modificar.
+     */
     public void modificarAutor(String anticAutor, String nouAutor, String titol) throws Exception {
         if (nouAutor.equals("")) {
             throw new Exception("Error, nou autor buit");
@@ -120,6 +160,14 @@ public class ControladorDocuments {
         }
 
     }
+
+    /**
+     * Modificadora
+     * Modifica el titol d'un document
+     * @param autor es l'autor del document a modificar.
+     * @param anticTitol es el titol del document a modificar.
+     * @param nouTitol es el nou titol del document a modificar.
+     */
     public void modificarTitol(String autor, String anticTitol, String nouTitol) throws Exception {
         if (nouTitol.equals("")) {
             throw new Exception("Error, nou titol buit");
@@ -161,6 +209,11 @@ public class ControladorDocuments {
         }
     }
 
+    /**
+     * Consultora
+     * @param autor es l'autor del qual volem saber tots els seus titols
+     * @return Retorna una llista que conte els titols de l'autor introduit
+     * */
     public List<String> llistarTitolsAutor(String autor) throws Exception{
         List<String> llistat = new ArrayList<>();
 
@@ -168,6 +221,7 @@ public class ControladorDocuments {
         if (llistat.isEmpty()) throw new Exception("No existeix cap titol de l'autor introduit");
         return llistat;
     }
+
 
     private boolean esPrefix(String prefix, String autor) {
         int i = 0;
@@ -181,6 +235,11 @@ public class ControladorDocuments {
         return true;
     }
 
+    /**
+     * Consultora
+     * @param prefix es el prefix que han de contenir tots els autors que volem llistar
+     * @return Retorna una llista que conte tots els autors que contenen el prefix introduit
+     * */
     public List<String> llistarAutorsPrefix(String prefix) {
         List<String> llistat = new ArrayList<>();
 
@@ -200,8 +259,12 @@ public class ControladorDocuments {
         return llistat;
     }
 
-    // Retorna: -1 -> Docuemnt no trobat
-    // Altrament: index del document
+    /**
+     * Consultora
+     * @param autor es l'autor del document que volem obtenir el seu index
+     * @param titol es el titol del document que volem obtenir el seu index
+     * @return Retorna la posicio del document en documents.
+     * */
     public int indexDocument(String autor, String titol) throws Exception{
         if (titol.equals("")) {
             throw new Exception("Error, titol buit");
@@ -224,6 +287,11 @@ public class ControladorDocuments {
         return -1;
     }
 
+    /**
+     * Consultora
+     * @param id es l'index del document en documents
+     * @return Retorna l'autor i el titol del document en la posicio index en documents
+     * */
     public List<String> getAutorTitolIndex(int id) throws Exception {
         if (id >= documents.size() || id < 0) throw new Exception("Error, index out of bounds");
         List<String> AutorTitol = new ArrayList<String>();

@@ -9,6 +9,7 @@ import java.util.*;
 import static org.junit.Assert.*;
 
 public class ControladorDocumentsTest {
+    private static ControladorDocuments testExisteixDocument;
     private static ControladorDocuments testEliminaDocument;
     private static ControladorDocuments testModificaAutor;
 
@@ -20,6 +21,14 @@ public class ControladorDocumentsTest {
     private static ControladorDocuments testGetAutorTitolIndex;
     @BeforeClass
     public static void inicialitzacio() {
+        //Creacio del document per testExisteixDocument()
+        testExisteixDocument = new ControladorDocuments();
+        try {
+            testExisteixDocument.crearDocument("Marc", "El test d'existeix document");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
         //Creacio del document per testEliminarDocument()
         testEliminaDocument = new ControladorDocuments();
         try {
@@ -97,8 +106,20 @@ public class ControladorDocumentsTest {
             System.out.println(e.toString());
         }
     }
+
     /**
-     *
+     * Test que comprova que un document existeix
+     */
+    @Test
+    public void testExisteixDocument() {
+        boolean existeix = testExisteixDocument.existeixDocument("Marc", "El test d'existeix document");
+        boolean noExisteix = testExisteixDocument.existeixDocument("Marc", "El test de no existeix document");
+        assertTrue("TestExisteixDocument",existeix);
+        assertFalse("TestExisteixDocument",noExisteix);
+    }
+
+    /**
+     * Test que comprova que la creacio d'un document funciona correctament
      */
     @Test
     public void testCrearDocument() {
@@ -115,7 +136,7 @@ public class ControladorDocumentsTest {
     }
 
     /**
-     *
+     * Test que comprova que l'eliminacio d'un document funciona correctament
      */
     @Test
     public void testEliminarDocument() {
@@ -131,7 +152,7 @@ public class ControladorDocumentsTest {
     }
 
     /**
-     *
+     * Test que comprova que la modificacio de l'autor d'un document funciona correctament
      */
     @Test
     public void testModificarAutor() {
@@ -154,7 +175,7 @@ public class ControladorDocumentsTest {
     }
 
     /**
-     *
+     * Test que comprova que la modificacio del titol d'un document funciona correctament
      */
     @Test
     public void testModificarTitol() {
@@ -177,7 +198,7 @@ public class ControladorDocumentsTest {
     }
 
     /**
-     *
+     * Test que comprova que la llista de titols que te un autor en concret es correcte
      */
     @Test
     public void TestLlistarTitolsAutor() {
@@ -200,7 +221,7 @@ public class ControladorDocumentsTest {
     }
 
     /**
-     *
+     * Test que comprova que la llista d'autors que contenen un prefix concret es correcte
      */
     @Test
     public void TestLlistarAutorsPrefix() {
@@ -223,7 +244,7 @@ public class ControladorDocumentsTest {
     }
 
     /**
-     *
+     * Test que comprova que donat un autor i un titol l'index del document en documents retornat es correcte
      */
     @Test
     public void TestIndexDocument() {
@@ -238,7 +259,7 @@ public class ControladorDocumentsTest {
     }
 
     /**
-     *
+     * Test que comprova que donat un index d'un document en documents l'autor i titol que retorna es correcte
      */
     @Test
     public void TestGetAutorTitolIndex() {

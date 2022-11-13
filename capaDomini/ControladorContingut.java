@@ -43,8 +43,25 @@ public class ControladorContingut {
             return result;
         }
     }
+
+    /**
+     * Representa la frequencia de les paraules de cada contingut.
+     * Cada HashMap es troba en la mateixa posicio de la llista que la posicio
+     * del seu contingut en l'estructura de dades Contingut
+     */
     private List<HashMap<String, Integer>> freqContingut;
+
+    /**
+     * Representa els continguts de tots els documents.
+     * A cada posicio conte el contigut del document que es troba
+     * en la mateixa posicio en l'estructura de dades documents
+     * del ControladorDocuments
+     */
     private List<String> Contingut;
+
+    /**
+     * Representa les stopWords
+     */
     private Set<String> stopWords;
 
     /**
