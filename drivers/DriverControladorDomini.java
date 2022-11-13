@@ -44,7 +44,7 @@ public class DriverControladorDomini {
             " "+queryEliminarExpressioBooleana+" Elimina una expressió booleana.\n"+
             " "+queryModificarExpressioBooleana+" Modifica una expressió booleana existent.\n"+
             " "+queryConsultaExpressioBooleana+" Donada una expressió booleana, retorna els documents que la satisfan.\n"+
-            " "+tancar_driver+" Finalitza l'execució del driver\n";
+            " "+tancar_driver+" Finalitza l'execució del driver";
 
     private static void llegirConjuntDocuments() {
         Scanner sc = new Scanner(System.in);

@@ -58,10 +58,10 @@ public class DriverDocument {
         System.out.println("Abans de testejar funcionalitats cal declarar un document sobre el qual treballar.");
         llegirDocument();
 
-        System.out.println(AJUDA+"\n");
         String comanda = numero_comanda;
         while (comanda != tancar_driver) {
             System.out.println("Selecciona el número de la comanda que vulguis executar: ");
+            System.out.println(AJUDA+"\n");
             Scanner sc1 = new Scanner(System.in);
             comanda = sc1.nextLine();
 
