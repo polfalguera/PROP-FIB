@@ -25,7 +25,7 @@ public class ControladorExpressions {
      * @param ex es l'expressio donat pel usuari
      * @return Retorna l'expressio arbre binari indentificat pel el parametre ex.
      */
-    public Expressio crearExpressio(String ex) throws Exception{
+    private Expressio crearExpressio(String ex) throws Exception{
         if(ex.equals("")) {
             throw new Exception("Error, expressio buida");
         }
@@ -45,7 +45,7 @@ public class ControladorExpressions {
      * @param ex es l'expressio donat pel usuari
      * @return Retorna l'expressio arbre binari indentificat pel el parametre ex.
      */
-    public Expressio getExpressio(String ex) throws Exception{
+    private Expressio getExpressio(String ex) throws Exception{
         if(ex.equals("")) {
             throw new Exception("Error, expressio buida");
         }

@@ -14,32 +14,27 @@ public class DriverControladorExpressions {
     /**
      * Representa la comanda per crear una expressio
      * */
-    private static final String CREAEXPRESSIO = "1";
 
-    private static final String ADDEXPRESSIO = "2";
+    private static final String ADDEXPRESSIO = "1";
 
-    private static final String DELETEEXPRESSIO = "3";
+    private static final String DELETEEXPRESSIO = "2";
 
-    private static final String SETEXPRESSIO = "4";
+    private static final String SETEXPRESSIO = "3";
 
-    private static final String GETEXPRESSIO = "5";
+    private static final String CONSULTAEXPRE = "4";
 
-    private static final String CONSULTAEXPRE = "6";
-
-    private static final String EXISTEXPRESSIO = "7";
+    private static final String EXISTEXPRESSIO = "5";
 
 
     /**
      * Representa la comanda per sortir del programa.
      * */
-    private static final String EXIT = "10";
+    private static final String EXIT = "6";
 
     private static final String HELPTEXT = "Introduïu un dels següents números per executar la corresponent comanda:\n" +
-            "  " + CREAEXPRESSIO       + "-Crea una expressio\n"                        +
             "  " + ADDEXPRESSIO        + "-Afegeix un nova expressio\n"                 +
             "  " + DELETEEXPRESSIO     + "-Elimina una expressio\n"                     +
             "  " + SETEXPRESSIO        + "-Modifica una expressio\n"                    +
-            "  " + GETEXPRESSIO        + "-Retorna una expressio\n"                     +
             "  " + CONSULTAEXPRE       + "-Consulta l'expressio en els contingus que has proposat\n"   +
             "  " + EXISTEXPRESSIO      + "-Comprova si una expressios existeix\n"       +
 
@@ -60,20 +55,6 @@ public class DriverControladorExpressions {
         return scanner.nextLine();
     }
 
-    /**
-     * Crea una expressio
-     *
-     * @param scanner mètode per fer l'input.
-     * */
-    public static void testCreaExpressio(Scanner scanner) {
-        System.out.println("Escrigui l'expressio que vols formalitzar:");
-        try {
-            Expressio aux = Ctrlexpressions.crearExpressio(readLine(scanner));
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-
-    }
     /**
      * Dona d'alta una expressio
      *
@@ -133,22 +114,6 @@ public class DriverControladorExpressions {
             System.out.println("No existeix");
         }
     }
-    /**
-     * Consultora retorna l'expressio
-     *
-     * @param scanner mètode per fer l'input.
-     * */
-    public static void testGetExpressio(Scanner scanner) throws Exception {
-        System.out.println("Escrigui l'expressio que vols consultar:");
-        String aux = readLine(scanner);
-        try {
-            Ctrlexpressions.getExpressio(aux);
-            System.out.println("Si que existeix expressio");
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-
-    }
     public static void testConsultaExpre(Scanner scanner, List<String> cont) throws Exception {
         System.out.println("Escrigui l'expressio que vols evaluar:");
         String ex = readLine(scanner);
@@ -190,9 +155,6 @@ public class DriverControladorExpressions {
      * */
     private static boolean commands(String command, Scanner scanner) throws Exception {
         switch (command) {
-            case CREAEXPRESSIO:
-                testCreaExpressio(scanner);
-                break;
             case ADDEXPRESSIO:
                 testAddExpressio(scanner);
                 break;
@@ -201,9 +163,6 @@ public class DriverControladorExpressions {
                 break;
             case SETEXPRESSIO:
                 testSetExpressio(scanner);
-                break;
-            case GETEXPRESSIO:
-                testGetExpressio(scanner);
                 break;
             case EXISTEXPRESSIO:
                 testExistExpressio(scanner);

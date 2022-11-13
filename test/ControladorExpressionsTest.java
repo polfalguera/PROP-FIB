@@ -10,21 +10,6 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class ControladorExpressionsTest {
-    /**
-     * Test que comprova que donat una expressio s'ha creat correctament l'expressio
-     */
-    @Test
-    public void testcrearExpressio() throws Exception {
-        ControladorExpressions ctrlExpre = new ControladorExpressions();
-        try{
-            Expressio aux = ctrlExpre.crearExpressio("hola & adeu");
-            boolean result = aux.isEs_correcte();
-            assertTrue("Test Crear Expressio",result);
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-
-    }
 
     /**
      * Test que comprova que donat una expressio s'ha creat correctament l'expressio
@@ -42,21 +27,6 @@ public class ControladorExpressionsTest {
         } catch (Exception e) {
             System.out.println(e.toString());
         }
-    }
-    /**
-     * Test que retorna una expressio correctament
-     */
-    @Test
-    public void testgetExpressio() throws Exception {
-        ControladorExpressions ctrlExpre = new ControladorExpressions();
-        try {
-            ctrlExpre.anadir_expressio("hola & adeu");
-            Expressio result = ctrlExpre.getExpressio("hola & adeu");
-            assertNotNull("Test get Expressio",result);
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-
     }
     /**
      * Test que comprova que donat una expressio existeix correctament
