@@ -11,10 +11,6 @@ import java.util.Scanner;
  * @author haonan.jin
  */
 public class DriverControladorExpressions {
-    /**
-     * Representa la comanda per crear una expressio
-     * */
-
     private static final String ADDEXPRESSIO = "1";
 
     private static final String DELETEEXPRESSIO = "2";
@@ -128,6 +124,11 @@ public class DriverControladorExpressions {
         }
 
     }
+    /**
+     * Funcio que fa una mena de demo per llegirs els documents.
+     *
+     * @param docs Conjunt de documents
+     * */
     private static void llegirConjuntDocuments(List<String> docs) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Digues el nombre de documents que vols introduir: ");

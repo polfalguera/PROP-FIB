@@ -156,7 +156,13 @@ public class ControladorExpressions {
         }
         return false;
     }
-
+    /**
+     * Es la consulta d'expressio booleana
+     *
+     * @param ex es l'expressio donat pel usuari
+     * @param cont es els continguts de tots els documents
+     * @return Retorna l'index dels cotinguts que tingui una frase que satisfa l'expressio booleana
+     * */
     public List<Integer> ConsultaExpressioBooleana(String ex,List<String> cont) throws Exception {
         if (cont.isEmpty()) {
             throw new Exception("Error, Contingut buit");

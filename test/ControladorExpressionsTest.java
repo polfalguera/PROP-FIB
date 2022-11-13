@@ -74,7 +74,6 @@ public class ControladorExpressionsTest {
             System.out.println(e.toString());
         }
 
-
     }
     /**
      * Test que comprova que donat una expressio s'ha creat correctament l'expressio
