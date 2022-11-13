@@ -81,7 +81,7 @@ public class ControladorExpressions {
             throw new Exception("Error, expressio buida");
         }
         if (expressions.containsKey(ex)) {
-            throw new Exception("Error, Expressio ja existeix");
+            throw new Exception("Error, expressio ja existent");
         }
         Expressio new_ex = new Expressio(ex);
         //ex -> l'expressio de frase
@@ -90,7 +90,7 @@ public class ControladorExpressions {
             expressions.put(ex,new_ex);
             //System.out.println("S'ha afegit correctament la nova expressio");
         }else {
-            throw new Exception("Error, L'expressio mal formalitzat");
+            throw new Exception("Error, l'expressio esta mal formalitzada");
         }
 
     }
@@ -105,26 +105,28 @@ public class ControladorExpressions {
             throw new Exception("Error, expressio buida");
         }
         if(!expressions.containsKey(key)){
-            throw new Exception("Error, No existeix l'expressio");
+            throw new Exception("Error, expressio no existent");
         }
         expressions.remove(key);
-        //System.out.println("S'ha eliminat correctament l'expressio");
-        //System.out.println("No existeix l'expressio donat");
     }
     /**
      * Modificadora
      * @param key es l'indentificador d'una expressio d'arbre binari.
      * Modifica l'expressio d'arbol binari del conjunt d'expressions indentificat per key.
      */
-    public void setExpressio(String key,String nova_ex) throws Exception{
+    public void setExpressio(String key,String nova_ex) throws Exception {
         if(key.equals("")) {
             throw new Exception("Error, expressio buida");
         }
         if(nova_ex.equals("")) {
             throw new Exception("Error, expressio nova buida");
         }
-        deleteExpressio(key);
-        anadir_expressio(nova_ex);
+        try {
+            deleteExpressio(key);
+            anadir_expressio(nova_ex);
+        } catch (Exception e) {
+            throw new Exception(e.toString());
+        }
     }
 
     /**
@@ -161,7 +163,14 @@ public class ControladorExpressions {
         }
 
         List<Integer> id_docs = new ArrayList<>();
-        anadir_expressio(ex);
+        if (!ExistExpressio(ex)) {
+            try {
+                anadir_expressio(ex);
+            } catch (Exception e) {
+                throw new Exception(e.toString());
+            }
+        }
+
         Expressio expressio_avaluar = expressions.get(ex);
 
         //iteracio dels documents

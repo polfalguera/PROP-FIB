@@ -69,7 +69,6 @@ public class DriverControladorExpressions {
         System.out.println("Escrigui l'expressio que vols formalitzar:");
         try {
             Expressio aux = Ctrlexpressions.crearExpressio(readLine(scanner));
-
         } catch (Exception e) {
             System.out.println(e.toString());
         }

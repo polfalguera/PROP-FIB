@@ -160,32 +160,42 @@ public class ControladorDomini {
     }
 
     public void queryCrearExpressioBooleana(String expressio) throws Exception {
-        if (!CtrlExpressions.anadir_expressio(expressio)) throw new Exception("Error, no s'ha pogut crear l'expressió");
+        try {
+            CtrlExpressions.anadir_expressio(expressio);
+        } catch (Exception e) {
+            throw new Exception(e.toString());
+        }
     }
 
     public void queryEliminarExpressioBooleana(String expressio) throws Exception {
-        if (!CtrlExpressions.deleteExpressio(expressio)) throw new Exception("Error, no s'ha pogut eliminar l'expressió");
+        try {
+            CtrlExpressions.deleteExpressio(expressio);
+        } catch (Exception e) {
+            throw new Exception(e.toString());
+        }
     }
 
     public void queryModificarExpressioBooleana(String antigaExpressio, String novaExpressio) throws Exception {
-        if (!CtrlExpressions.setExpressio(antigaExpressio,novaExpressio)) throw new Exception("Error, no s'ha pogut modificar l'expressió");
+        try {
+            CtrlExpressions.setExpressio(antigaExpressio,novaExpressio);
+        } catch (Exception e) {
+            throw new Exception(e.toString());
+        }
     }
 
     public List<String> queryConsultaExpressioBooleana(String expressio) throws Exception{
+        try {
+            List<String> continguts = CtrlContingut.getConjuntContinguts();
 
-        List<String> continguts = CtrlContingut.getConjuntContinguts();
+            List<Integer> indexos = CtrlExpressions.ConsultaExpressioBooleana(expressio,continguts);
 
-        List<Integer> indexos = CtrlExpressions.ConsultaExpressioBooleana(expressio,continguts);
-
-        List<String> llistat = new ArrayList<>();
-        for (int index : indexos) {
-            try {
+            List<String> llistat = new ArrayList<>();
+            for (int index : indexos) {
                 llistat.addAll(cjtDocuments.getAutorTitolIndex(index));
-            } catch (Exception e) {
-                throw new Exception(e.toString());
             }
+            return llistat;
+        } catch (Exception e) {
+            throw new Exception(e.toString());
         }
-        return llistat;
     }
-
 }
