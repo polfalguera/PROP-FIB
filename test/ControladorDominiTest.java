@@ -2,11 +2,7 @@ package test;
 import capaDomini.ControladorDomini;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import javax.naming.ldap.Control;
-
-import java.awt.*;
-import java.security.spec.ECField;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +10,21 @@ import static org.junit.Assert.*;
 
 public class ControladorDominiTest {
     private static ControladorDomini queryCrearDocumentTest;
+    private static ControladorDomini queryCrearDocumentPathTest;
     private static ControladorDomini queryEliminarDocumentTest;
     private static ControladorDomini queryModificarAutorTest;
     private static ControladorDomini queryModificarTitolTest;
     private static ControladorDomini queryModificarContingutTest;
+    private static ControladorDomini queryModificarContingutPathTest;
     private static ControladorDomini queryLlistarTitolsAutorTest;
     private static ControladorDomini queryLlistarAutorsPrefixTest;
     private static ControladorDomini queryGetContingutDocumentTest;
+    private static ControladorDomini queryObtenirKSemblantsTest;
+    private static ControladorDomini queryObtenirKRellevantsTest;
+    private static ControladorDomini queryCrearExpressioBooleanaTest;
+    private static ControladorDomini queryEliminarExpressioBooleanaTest;
+    private static ControladorDomini queryModificarExpressioBooleanaTest;
+    private static ControladorDomini queryConsultaExpressioBooleanaTest;
     @BeforeClass
     public static void inicialitzacio() {
         //Creació del document per queryEliminarDocumentTest.
@@ -48,6 +52,13 @@ public class ControladorDominiTest {
         try {
             queryModificarContingutTest = new ControladorDomini();
             queryModificarContingutTest.queryCrearDocument("Pol","El test de modificar contingut","Contingut");
+        } catch(Exception e) {
+            System.out.println(e.toString());
+        }
+        //Creació del document per a queryModificarContingutPathTest.
+        try {
+            queryModificarContingutPathTest = new ControladorDomini();
+            queryModificarContingutPathTest.queryCrearDocument("Pol","El test de modificar contingut path","Contingut");
         } catch(Exception e) {
             System.out.println(e.toString());
         }
@@ -84,6 +95,49 @@ public class ControladorDominiTest {
         } catch (Exception e) {
             System.out.println(e.toString());
         }
+        //Creació de document per a queryObtenirKSemblantsTest.
+        try {
+            queryObtenirKSemblantsTest = new ControladorDomini();
+            queryObtenirKSemblantsTest.queryCrearDocument("Pol","títol 1","Les maduixes són les fruites més fresques del mercat.");
+            queryObtenirKSemblantsTest.queryCrearDocument("Marc","títol 2","Les fruites més fresques que existeixen actualment són les taronges.");
+            queryObtenirKSemblantsTest.queryCrearDocument("Alex","títol 3","Els cotxes elèctrics contribueixen en el benestar del planeta.");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        //Creació de document per a queryObtenirKRellevantsTest.
+        try {
+            queryObtenirKRellevantsTest = new ControladorDomini();
+            queryObtenirKRellevantsTest.queryCrearDocument("Pol","títol 1","Les maduixes són les fruites més fresques del mercat.");
+            queryObtenirKRellevantsTest.queryCrearDocument("Marc","títol 2","Les fruites més fresques que existeixen actualment són les taronges.");
+            queryObtenirKRellevantsTest.queryCrearDocument("Alex","títol 3","Els cotxes elèctrics contribueixen en el benestar del planeta.");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        //Creació d'expressió booleana per a queryEliminarExpressioBooleana.
+        try {
+            queryEliminarExpressioBooleanaTest = new ControladorDomini();
+            queryEliminarExpressioBooleanaTest.queryCrearExpressioBooleana("{pol pau marc} & (\"hola adéu\" | pep) & !joan");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        //Creació d'expressió booleana per a queryModificarExpressioBooleana.
+        try {
+            queryModificarExpressioBooleanaTest = new ControladorDomini();
+            queryModificarExpressioBooleanaTest.queryCrearExpressioBooleana("{pol pau marc} & (\"hola adéu\" | pep) & !joan");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        //Creació de documents per a queryConsultaExpressioBooleanaTest.
+        try {
+            //"{pol pau} & (\"hola i adéu\" | pep) & !joan"
+            queryConsultaExpressioBooleanaTest = new ControladorDomini();
+            queryConsultaExpressioBooleanaTest.queryCrearDocument("Pol","títol 1", "hola i adéu li va dir en pol al pau.");
+            queryConsultaExpressioBooleanaTest.queryCrearDocument("Marc","títol 2","hola i deu li va dir en pol al joan.");
+            queryConsultaExpressioBooleanaTest.queryCrearDocument("Alex","títol 3","hola i adéu li va dir en pep al joan.");
+            queryConsultaExpressioBooleanaTest.queryCrearDocument("Jin","títol 4","hola i deu els va dir en pep al pol i al pau.");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }
     /**
      * Test que comprova que un document es creï correctament.
@@ -100,6 +154,28 @@ public class ControladorDominiTest {
         try {
             queryCrearDocumentTest.queryCrearDocument("Pol","El test de crear","Contingut");
             existeix = queryCrearDocumentTest.queryExisteixDocument("Pol", "El test de crear");
+            assertEquals(existeix, true);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    /**
+     * Test que comprova que un document es creï correctament afegint el contingut a partir d'un path.
+     */
+    @Test
+    public void queryCrearDocumentPathTest() {
+        try {
+            queryCrearDocumentPathTest = new ControladorDomini();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        boolean existeix = queryCrearDocumentPathTest.queryExisteixDocument("Pol","El test de crear amb path");
+        assertEquals(false,existeix);
+        try {
+            String path = Paths.get("data/data.txt").toAbsolutePath().toString();
+            queryCrearDocumentPathTest.queryCrearDocumentPath("Pol","El test de crear",path);
+            existeix = queryCrearDocumentPathTest.queryExisteixDocument("Pol", "El test de crear");
             assertEquals(existeix, true);
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -177,6 +253,21 @@ public class ControladorDominiTest {
     }
 
     /**
+     * Test que comprova que el contingut d'un document es modifica correctament afegint el nou contingut a partir d'un path.
+     */
+    @Test
+    public void queryModificarContingutPathTest() {
+        try {
+            String path = Paths.get("data/data.txt").toAbsolutePath().toString();
+            assertEquals("Contingut",queryModificarContingutPathTest.queryGetContingutDocument("Pol","El test de modificar contingut path"));
+            queryModificarContingutPathTest.queryModificarContingutPath("Pol","El test de modificar contingut path",path);
+            assertEquals("prova 1.",queryModificarContingutPathTest.queryGetContingutDocument("Pol","El test de modificar contingut path"));
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    /**
      * Test que comprova que es llisten correctament els títols d'un autor.
      */
     @Test
@@ -221,6 +312,124 @@ public class ControladorDominiTest {
         try {
             String contingutRetornat = queryGetContingutDocumentTest.queryGetContingutDocument("Pol","El test d'obtenir contingut");
             assertEquals("Contingut a obtenir",contingutRetornat);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    /**
+     * Test que comprova que donat un document es retornen els k documents més semblants.
+     */
+    @Test
+    public void queryObtenirKSemblantsTest() {
+        List<String> documentsEsperats = new ArrayList<String>();
+        documentsEsperats.add("Pol");
+        documentsEsperats.add("títol 1");
+        documentsEsperats.add("Marc");
+        documentsEsperats.add("títol 2");
+        try {
+            List<String> documentsRetornats0 = queryObtenirKSemblantsTest.queryObtenirKSemblants("Pol","títol 1",2,0);
+            List<String> documentsRetornats1 = queryObtenirKSemblantsTest.queryObtenirKSemblants("Pol","títol 1",2,1);
+            assertEquals(documentsEsperats,documentsRetornats0);
+            assertEquals(documentsEsperats,documentsRetornats1);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    /**
+     * Test que comprova que donades unes paraules es retornen els k documents més rellevants.
+     */
+    @Test
+    public void queryObtenirKRellevantsTest() {
+        List<String> documentsEsperats = new ArrayList<String>();
+        documentsEsperats.add("Pol");
+        documentsEsperats.add("títol 1");
+        documentsEsperats.add("Marc");
+        documentsEsperats.add("títol 2");
+        try {
+            List<String> documentsRetornats0 = queryObtenirKSemblantsTest.queryObtenirKRellevants("maduixa fruites",2,0);
+            List<String> documentsRetornats1 = queryObtenirKSemblantsTest.queryObtenirKRellevants("maduixa fruites",2,1);
+            assertEquals(documentsEsperats,documentsRetornats0);
+            assertEquals(documentsEsperats,documentsRetornats1);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    /**
+     * Test que comprova que es crea una expressió booleana correctament.
+     */
+    @Test
+    public void queryCrearExpressioBooleanaTest() {
+        try {
+            queryCrearExpressioBooleanaTest = new ControladorDomini();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        boolean existeix = queryCrearExpressioBooleanaTest.queryExisteixExpressioBooleana("{pol pau marc} & (\"hola adéu\" | pep) & !joan");
+        assertEquals(false,existeix);
+        try {
+            queryCrearExpressioBooleanaTest.queryCrearExpressioBooleana("{pol pau marc} & (\"hola adéu\" | pep) & !joan");
+            existeix = queryCrearExpressioBooleanaTest.queryExisteixExpressioBooleana("{pol pau marc} & (\"hola adéu\" | pep) & !joan");
+            assertEquals(true,existeix);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    /**
+     * Test que comprova que s'elimina una expressió booleana correctament.
+     */
+    @Test
+    public void queryEliminarExpressioBooleanaTest() {
+        boolean existeix = queryEliminarExpressioBooleanaTest.queryExisteixExpressioBooleana("{pol pau marc} & (\"hola adéu\" | pep) & !joan");
+        assertEquals(true,existeix);
+        try {
+            queryEliminarExpressioBooleanaTest.queryEliminarExpressioBooleana("{pol pau marc} & (\"hola adéu\" | pep) & !joan");
+            existeix = queryEliminarExpressioBooleanaTest.queryExisteixExpressioBooleana("{pol pau marc} & (\"hola adéu\" | pep) & !joan");
+            assertEquals(false,existeix);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    /**
+     * Test que comprova que es modifica una expressió booleana correctament.
+     */
+    @Test
+    public void queryModificarExpressioBooleanaTest() {
+        String antigaEx = "{pol pau marc} & (\"hola adéu\" | pep) & !joan";
+        String novaEx = "{jin lluc fruita} & (\"benvingut a la FIB\") & !pastanaga";
+        boolean existeixAntigaEx = queryModificarExpressioBooleanaTest.queryExisteixExpressioBooleana(antigaEx);
+        boolean existeixNovaEx = queryModificarExpressioBooleanaTest.queryExisteixExpressioBooleana(novaEx);
+        assertEquals(true,existeixAntigaEx);
+        assertEquals(false,existeixNovaEx);
+
+        try {
+            queryModificarExpressioBooleanaTest.queryModificarExpressioBooleana(antigaEx,novaEx);
+            existeixAntigaEx = queryModificarExpressioBooleanaTest.queryExisteixExpressioBooleana(antigaEx);
+            existeixNovaEx = queryModificarExpressioBooleanaTest.queryExisteixExpressioBooleana(novaEx);
+            assertEquals(false,existeixAntigaEx);
+            assertEquals(true,existeixNovaEx);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    /**
+     * Test que comprova que es retornin els documents corresponents donada una expressió booleana.
+     */
+    @Test
+    public void queryConsultarExpressioBooleanaTest() {
+        List<String> documentsEsperats = new ArrayList<>();
+        documentsEsperats.add("Pol");
+        documentsEsperats.add("títol 1");
+        documentsEsperats.add("Jin");
+        documentsEsperats.add("títol 4");
+        try {
+            List<String> documentsRetornats = queryConsultaExpressioBooleanaTest.queryConsultaExpressioBooleana("{pol pau} & (\"hola i adéu\" | pep) & !joan");
+            assertEquals(documentsEsperats,documentsRetornats);
         } catch (Exception e) {
             System.out.println(e.toString());
         }

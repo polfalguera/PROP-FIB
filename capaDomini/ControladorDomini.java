@@ -323,4 +323,5 @@ public class ControladorDomini {
      * @return Retorna true si el document existeix, sino retorna false.
      * */
     public boolean queryExisteixDocument(String autor, String titol) { return cjtDocuments.existeixDocument(autor,titol); }
+    public boolean queryExisteixExpressioBooleana(String expressio) { return CtrlExpressions.ExistExpressio(expressio); }
 }
