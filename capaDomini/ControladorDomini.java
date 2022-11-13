@@ -49,7 +49,7 @@ public class ControladorDomini {
 
     public void queryModificarAutor(String anticAutor, String nouAutor, String titol) throws Exception {
         try {
-            cjtDocuments.modificarAutor(anticAutor, titol, nouAutor);
+            cjtDocuments.modificarAutor(anticAutor,nouAutor,titol);
         } catch (Exception e) {
             throw new Exception(e.toString());
         }
@@ -108,7 +108,7 @@ public class ControladorDomini {
             throw new Exception(e.toString());
         }
     }
-
+    /* PER A FUTURES ENTREGUES
     public int queryGetIndexDocument(String autor, String titol) throws Exception {
         try {
             return cjtDocuments.indexDocument(autor,titol);
@@ -123,7 +123,7 @@ public class ControladorDomini {
             throw new Exception(e.toString());
         }
     }
-
+    */
     public List<String> queryObtenirKSemblants(String autor, String titol, int k, int mode) throws Exception {
         try {
             int id = cjtDocuments.indexDocument(autor,titol);
@@ -183,7 +183,7 @@ public class ControladorDomini {
         }
     }
 
-    public List<String> queryConsultaExpressioBooleana(String expressio) throws Exception{
+    public List<String> queryConsultaExpressioBooleana(String expressio) throws Exception {
         try {
             List<String> continguts = CtrlContingut.getConjuntContinguts();
 
@@ -198,4 +198,6 @@ public class ControladorDomini {
             throw new Exception(e.toString());
         }
     }
+
+    public boolean queryExisteixDocument(String autor, String titol) { return cjtDocuments.existeixDocument(autor,titol); }
 }
