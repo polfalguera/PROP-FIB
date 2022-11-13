@@ -12,14 +12,14 @@ public class Expressio {
     /**
      * Representa la expressio emmagatzemades en forma d'un arbol binari.
      * */
-    private  BinaryTree theTree;
+    private BinaryTree theTree;
     private boolean es_correcte;
     /**
      * Constructora d'una expressio buida.
      * */
     public Expressio() {
         this.theTree = new BinaryTree();
-        this.es_correcte = true;
+        this.es_correcte = false;
     }
 
     /**
@@ -52,10 +52,28 @@ public class Expressio {
      * Consultora de l'expressio en forma d'arbol binari.
      *
      * @return Retorna l'expressio en forma d'arbol binari.
-     * */
+     */
     public BinaryTree getTheTree() {
         return theTree;
     }
+    /**
+     * Consultora si dos arbres son iguals
+     *
+     * @return Retorna si dos arbres son iguals.
+     */
+    public boolean equals(Node root1, Node root2) {
+        // Shortcut for reference equality; also handles equals(null, null)
+        if (root1 == root2) {
+            return true;
+        }
+        if (root1 == null || root2 == null) {
+            return false;
+        }
+        return root1.word.equals(root2.word) &&
+                equals(root1.leftChild, root2.leftChild) &&
+                equals(root1.rightChild, root2.rightChild);
+    }
+
     /**
      * Representa una expressio booleana en forma d'arbre binari.
      * */
@@ -63,7 +81,14 @@ public class Expressio {
         /**
          * Representa el node del arbol binari
          * */
-        Node root;
+         Node root;
+        /**
+         * @return Retorna el root del arbre
+         * */
+        public Node getRoot() {
+            return root;
+        }
+
         /**
          * Afegeix nodes de manera preordreTranseversar a l'arbre.
          * @param c el valor del node que volem afegir.
@@ -122,69 +147,13 @@ public class Expressio {
                 }
             }
         }
-
-        /**
-         * Afegeix nodes de manera que un BFS.
-         * @param c el valor del node que volem afegir.
-         * @param word l'expressio que volem afegir.
-         * */
-        public void addNode(boolean c, String word) {
-            Node newNode = new Node(c,word);
-            if (root == null) {
-                root = newNode;
-            }
-            else {
-                Node focusNode = root;
-
-                Node parent;
-
-                int i = 0;
-                while (true) {
-                    parent = focusNode;
-
-                    if (focusNode.leftChild != null && focusNode.rightChild != null) {
-                        focusNode = focusNode.leftChild;
-                    }
-                    else if (focusNode.leftChild == null && es_op(focusNode.word)) {
-                        focusNode = focusNode.leftChild;
-                        if (focusNode == null) {
-                            parent.leftChild = newNode;
-                            return;
-                        }
-                    }
-                    else if(focusNode.rightChild == null && es_op(focusNode.word)){
-                        focusNode = focusNode.rightChild;
-                        if (focusNode == null) {
-                            parent.rightChild = newNode;
-                            return;
-                        }
-                    }
-                    else {
-                        focusNode = root.rightChild;
-                    }
-
-                }
-            }
-        }
-        /**
-         * Escriu per pantalla els valors dels nodes en preordretransversal.
-         *
-         * @param focusNode es node root d'un arbre.
-         * */
-        public void preorderTraverseTree(Node focusNode) {
-            if (focusNode != null) {
-                System.out.println(focusNode);
-                preorderTraverseTree(focusNode.leftChild);
-                preorderTraverseTree(focusNode.rightChild);
-            }
-        }
         /**
          * Consultora de si es tracta d'un operador.
          *
          * @param op es una paraula o una sequencia de paraules.
          * @return Retorna si el parametre op es tracta d'un operador.
          * */
-        public boolean es_op(String op) {
+        private boolean es_op(String op) {
             return op == "&" || op == "|" || op == "!";
         }
     }
@@ -491,7 +460,7 @@ public class Expressio {
     /**
      * Representa un node d'un arbre binari.
      * */
-    static class Node {
+      static class Node {
         /**
          * Representa la paraula o una sequencia de paraules del node.
          * */
