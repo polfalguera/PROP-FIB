@@ -128,10 +128,14 @@ public class ControladorDocuments {
 
                         int index = 0;
                         for (int i = 0; i < documents.size(); ++i) {
-                            if (documents.get(i).getTitol().equals(titol) && documents.get(i).getAutor().equals(anticAutor)) index = i;
-                            break;
+                            if (documents.get(i).getTitol().equals(titol) && documents.get(i).getAutor().equals(anticAutor)) {
+                                index = i;
+                                break;
+                            }
                         }
-                        documents.get(index).setAutor(nouAutor);
+                        //documents.get(index).setAutor(nouAutor);
+                        Document nou = new Document(titol, nouAutor);
+                        documents.set(index, nou);
                     } else {
                         throw new Exception("Error, titol del nou autor ja existent");
                     }
@@ -146,10 +150,14 @@ public class ControladorDocuments {
 
                     int index = 0;
                     for (int i = 0; i < documents.size(); ++i) {
-                        if (documents.get(i).getTitol().equals(titol) && documents.get(i).getAutor().equals(anticAutor)) index = i;
-                        break;
+                        if (documents.get(i).getTitol().equals(titol) && documents.get(i).getAutor().equals(anticAutor)) {
+                            index = i;
+                            break;
+                        }
                     }
-                    documents.get(index).setAutor(nouAutor);
+                    //documents.get(index).setAutor(nouAutor);
+                    Document nou = new Document(titol, nouAutor);
+                    documents.set(index, nou);
                 }
 
             } else {
@@ -186,16 +194,22 @@ public class ControladorDocuments {
                 if (!titolsPerAutor.get(autor).contains(nouTitol)){
                     int index = 0;
                     for (int i = 0; i < documents.size(); ++i) {
-                        if (documents.get(i).getTitol().equals(anticTitol) && documents.get(i).getAutor().equals(autor)) index = i;
-                        break;
+                        if (documents.get(i).getTitol().equals(anticTitol) && documents.get(i).getAutor().equals(autor)) {
+                            index = i;
+                            break;
+                        }
                     }
-                    documents.get(index).setTitol(nouTitol);
+                    //documents.get(index).setTitol(nouTitol);
+                    Document nou = new Document(nouTitol, autor);
+                    documents.set(index, nou);
 
                     index = 0;
                     List<String> titols = titolsPerAutor.get(autor);
                     for (int i = 0; i < titols.size(); ++i) {
-                        if (titols.get(i).equals(anticTitol)) index = i;
-                        break;
+                        if (titols.get(i).equals(anticTitol)) {
+                            index = i;
+                            break;
+                        }
                     }
                     titolsPerAutor.get(autor).set(index, nouTitol);
                 } else {

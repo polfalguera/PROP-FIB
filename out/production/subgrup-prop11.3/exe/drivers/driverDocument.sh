@@ -1,4 +1,3 @@
 cd ..
-cd ..
-cd class
-java drivers.DriverDocument
+cd CLASS
+java FONTS.Drivers.DriverDocument
