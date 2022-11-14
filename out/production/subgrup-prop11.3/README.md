@@ -13,10 +13,15 @@ COM COMPILAR I EXECUTAR:
     EXE tambe conte altres carpetes, que contenen diferents executables per provar els drivers creats. 
     Si vols executar un driver hauràs d'executar desde la carpeta driver el driver en concret que vols provar.
     Per exemple, des de la carpeta driver prodies executar el fitxer driverControladorDomini.sh si estas a Linux o MacOS i driverControladorDomini.bat si estas a Windows.
+    Ens agradaria recalcar que si voleu afegir o modificar algun contingut que contingui salts de linia, hem implementat una funció d'afegir contingut
+    path i modificar contingut path perquè pogueu referenciar directament el contingut dins d'un fitxer .txt.
+
     Si vols executar el test hauràs d'executar desde la carpeta test el fitxer testGlobal.sh si estas a Linux o MacOS i testGlobal.bat si estas a Windows.
-
+    
     L'executable que permetra utilitzar el programa és el driverControladorDomini.sh o driverControladorDomini.bat dins de la carptea drivers d'EXE.
-
+    També hem creat un fitxer anomenat jocProvesControladorDomini.sh el qual podeu executar i s'executarà el driver controlador de domini
+    utilitzant tots els inputs que podeu trobar en el fitxer jocProvesAmbComentaris.txt.
+    
     Per exectuar els fitxers .sh o .bat nomes cal que et coloquis desde la terminal a la carpeta on es troba el fitxer i entris: ./NomFitxer.sh si estas a Linux, sh ./NomFitxer.sh 
     si estas a MacOS i ./NomFitxer.bat. Si no funciona per falta de permisos en Linux o Windows has d'executar a la terminal : chmod +x *.sh o chmod +x *.bat
 
