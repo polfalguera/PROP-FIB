@@ -15,7 +15,7 @@ COM COMPILAR I EXECUTAR:
     Per exemple, des de la carpeta driver prodies executar el fitxer driverControladorDomini.sh si estas a Linux o MacOS i driverControladorDomini.bat si estas a Windows.
     Si vols executar el test hauràs d'executar desde la carpeta test el fitxer testGlobal.sh si estas a Linux o MacOS i testGlobal.bat si estas a Windows.
 
-    L'executable que permetra utilitzar el programa és el driverControladorDomini.sh o driverCOntroladorDomini.bat dins de la carptea drivers d'EXE.
+    L'executable que permetra utilitzar el programa és el driverControladorDomini.sh o driverControladorDomini.bat dins de la carptea drivers d'EXE.
 
     Per exectuar els fitxers .sh o .bat nomes cal que et coloquis desde la terminal a la carpeta on es troba el fitxer i entris: ./NomFitxer.sh si estas a Linux, sh ./NomFitxer.sh 
     si estas a MacOS i ./NomFitxer.bat. Si no funciona per falta de permisos en Linux o Windows has d'executar a la terminal : chmod +x *.sh o chmod +x *.bat
