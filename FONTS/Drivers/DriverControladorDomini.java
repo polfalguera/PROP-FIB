@@ -341,6 +341,7 @@ public class DriverControladorDomini {
             });
         }catch (Exception e) {
             System.out.println(e.toString());
+            return;
         }
         System.out.println("Documents que satisfan l'expressió booleana "+expressio+" impresos correctament");
     }
