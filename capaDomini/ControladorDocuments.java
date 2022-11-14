@@ -247,7 +247,7 @@ public class ControladorDocuments {
 
         boolean primerTrobat = false;
         for (String a: autors) {
-            if (esPrefix(prefix,a)) {
+            if (esPrefix(prefix,a) || prefix.equals("")) {
                 llistat.add(a);
                 if (!primerTrobat) primerTrobat = true;
             }
