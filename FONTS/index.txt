@@ -1,10 +1,9 @@
 En aquest directori es troben les diferents carpetes del projecte, el README i un document de text amb les dades dels integrants del grup.
 
->DOCS: conte la documentacio demanada a la normativa del projecte.
+>Domini: conte tots els fitxers .java relacionats amb les classes.
 
->DATA: conte tots els arxius d'entrada utilitzats i necessaris per a poder executar el programa.
+>Drivers: conte tots els fitxers .java dels drivers de les classes.
 
->EXE: conte els diferents executables del programa, aixi com els .class de totes les classes i drivers. Aqui trobaras el
-      exectuable del main per poder utilitzar el programa i els executables per provar els drivers i testos amb Junit.
+>lib: conte les llibreries necesaries per al JUnit.
 
->FONTS: conte tots els .java del programa, juntament amb el .java dels drivers i els .java dels testos amb Junit.
+>Test: conte tots els fitxers .java del testos de les classes.
