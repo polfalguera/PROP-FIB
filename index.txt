@@ -4,7 +4,7 @@ En aquest directori es troben les diferents carpetes del projecte, el README i u
 
 >DATA: conte tots els arxius d'entrada utilitzats i necessaris per a poder executar el programa.
 
->EXE:  conte els diferents executables del programa, aixi com els .class de totes les classes i drivers. Aqui trobaras el
-       exectuable del main per poder utilitzar el programa i els executables per provar els drivers i testos amb Junit.
+>EXE: conte els diferents executables del programa, aixi com els .class de totes les classes i drivers. Aqui trobaras el
+      exectuable del main per poder utilitzar el programa i els executables per provar els drivers i testos amb Junit.
 
 >FONTS: conte tots els .java del programa, juntament amb el .java dels drivers i els .java dels testos amb Junit.
