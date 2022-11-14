@@ -139,6 +139,7 @@ public class DriverControladorExpressions {
         } catch (Exception e) {
             throw new Exception("Error enter");
         }
+        sc.nextLine();
         System.out.println("Introdueix els diferents continguts acabats en punt \".\":");
         for (int i = 0; i < nDocs; ++i) {
             try  {
