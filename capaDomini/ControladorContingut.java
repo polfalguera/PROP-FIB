@@ -126,7 +126,7 @@ public class ControladorContingut {
     private double idf(String paraula, int mode) {
         double n = 0;
         for (HashMap<String, Integer> doc : this.freqContingut) {
-            if (doc.containsKey(paraula)) n += doc.get(paraula);
+            if (doc.containsKey(paraula)) n++;
         }
         if (mode == 1) return 1;
         else if (n == 0) return 0;
