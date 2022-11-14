@@ -6,6 +6,9 @@ import capaDomini.Expressio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import static java.lang.Integer.parseInt;
+
 /**
  * És el driver de la classe ControladorExpressions.
  * @author haonan.jin
@@ -34,9 +37,7 @@ public class DriverControladorExpressions {
             " " + CONSULTAEXPRE       + " Consulta l'expressio en els contingus que has proposat\n"   +
             " " + EXISTEXPRESSIO      + " Comprova si una expressios existeix\n"       +
             " " + EXIT                + " Sortir del programa\n"
-
             ;
-
 
     private static final ControladorExpressions Ctrlexpressions = new ControladorExpressions();
 
@@ -129,11 +130,15 @@ public class DriverControladorExpressions {
      *
      * @param docs Conjunt de documents
      * */
-    private static void llegirConjuntDocuments(List<String> docs) {
+    private static void llegirConjuntDocuments(Scanner scanner,List<String> docs) throws Exception {
         Scanner sc = new Scanner(System.in);
         System.out.println("Digues el nombre de documents que vols introduir: ");
-        int nDocs = sc.nextInt();
-        sc.nextLine();
+        int nDocs = 0;
+        try {
+            nDocs = sc.nextInt();
+        } catch (Exception e) {
+            throw new Exception("Error enter");
+        }
         System.out.println("Introdueix els diferents continguts acabats en punt \".\":");
         for (int i = 0; i < nDocs; ++i) {
             try  {
@@ -146,7 +151,6 @@ public class DriverControladorExpressions {
             }
         }
     }
-
     /**
      * Representa totes les comandes que accepta el driver.
      *
@@ -168,9 +172,13 @@ public class DriverControladorExpressions {
                 testExistExpressio(scanner);
                 break;
             case CONSULTAEXPRE:
-                List<String> cont = new ArrayList<>();
-                llegirConjuntDocuments(cont);
-                testConsultaExpre(scanner,cont);
+                try {
+                    List<String> cont = new ArrayList<>();
+                    llegirConjuntDocuments(scanner,cont);
+                    testConsultaExpre(scanner,cont);
+                } catch (Exception e) {
+                    System.out.println(e.toString());
+                }
                 break;
             case EXIT:
                 return false;
