@@ -1,15 +1,14 @@
 cd ..
-cd ..
-cd class
+cd CLASS
 echo "\ntestDocument: \n"
-java -cp :./lib/junit-4.13.1.jar:./lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore test.DocumentTest
+java -cp :./FONTS/lib/junit-4.13.1.jar:./FONTS/lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore FONTS.Test.DocumentTest
 echo "\ntestExpressio: \n"
-java -cp :./lib/junit-4.13.1.jar:./lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore test.ExpressioTest
+java -cp :./FONTS/lib/junit-4.13.1.jar:./FONTS/lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore FONTS.Test.ExpressioTest
 echo "\ntestControladorContingut \n"
-java -cp :./lib/junit-4.13.1.jar:./lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore test.ControladorContingutTest
+java -cp :./FONTS/lib/junit-4.13.1.jar:./FONTS/lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore FONTS.Test.ConjuntContingutsTest
 echo "\ntestControladorDocuments: \n"
-java -cp :./lib/junit-4.13.1.jar:./lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore test.ControladorDocumentsTest
+java -cp :./FONTS/lib/junit-4.13.1.jar:./FONTS/lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore FONTS.Test.ControladorDocumentsTest
 echo "\ntestControladorDomini: \n"
-java -cp :./lib/junit-4.13.1.jar:./lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore test.ControladorDominiTest
+java -cp :./FONTS/lib/junit-4.13.1.jar:./FONTS/lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore FONTS.Test.ControladorDominiTest
 echo "\ntestControladorExpressions: \n"
-java -cp :./lib/junit-4.13.1.jar:./lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore test.ControladorExpressionsTest
+java -cp :./FONTS/lib/junit-4.13.1.jar:./FONTS/lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore FONTS.Test.ControladorExpressionsTest
