@@ -157,7 +157,7 @@ public class ControladorContingut {
                 String[] words = line.split("\\p{Punct}| |\\n|¿|¡");
                 for (String word : words) {
                     word = word.toLowerCase();
-                    if (!this.stopWords.contains(word) && word != "") {
+                    if (!this.stopWords.contains(word) && !word.equals("")) {
                         if (!text.containsKey(word)) text.put(word, 1);
                         else text.put(word, text.get(word)+1);
                     }
@@ -183,7 +183,7 @@ public class ControladorContingut {
 
         for (String word : words) {
             word = word.toLowerCase();
-            if (!this.stopWords.contains(word) && word != "") {
+            if (!this.stopWords.contains(word) && !word.equals("")) {
                 if (!text.containsKey(word)) text.put(word, 1);
                 else text.put(word, text.get(word)+1);
             }
@@ -297,13 +297,16 @@ public class ControladorContingut {
         this.Contingut.remove(id);
     }
     /**
-     * Obtenim totes les paraules del Contingut del Document amb índex id.
+     * Obtenim totes les paraules del Contingut del Document amb índex id sense stopWords.
      * @param id és l'índex del Document.
      * @return retorna un vector de String amb les paraules del Document amb índex id.
      */
     public String[] obtenirParaulesContingut(int id) throws Exception {
         if (id >= this.Contingut.size()) throw new Exception("Error, index out of bounds");
-        return this.Contingut.get(id).split("\\p{Punct}| |\\n|¿|¡");
+        String[] aux = this.Contingut.get(id).split("\\p{Punct}| |\\n|¿|¡");
+        ArrayList<String> res = new ArrayList<>();
+        for (String word: aux) if (word != "" && !this.stopWords.contains(word)) res.add(word);
+        return res.toArray(new String[0]);
     }
     /**
      * Obtenim tots els Continguts dels Documents que hi ha fins al moment.

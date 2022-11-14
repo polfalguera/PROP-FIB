@@ -144,7 +144,7 @@ public class DriverControladorContingut {
         int id = Integer.parseInt(sc.nextLine());
         try {
             String[] paraules = CtrlContingut.obtenirParaulesContingut(id);
-            System.out.println("Les paraules del contingut son: "+Arrays.toString(paraules));
+            System.out.println("Les paraules del contingut son: "+Arrays.toString(paraules)+"\n");
         } catch (Exception e) {
             System.out.println(e.toString());
         }
