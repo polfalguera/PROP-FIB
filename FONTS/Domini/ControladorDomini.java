@@ -21,6 +21,8 @@ public class ControladorDomini {
      */
     private ControladorExpressions CtrlExpressions;
 
+    private ControladorFormat CtrlFormat;
+
     /**
      * Constructora del controlador de domini
      * Inicialitza els tres controladors
@@ -30,6 +32,7 @@ public class ControladorDomini {
             this.cjtDocuments = new ControladorDocuments();
             this.CtrlContingut = new ConjuntContinguts();
             this.CtrlExpressions = new ControladorExpressions();
+            this.CtrlFormat = new ControladorFormat();
         }
         catch (Exception e) {
             throw new Exception(e.toString());
@@ -313,6 +316,14 @@ public class ControladorDomini {
                 llistat.addAll(cjtDocuments.getAutorTitolIndex(index));
             }
             return llistat;
+        } catch (Exception e) {
+            throw new Exception(e.toString());
+        }
+    }
+
+    public List<String> queryFileToDocument(String direccio, String format) throws Exception {
+        try {
+            return CtrlFormat.extractTitolAutorContingut(direccio, format);
         } catch (Exception e) {
             throw new Exception(e.toString());
         }
