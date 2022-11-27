@@ -19,7 +19,7 @@ public class FormatTXT implements Format {
     public List<String> extractTitolAutorContingut(String direccio) throws Exception{
         List<String> result = new ArrayList<String>();
         result.add("");result.add("");result.add("");result.add("");
-        String path = Paths.get("DATA/"+ direccio +".txt").toAbsolutePath().toString();
+        String path = Paths.get("DATA/"+ direccio).toAbsolutePath().toString();
         FileReader file = new FileReader(path);
         BufferedReader br = new BufferedReader(file);
 
