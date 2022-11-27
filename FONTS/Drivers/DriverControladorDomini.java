@@ -372,17 +372,20 @@ public class DriverControladorDomini {
         String direccio = sc.nextLine();
         System.out.println("Escriu el format del fitxer");
         String format = sc.nextLine();
+        System.out.println(format);
 
         try {
             List<String> result =  CtrlDomini.queryFileToDocument(direccio, format);
-            result.forEach(s -> {
-                System.out.println(s);
-            });
+            System.out.println("autor");
+            System.out.println(result.get(0));
+            System.out.println("titol");
+            System.out.println(result.get(1));
+            System.out.println("contingut");
+            System.out.println(result.get(2));
         } catch (Exception e) {
             System.out.println(e.toString());
-            return;
+
         }
-        System.out.println("Expressió booleana actualitzada correctament.");
     }
     public static void main(String[] args) {
         DriverControladorDomini dcd = new DriverControladorDomini();

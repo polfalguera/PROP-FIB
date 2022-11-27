@@ -1,0 +1,9 @@
+En aquest directori es troben les diferents carpetes del projecte, el README i un document de text amb les dades dels integrants del grup.
+
+>Domini: conte tots els fitxers .java relacionats amb les classes.
+
+>Drivers: conte tots els fitxers .java dels drivers de les classes.
+
+>lib: conte les llibreries necesaries per al JUnit.
+
+>Test: conte tots els fitxers .java del testos de les classes.

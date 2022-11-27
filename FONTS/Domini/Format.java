@@ -11,7 +11,7 @@ public interface Format {
     /**
      * Consultora
      * @param direccio es la direccio del fitxer.
-     * @return Donat un fitxer .xml retorna l'autor, el titol i el contingut del fitxer
+     * @return Donat un fitxer retorna l'autor, el titol i el contingut del fitxer
      * si l'estructura del mateix es correcte. En cas contrari fa throw d'exepcions.
      */
     public List<String> extractTitolAutorContingut(String direccio) throws Exception;

@@ -1,0 +1,8 @@
+En aquest directori es troba la seguent documentacio:
+
+>CASOS D'US.pdf: Un document de text amb la descripcio dels casos d'us.
+>CASOS D'US DIAGRAMA.pdf: Un pdf amb el diagrama dels casos d'us.
+>DESCRIPCIÓ DEL DIAGRAMA DE CLASSES.pdf: Un document de text amb la descripcio de les diferents classes, atributs i operacions del diagrama de classes.
+>DIAGRAMA DE CLASSES - UML.pdf: Un pdf amb el diagrama de classes UML.
+>ESTRUCTURA DE DADES I ALGORISMES: Un document de text amb les descripcions dels algoritmes i estructures de dades usats en el programa.
+>RELACIONS MEMBRE I GRUP.pdf: Un document de text amb la relacio membres/classes.

@@ -21,21 +21,21 @@ public class ControladorFormat {
      * si l'estructura del mateix es correcte. En cas contrari fa throw d'exepcions.
      */
     public List<String> extractTitolAutorContingut(String direccio, String format) throws Exception {
-        if (format == "txt") {
+        if (format.equals("txt")) {
             try {
                 return formatejadorTXT.extractTitolAutorContingut(direccio);
             } catch (Exception e) {
                 throw new Exception(e.toString());
             }
         }
-        else if (format == "xml") {
+        else if (format.equals("xml")) {
             try {
                 return formatejadorXML.extractTitolAutorContingut(direccio);
             } catch (Exception e) {
                 throw new Exception(e.toString());
             }
         }
-        else if (format == "jamp") {
+        else if (format.equals("jamp")) {
             try {
                 return formatejadorJAMP.extractTitolAutorContingut(direccio);
             } catch (Exception e) {
