@@ -2,6 +2,10 @@ package FONTS.Domini;
 
 import java.util.List;
 
+/**
+ * Representa la classe FormatJAMP.
+ * @author Marc Quel.
+ */
 public class FormatJAMP implements Format {
     /**
      * Consultora

@@ -2,14 +2,43 @@ package FONTS.Domini;
 
 import java.util.List;
 
+/**
+ * Representa el controlador de de format
+ * @author Marc Quel
+ */
 public class ControladorFormat {
     private Format formatejadorTXT;
     private Format formatejadorXML;
     private Format formatejadorJAMP;
 
     public ControladorFormat() {
+        /*
+        * Els fitxers .txt han de tenir la seguent estructura:
+        * autor: Nom de l'autor (ha de estar tot el nom en una linia)
+        *
+        * titol: Nom del titol  (ha de estar tot el titol en una linia)
+        *
+        *   (no hi pot haver una altre cosa que espais en blanc o salts de linia
+        *    entre el l'inicia del fitxer i 'autor:', i entre 'autor:' i 'titol:')
+        *
+        * contingut (tot el que es llegeix despres del titol es considera contingut)
+        * */
         this.formatejadorTXT = new FormatTXT();
+
+        /*
+         * Els fitxers .xml han de tenir la seguent estructura:
+         * <document>
+         *      <autor>Nom de l'autor</autor>
+         *      <titol>Nom del titol</titol>
+         *      <contingut>contingut qualsevol</contingut>
+         * </document>
+         * */
         this.formatejadorXML = new FormatXML();
+
+        /*
+        * Els fitxer .jamp han de tenir la seguent estructura:
+        *
+        * */
         this.formatejadorJAMP = new FormatJAMP();
     }
 

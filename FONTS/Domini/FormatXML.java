@@ -4,8 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.file.Paths;
 import java.util.*;
-import java.io.File;
 
+/**
+ * Representa la classe FormatXML.
+ * @author Marc Quel.
+ */
 public class FormatXML implements Format {
     /**
      * Consultora
@@ -15,10 +18,7 @@ public class FormatXML implements Format {
      */
     public List<String> extractTitolAutorContingut(String direccio) throws Exception{
         List<String> result = new ArrayList<String>();
-        result.add("");
-        result.add("");
-        result.add("");
-        result.add("");
+        result.add("");result.add("");result.add("");result.add("");
         String path = Paths.get("DATA/"+ direccio +".xml").toAbsolutePath().toString();
         FileReader file = new FileReader(path);
         BufferedReader br = new BufferedReader(file);
@@ -30,15 +30,14 @@ public class FormatXML implements Format {
             fitxer.append(lletra);
         }
         String c = fitxer.toString();
+        // Treu tot els espais en blanc fins <document>
+        c = c.replaceFirst("^\\s*", "");
 
         List<String> tags = new ArrayList<>();
         tags.add("<document>");
-        tags.add("<autor>");
-        tags.add("</autor>");
-        tags.add("<titol>");
-        tags.add("</titol>");
-        tags.add("<contingut>");
-        tags.add("</contingut>");
+        tags.add("<autor>");tags.add("</autor>");
+        tags.add("<titol>");tags.add("</titol>");
+        tags.add("<contingut>");tags.add("</contingut>");
         tags.add("</document>");
 
         Boolean[] tagsTrobats = new Boolean[8];
@@ -84,8 +83,7 @@ public class FormatXML implements Format {
                         if (Character.getNumericValue(currentChar) != -1) foundContent = true;
                         if (foundContent) {
                             String oldResult = result.get(listIterator);
-                            result.remove(listIterator);
-                            result.add(listIterator, oldResult + currentChar);
+                            result.set(listIterator, oldResult + currentChar);
                             if (Character.compare(currentChar, '\n') == 0) foundContent = false;
                         }
                     } else if (Character.compare(currentChar, '/') == 0) {
@@ -110,6 +108,14 @@ public class FormatXML implements Format {
             }
             ++cIterator;
         }
+        // Per treure els espais en blanc inicials
+        result.set(0, result.get(0).replaceFirst("^\\s*", ""));
+        result.set(1, result.get(1).replaceFirst("^\\s*", ""));
+        result.set(2, result.get(2).replaceFirst("^\\s*", ""));
+        // Per treure els espais en blanc finals
+        result.set(0, result.get(0).replaceAll("\\s+$", ""));
+        result.set(1, result.get(1).replaceAll("\\s+$", ""));
+        result.set(2, result.get(2).replaceAll("\\s+$", ""));
         return result;
     }
 
@@ -122,10 +128,10 @@ public class FormatXML implements Format {
      * que es la representacio del document en .xml.
      */
     public String documentToFile(String autor, String titol, String contingut) throws Exception {
-        return "<document>"+
+        return ("<document>"+
                     "<autor>"+ autor +"</autor>"+
                     "<titol>"+ titol +"</titol>"+
                     "<contingut>"+ contingut +"</contingut>"+
-                "</document>";
+                "</document>");
     }
 }

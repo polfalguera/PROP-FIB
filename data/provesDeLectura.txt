@@ -1,0 +1,9 @@
+
+
+    autor:    Bla Bla Bla
+
+
+titol: Bla Bla Bla
+Aixo es el meu contingut.
+
+Aqui tinc un altre paragraf
