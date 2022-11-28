@@ -13,7 +13,6 @@ public class ControladorPresentacio {
         this.vistaPrincipal = new MainView(this);
     }
 
-
     public static void main (String[] args) {
         javax.swing.SwingUtilities.invokeLater (
                 () -> {
