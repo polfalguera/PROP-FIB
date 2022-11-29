@@ -1,14 +1,16 @@
 package FONTS.Presentacio;
 
-import org.w3c.dom.ls.LSOutput;
-
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainView extends JFrame {
+    private JLabel autor;
     private JPanel mainPanel;
+    private JLabel searchLabel;
+    private JTextField searchTextField;
+    private JComboBox comboBox1;
+    private JList list1;
     private JMenuBar MenuBar;
     private JMenu File;
     private JMenu Export;
@@ -24,8 +26,6 @@ public class MainView extends JFrame {
     private JMenuItem Copy;
     private JMenuItem Paste;
     private JMenuItem Cut;
-
-    private JTextArea Content;
 
 
     public void initializeMenuBar() {
@@ -75,14 +75,21 @@ public class MainView extends JFrame {
         Copy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               Content.copy();
+                searchTextField.copy();
             }
         });
 
         Paste.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Content.paste();
+                searchTextField.paste();
+            }
+        });
+
+        Cut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchTextField.cut();
             }
         });
 
@@ -95,10 +102,8 @@ public class MainView extends JFrame {
         this.setContentPane(mainPanel);
         this.pack();
 
-        this.setSize(750,750);
+        this.setSize(750,500);
         initializeMenuBar();
-        Content = new JTextArea();
-        this.add(Content);
         initializeListeners();
     }
 }
