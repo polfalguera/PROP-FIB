@@ -4,27 +4,25 @@ import FONTS.Domini.ControladorDomini;
 
 public class ControladorPresentacio {
 
-    private ControladorDomini ctrlDomain;
+    private ControladorDomini CtrlDomini;
 
     private final MainView vistaPrincipal;
 
     public ControladorPresentacio() throws Exception {
-        this.ctrlDomain = new ControladorDomini();
-        this.vistaPrincipal = new MainView(this);
+        this.CtrlDomini = new ControladorDomini();
+        this.vistaPrincipal = new MainView("Document Manager",this);
+    }
+    public void iqueryCrearDocument(String autor, String titol, String contingut) throws Exception {
+        CtrlDomini.queryCrearDocument(autor, titol, contingut);
     }
 
     public static void main (String[] args) {
-        javax.swing.SwingUtilities.invokeLater (
-                () -> {
-                    ControladorPresentacio ctrlPresentation = null;
-                    try {
-                        ctrlPresentation = new ControladorPresentacio();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    assert ctrlPresentation != null;
-                    //ctrlPresentation.openMainView();
-                });
+        try {
+            ControladorPresentacio CtrlPresentacio = new ControladorPresentacio();
+            CtrlPresentacio.vistaPrincipal.setVisible(true);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
