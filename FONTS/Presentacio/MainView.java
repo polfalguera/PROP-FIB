@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class MainView extends JFrame {
@@ -116,7 +118,7 @@ public class MainView extends JFrame {
                 String contingut = ((CrearDocument) aux).getContingut();
                 try {
                     ictrlPresentacio.iqueryCrearDocument(autor,titol,contingut);
-                    String doc = autor+" "+titol;
+                    String doc = autor+","+titol;
                     ((DefaultListModel) list1.getModel()).addElement(doc);
 
                 } catch (Exception ex) {
@@ -124,6 +126,26 @@ public class MainView extends JFrame {
                 }
 
 
+            }
+        });
+        list1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getClickCount() == 2) {
+                    JList target = (JList) e.getSource();
+                    int index = target.locationToIndex(e.getPoint());
+                    if (index >= 0) {
+                        Object item = target.getModel().getElementAt(index);
+                        String[] a = item.toString().split(",");
+                        try {
+                            String Contingut = ictrlPresentacio.iqueryGetContingutDocument(a[0],a[1]);
+                            JOptionPane.showMessageDialog(null,Contingut);
+                        } catch (Exception ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                }
             }
         });
     }

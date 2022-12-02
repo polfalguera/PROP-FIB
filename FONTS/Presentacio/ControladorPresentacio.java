@@ -16,6 +16,10 @@ public class ControladorPresentacio {
         CtrlDomini.queryCrearDocument(autor, titol, contingut);
     }
 
+    public String iqueryGetContingutDocument(String autor, String titol) throws Exception{
+        return CtrlDomini.queryGetContingutDocument(autor, titol);
+    }
+
     public static void main (String[] args) {
         try {
             ControladorPresentacio CtrlPresentacio = new ControladorPresentacio();
