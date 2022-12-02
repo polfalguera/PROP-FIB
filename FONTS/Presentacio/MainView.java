@@ -21,6 +21,8 @@ public class MainView extends JFrame {
 
     private JList list1;
     private JButton crearDocumentButton;
+    private JButton modificarAutorButton;
+    private JButton modificarTitolButton;
     private JMenuBar MenuBar;
     private JMenu File;
     private JMenu Export;
@@ -108,6 +110,48 @@ public class MainView extends JFrame {
                 searchTextField.selectAll();
             }
         });
+        modificarAutorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (list1.getSelectedIndex() != -1) {
+                    String[] a = list1.getSelectedValue().toString().split(",");
+                    JDialog aux = new ModificarAutor();
+                    aux.setVisible(true);
+                    String nou_autor = ((ModificarAutor) aux).getNouAutor();
+                    String doc = nou_autor+","+a[1];
+                    boolean accept = ((ModificarAutor) aux).isAccept();
+                    try {
+                        if (accept) {
+                            ictrlPresentacio.iqueryModificarAutor(a[0],nou_autor,a[1]);
+                            ((DefaultListModel) list1.getModel()).setElementAt(doc,list1.getSelectedIndex());
+                        }
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+        });
+        modificarTitolButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (list1.getSelectedIndex() != -1) {
+                    String[] a = list1.getSelectedValue().toString().split(",");
+                    JDialog aux = new ModificarTitol();
+                    aux.setVisible(true);
+                    String nou_titol = ((ModificarTitol) aux).getNouTitol();
+                    String doc = a[0]+","+nou_titol;
+                    boolean accept = ((ModificarTitol) aux).isAccept();
+                    try {
+                        if (accept) {
+                            ictrlPresentacio.iqueryModificarTitol(a[0],a[1],nou_titol);
+                            ((DefaultListModel) list1.getModel()).setElementAt(doc,list1.getSelectedIndex());
+                        }
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+        });
         crearDocumentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -116,18 +160,20 @@ public class MainView extends JFrame {
                 String autor = ((CrearDocument) aux).getAutor();
                 String titol = ((CrearDocument) aux).getTitol();
                 String contingut = ((CrearDocument) aux).getContingut();
+                Boolean accept = ((CrearDocument) aux).isAccept();
                 try {
-                    ictrlPresentacio.iqueryCrearDocument(autor,titol,contingut);
-                    String doc = autor+","+titol;
-                    ((DefaultListModel) list1.getModel()).addElement(doc);
-
+                    if (accept) {
+                        ictrlPresentacio.iqueryCrearDocument(autor,titol,contingut);
+                        String doc = autor+","+titol;
+                        ((DefaultListModel) list1.getModel()).addElement(doc);
+                    }
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
 
-
             }
         });
+        //Mostrar el Contingut
         list1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

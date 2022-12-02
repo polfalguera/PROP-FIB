@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="FONTS.Presentacio.CrearDocument">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="FONTS.Presentacio.ModificarTitol">
   <grid id="cbd77" binding="contentPane" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
       <xy x="48" y="54" width="436" height="297"/>
     </constraints>
     <properties/>
-    <border type="none" title="Crear Document"/>
+    <border type="none" title="Modificar titol"/>
     <children>
       <grid id="94766" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
@@ -49,75 +49,29 @@
           </grid>
         </children>
       </grid>
-      <grid id="e3588" layout-manager="FormLayout">
-        <rowspec value="center:40px:noGrow"/>
-        <rowspec value="top:18dlu:noGrow"/>
-        <rowspec value="center:40px:noGrow"/>
-        <rowspec value="top:15dlu:noGrow"/>
-        <rowspec value="center:63px:noGrow"/>
-        <colspec value="fill:d:noGrow"/>
-        <colspec value="fill:d:grow"/>
+      <grid id="e3588" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
         <border type="none"/>
         <children>
-          <component id="ab67e" class="javax.swing.JLabel" binding="autor">
+          <component id="7afa" class="javax.swing.JLabel" binding="nouTitol">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-              <forms defaultalign-horz="false"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Autor: "/>
+              <text value="Introdueix nou Titol"/>
             </properties>
           </component>
-          <component id="fd8d6" class="javax.swing.JTextField" binding="autorTextField">
+          <component id="3a7bf" class="javax.swing.JTextField" binding="nouTitolTextField">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
-              <forms defaultalign-horz="false"/>
             </constraints>
             <properties/>
-          </component>
-          <component id="1ac89" class="javax.swing.JLabel">
-            <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-              <forms defaultalign-horz="false"/>
-            </constraints>
-            <properties>
-              <text value="Titol:"/>
-            </properties>
-          </component>
-          <component id="af63" class="javax.swing.JTextField" binding="titolTextField">
-            <constraints>
-              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-              <forms defaultalign-horz="false"/>
-            </constraints>
-            <properties/>
-          </component>
-          <component id="29372" class="javax.swing.JLabel">
-            <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-              <forms defaultalign-horz="false"/>
-            </constraints>
-            <properties>
-              <text value="Contingut:"/>
-            </properties>
-          </component>
-          <component id="3e582" class="javax.swing.JTextField" binding="contingutTextField" default-binding="true">
-            <constraints>
-              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-              <forms defaultalign-horz="false"/>
-            </constraints>
-            <properties>
-              <text value=""/>
-            </properties>
           </component>
         </children>
       </grid>

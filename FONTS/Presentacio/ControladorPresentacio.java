@@ -20,6 +20,14 @@ public class ControladorPresentacio {
         return CtrlDomini.queryGetContingutDocument(autor, titol);
     }
 
+    public void iqueryModificarAutor(String anticAutor, String nouAutor, String titol) throws Exception{
+        CtrlDomini.queryModificarAutor(anticAutor, nouAutor, titol);
+    }
+
+    public void iqueryModificarTitol(String autor, String anticTitol, String nouTitol) throws Exception {
+        CtrlDomini.queryModificarTitol(autor, anticTitol, nouTitol);
+    }
+
     public static void main (String[] args) {
         try {
             ControladorPresentacio CtrlPresentacio = new ControladorPresentacio();

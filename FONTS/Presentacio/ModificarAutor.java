@@ -1,21 +1,18 @@
 package FONTS.Presentacio;
 
-
 import javax.swing.*;
 import java.awt.event.*;
 
-public class CrearDocument extends JDialog {
+public class ModificarAutor extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField autorTextField;
-    private JTextField titolTextField;
-    private JTextField contingutTextField;
-    private JLabel autor;
+    private JTextField nouAutorTextField;
 
     private boolean accept = false;
 
-    public CrearDocument() {
+    public ModificarAutor() {
+
         setContentPane(contentPane);
         setModal(true);
         setSize(500,500);
@@ -49,20 +46,13 @@ public class CrearDocument extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    public String getAutor() {
-        return autorTextField.getText();
-    }
-    public String getTitol() {
-        return titolTextField.getText();
+    public String getNouAutor() {
+        return nouAutorTextField.getText();
     }
 
-    public String getContingut() {
-        return contingutTextField.getText();
-    }
     public boolean isAccept() {
         return accept;
     }
-
     private void onOK() {
         accept = true;
         // add your code here
@@ -76,7 +66,7 @@ public class CrearDocument extends JDialog {
     }
 
     public static void main(String[] args) {
-        CrearDocument dialog = new CrearDocument();
+        ModificarAutor dialog = new ModificarAutor();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
