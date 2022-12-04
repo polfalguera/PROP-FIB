@@ -1,5 +1,7 @@
 package FONTS.Domini;
 
+import FONTS.Persistencia.Persistencia;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,9 @@ public class ControladorDomini {
      * Representa el controlador d'expressions
      */
     private ControladorExpressions CtrlExpressions;
-
+    /**
+     * Representa el controlador de format
+     */
     private ControladorFormat CtrlFormat;
 
     /**
@@ -33,6 +37,8 @@ public class ControladorDomini {
             this.CtrlContingut = new ConjuntContinguts();
             this.CtrlExpressions = new ControladorExpressions();
             this.CtrlFormat = new ControladorFormat();
+            // Aqui podriem llegir de disc els documents
+            // persistits en una altre sesio
         }
         catch (Exception e) {
             throw new Exception(e.toString());
@@ -49,6 +55,8 @@ public class ControladorDomini {
         try {
             cjtDocuments.crearDocument(autor,titol);
             CtrlContingut.afegirContingut(contingut);
+            //Capa de persistencia
+            Persistencia.nouDocument(autor, titol, contingut);
         } catch (Exception e) {
             throw new Exception(e.toString());
         }
@@ -63,6 +71,9 @@ public class ControladorDomini {
      * @param titol es el titol del document a crear.
      * @param path path que apunta al fitxer que conte el contingut a introduir.
      */
+
+    // Ara que ja tenim el controlador de format i la capa de persistencia ja no es necessaria
+    // aquesta funcio
     public void queryCrearDocumentPath(String autor, String titol, String path) throws Exception {
         try {
             cjtDocuments.crearDocument(autor,titol);
@@ -84,6 +95,8 @@ public class ControladorDomini {
             int id = cjtDocuments.indexDocument(autor,titol);
             cjtDocuments.eliminarDocument(autor,titol);
             CtrlContingut.eliminarContingut(id);
+            //Capa de persistencia
+            Persistencia.eliminarDocument(autor, titol);
         } catch (Exception e){
             throw new Exception(e.toString());
         }
@@ -99,6 +112,10 @@ public class ControladorDomini {
     public void queryModificarAutor(String anticAutor, String nouAutor, String titol) throws Exception {
         try {
             cjtDocuments.modificarAutor(anticAutor,nouAutor,titol);
+            //Capa de persistencia
+            int index = cjtDocuments.indexDocument(nouAutor, titol);
+            String contingut = CtrlContingut.getContingut(index);
+            Persistencia.modificarDocument(anticAutor, titol, nouAutor, titol, contingut);
         } catch (Exception e) {
             throw new Exception(e.toString());
         }
@@ -114,6 +131,10 @@ public class ControladorDomini {
     public void queryModificarTitol(String autor, String anticTitol, String nouTitol) throws Exception {
         try {
             cjtDocuments.modificarTitol(autor,anticTitol, nouTitol);
+            //Capa de persistencia
+            int index = cjtDocuments.indexDocument(autor, nouTitol);
+            String contingut = CtrlContingut.getContingut(index);
+            Persistencia.modificarDocument(autor, anticTitol, autor, nouTitol, contingut);
         } catch (Exception e) {
             throw new Exception(e.toString());
         }
@@ -129,6 +150,8 @@ public class ControladorDomini {
         try {
             int id = cjtDocuments.indexDocument(autor,titol);
             CtrlContingut.modificarContingut(id,nouContingut);
+            //Capa de persistencia
+            Persistencia.modificarDocument(autor, titol, autor, titol, nouContingut);
         }catch (Exception e) {
             throw new Exception(e.toString());
         }
@@ -142,6 +165,8 @@ public class ControladorDomini {
      * @param titol es el titol del document a modificar.
      * @param path path que apunta al fitxer que conte el nou contingut del document a modificar.
      */
+    // Ara que ja tenim el controlador de format i la capa de persistencia ja no es necessaria
+    // aquesta funcio
     public void queryModificarContingutPath(String autor, String titol, String path) throws Exception {
         try {
             int id = cjtDocuments.indexDocument(autor,titol);
@@ -320,14 +345,36 @@ public class ControladorDomini {
             throw new Exception(e.toString());
         }
     }
-
-    public List<String> queryFileToDocument(String direccio, String format) throws Exception {
+    public void carregarDocument(String direccio, String format) throws Exception {
         try {
-            return CtrlFormat.extractTitolAutorContingut(direccio, format);
+            List<String> data = CtrlFormat.extractTitolAutorContingut(direccio, format);
+            String autor = data.get(0);
+            String titol = data.get(1);
+            String contingut = data.get(2);
+            cjtDocuments.crearDocument(autor,titol);
+            CtrlContingut.afegirContingut(contingut);
+            Persistencia.nouDocument(autor, titol, contingut);
         } catch (Exception e) {
             throw new Exception(e.toString());
         }
     }
+
+    /**
+     * De moment retorno un String que conte tot el que hauria d'haver-hi
+     * en el document que es descarrega en el format desitjat a exportar
+     *
+     * */
+    public String exportarDocument(String autor, String titol, String format) throws Exception {
+        try {
+            int index = cjtDocuments.indexDocument(autor, titol);
+            String contingut = CtrlContingut.getContingut(index);
+            String file = CtrlFormat.documentToFile(autor, titol, contingut, format);
+            return file;
+        } catch (Exception e) {
+            throw new Exception(e.toString());
+        }
+    }
+
     /**
      * Consultora
      * @param autor es l'autor del document que volem comprovar si existeix

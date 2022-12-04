@@ -14,12 +14,11 @@ public class ControladorFormat {
     public ControladorFormat() {
         /*
         * Els fitxers .txt han de tenir la seguent estructura:
-        * autor: Nom de l'autor (ha de estar tot el nom en una linia)
+        * Nom de l'autor (ha de estar tot el nom a la primera  linia)
         *
-        * titol: Nom del titol  (ha de estar tot el titol en una linia)
+        * Nom del titol  (ha de estar tot el titol a la segona linia)
         *
-        *   (no hi pot haver una altre cosa que espais en blanc o salts de linia
-        *    entre el l'inicia del fitxer i 'autor:', i entre 'autor:' i 'titol:')
+        *
         *
         * contingut (tot el que es llegeix despres del titol es considera contingut)
         * */
@@ -32,6 +31,8 @@ public class ControladorFormat {
          *      <titol>Nom del titol</titol>
          *      <contingut>contingut qualsevol</contingut>
          * </document>
+         *
+         * L'ordre en el que apareixen els tags autor, titol i contingut no es important
          * */
         this.formatejadorXML = new FormatXML();
 

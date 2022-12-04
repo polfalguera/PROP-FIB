@@ -44,10 +44,12 @@ public class Persistencia {
 
     public static void modificarDocument(String autor, String titol, String nouAutor, String nouTitol, String Contingut) throws Exception {
         eliminarDocument(autor, titol);
-        if (nouAutor != "" && nouTitol != "") nouDocument(nouAutor, nouTitol, Contingut);
+        nouDocument(nouAutor, nouTitol, Contingut);
+
+        /*if (nouAutor != "" && nouTitol != "") nouDocument(nouAutor, nouTitol, Contingut);
         else if (nouAutor != "") nouDocument(nouAutor, titol, Contingut);
         else if (nouTitol != "") nouDocument(autor, nouTitol, Contingut);
-        else nouDocument(autor, titol, Contingut);
+        else nouDocument(autor, titol, Contingut);*/
     }
 
     public static String obtenirContingut(String autor, String titol) throws Exception {

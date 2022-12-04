@@ -19,7 +19,7 @@ public class FormatXML implements Format {
     public List<String> extractTitolAutorContingut(String direccio) throws Exception{
         List<String> result = new ArrayList<String>();
         result.add("");result.add("");result.add("");result.add("");
-        String path = Paths.get("DATA/"+ direccio).toAbsolutePath().toString();
+        String path = Paths.get(direccio).toAbsolutePath().toString();
         FileReader file = new FileReader(path);
         BufferedReader br = new BufferedReader(file);
 
@@ -144,6 +144,10 @@ public class FormatXML implements Format {
         result.set(0, result.get(0).replaceAll("\\s+$", ""));
         result.set(1, result.get(1).replaceAll("\\s+$", ""));
         result.set(2, result.get(2).replaceAll("\\s+$", ""));
+
+        if (result.get(0).length() == 0) throw new Exception("Error, autor buit");
+        if (result.get(1).length() == 0) throw new Exception("Error, titol buit");
+
         return result;
     }
 

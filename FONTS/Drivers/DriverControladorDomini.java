@@ -24,7 +24,7 @@ public class DriverControladorDomini {
     private static final String queryEliminarExpressioBooleana = "14";
     private static final String queryModificarExpressioBooleana = "15";
     private static final String queryConsultaExpressioBooleana = "16";
-    private static final String queryFileToDocument = "17";
+    private static final String testcarregarDocument = "17";
     private static final String tancar_driver = "18";
 
     private static final String AJUDA = "\nNúmeros associats a cada comanada del driver:  \n"+
@@ -44,7 +44,7 @@ public class DriverControladorDomini {
             " "+queryEliminarExpressioBooleana+" Elimina una expressió booleana.\n"+
             " "+queryModificarExpressioBooleana+" Modifica una expressió booleana existent.\n"+
             " "+queryConsultaExpressioBooleana+" Donada una expressió booleana, retorna els documents que la satisfan.\n"+
-            " "+queryFileToDocument+" Donat un fitxer i el format, retorna el titol, l'autor i el seu contingut.\n"+
+            " "+testcarregarDocument+" Donat un fitxer i el format, carrega el document al programa.\n"+
             " "+tancar_driver+" Finalitza l'execució del driver";
 
     private static void llegirConjuntDocuments() {
@@ -365,7 +365,7 @@ public class DriverControladorDomini {
         System.out.println("Expressió booleana actualitzada correctament.");
     }
 
-    public static void testQueryFileToDocument() {
+    public static void testcarregarDocument() {
         System.out.println("queryFileToDocument");
         Scanner sc = new Scanner(System.in);
         System.out.println("Escriu el fitxer a convertir a document");
@@ -375,13 +375,7 @@ public class DriverControladorDomini {
         System.out.println(format);
 
         try {
-            List<String> result =  CtrlDomini.queryFileToDocument(direccio, format);
-            System.out.println("autor");
-            System.out.println(result.get(0));
-            System.out.println("titol");
-            System.out.println(result.get(1));
-            System.out.println("contingut");
-            System.out.println(result.get(2));
+            CtrlDomini.carregarDocument(direccio, format);
         } catch (Exception e) {
             System.out.println(e.toString());
 
@@ -458,8 +452,8 @@ public class DriverControladorDomini {
                 case queryConsultaExpressioBooleana:
                     dcd.testQueryConsultaExpressioBooleana();
                     break;
-                case queryFileToDocument:
-                    dcd.testQueryFileToDocument();
+                case testcarregarDocument:
+                    dcd.testcarregarDocument();
                     break;
                 case tancar_driver:
                     System.out.println("| Execució del driver finalitzada |");
