@@ -38,6 +38,8 @@
             <item value="Similaritat"/>
             <item value="Expressió Booleana"/>
             <item value="Rellevància"/>
+            <item value="Llistar titol"/>
+            <item value="Llistar autor"/>
           </model>
         </properties>
       </component>

@@ -1,6 +1,8 @@
 package FONTS.Presentacio;
 
 import FONTS.Domini.ControladorDomini;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ControladorPresentacio {
 
@@ -26,6 +28,14 @@ public class ControladorPresentacio {
 
     public void iqueryModificarTitol(String autor, String anticTitol, String nouTitol) throws Exception {
         CtrlDomini.queryModificarTitol(autor, anticTitol, nouTitol);
+    }
+
+    public List<String> iqueryLlistarTitolsAutor(String autor) throws Exception {
+        return CtrlDomini.queryLlistarTitolsAutor(autor);
+    }
+
+    public List<String> iqueryLlistarAutorsPrefix(String prefix) throws Exception {
+        return CtrlDomini.queryLlistarAutorsPrefix(prefix);
     }
 
     public static void main (String[] args) {

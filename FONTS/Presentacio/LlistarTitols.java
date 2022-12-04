@@ -1,27 +1,28 @@
 package FONTS.Presentacio;
 
-
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.List;
 
-public class CrearDocument extends JDialog {
+public class LlistarTitols extends JFrame {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField autorTextField;
-    private JTextField titolTextField;
-    private JTextField contingutTextField;
-    private JLabel autor;
-    private JTextArea contingutTextArea;
+    private JList list1;
+    private JLabel infoTextField;
 
-    private boolean accept = false;
-
-    public CrearDocument() {
+    public LlistarTitols(List<String> list_titols, String autor,String funtion) {
         setContentPane(contentPane);
-        contingutTextArea.setSize(5,10);
-        setModal(true);
         setSize(500,500);
         getRootPane().setDefaultButton(buttonOK);
+
+        if (funtion == "Llistar titol") {
+            infoTextField.setText("Llista de titols amb autor "+autor);
+        }
+        else if (funtion == "Llistar autor") {
+            infoTextField.setText("Llista de autors amb prefix: "+autor);
+        }
+        list1.setListData(list_titols.toArray());
 
 
         buttonOK.addActionListener(new ActionListener() {
@@ -52,36 +53,14 @@ public class CrearDocument extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    public String getAutor() {
-        return autorTextField.getText();
-    }
-    public String getTitol() {
-        return titolTextField.getText();
-    }
-
-    public String getContingut() {
-        return contingutTextArea.getText();
-    }
-    public boolean isAccept() {
-        return accept;
-    }
-
     private void onOK() {
-        accept = true;
         // add your code here
         dispose();
     }
 
     private void onCancel() {
-        accept = false;
         // add your code here if necessary
         dispose();
     }
 
-    public static void main(String[] args) {
-        CrearDocument dialog = new CrearDocument();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
-    }
 }

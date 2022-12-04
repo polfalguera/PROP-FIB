@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 
 public class MainView extends JFrame {
@@ -86,6 +87,31 @@ public class MainView extends JFrame {
     }
 
     public void initializeListeners() throws Exception{
+        searchTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (comboBox1.getItemAt(comboBox1.getSelectedIndex()) == "Llistar autor" ) {
+                    String autor = searchTextField.getText();
+                    try {
+                        List<String> ti = ictrlPresentacio.iqueryLlistarAutorsPrefix(autor);
+                        JFrame aux = new LlistarTitols(ti,autor,"Llistar autor");
+                        aux.setVisible(true);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                if(comboBox1.getItemAt(comboBox1.getSelectedIndex()) == "Llistar titol" ) {
+                    String autor = searchTextField.getText();
+                    try {
+                        List<String> ti = ictrlPresentacio.iqueryLlistarTitolsAutor(autor);
+                        JFrame aux = new LlistarTitols(ti,autor,"Llistar titol");
+                        aux.setVisible(true);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+        });
         Copy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
