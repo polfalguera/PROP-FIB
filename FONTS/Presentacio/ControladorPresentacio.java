@@ -9,13 +9,18 @@ public class ControladorPresentacio {
     private ControladorDomini CtrlDomini;
 
     private final MainView vistaPrincipal;
+    private final WelcomeView vistaBenvinguda;
 
     public ControladorPresentacio() throws Exception {
         this.CtrlDomini = new ControladorDomini();
         this.vistaPrincipal = new MainView("Document Manager",this);
+        this.vistaBenvinguda = new WelcomeView("Benvinguda!",this);
     }
     public void iqueryCrearDocument(String autor, String titol, String contingut) throws Exception {
         CtrlDomini.queryCrearDocument(autor, titol, contingut);
+    }
+    public void iqueryEliminarDocument(String autor, String titol) throws Exception {
+        CtrlDomini.queryEliminarDocument(autor,titol);
     }
 
     public String iqueryGetContingutDocument(String autor, String titol) throws Exception{
@@ -37,11 +42,15 @@ public class ControladorPresentacio {
     public List<String> iqueryLlistarAutorsPrefix(String prefix) throws Exception {
         return CtrlDomini.queryLlistarAutorsPrefix(prefix);
     }
+    public void carregarVistaPrincipal() {
+        vistaBenvinguda.setVisible(false);
+        vistaPrincipal.setVisible(true);
+    }
 
     public static void main (String[] args) {
         try {
             ControladorPresentacio CtrlPresentacio = new ControladorPresentacio();
-            CtrlPresentacio.vistaPrincipal.setVisible(true);
+            CtrlPresentacio.vistaBenvinguda.setVisible(true);
         } catch(Exception e) {
             e.printStackTrace();
         }

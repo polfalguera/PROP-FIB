@@ -24,6 +24,7 @@ public class MainView extends JFrame {
     private JButton crearDocumentButton;
     private JButton modificarAutorButton;
     private JButton modificarTitolButton;
+    private JButton eliminarDocumentButton;
     private JMenuBar MenuBar;
     private JMenu File;
     private JMenu Export;
@@ -197,6 +198,26 @@ public class MainView extends JFrame {
                     throw new RuntimeException(ex);
                 }
 
+            }
+        });
+        eliminarDocumentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (list1.getSelectedIndex() != -1) {
+                    String[] a = list1.getSelectedValue().toString().split(",");
+                    JDialog aux = new EliminarDocument();
+                    aux.setSize(350,150);
+                    aux.setVisible(true);
+                    boolean accept = ((EliminarDocument) aux).isAccept();
+                    try {
+                        if (accept) {
+                            ictrlPresentacio.iqueryEliminarDocument(a[0],a[1]);
+                            ((DefaultListModel) list1.getModel()).remove(list1.getSelectedIndex());
+                        }
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
             }
         });
         //Mostrar el Contingut
