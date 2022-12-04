@@ -87,6 +87,6 @@ public class Persistencia {
         modificarDocument("hola", "adeu", "nouHola", "", "contingut modificat");
         modificarDocument("nouHola", "adeu", "", "nouAdeu", "contingut final");
         System.out.println(obtenirContingut("nouHola", "nouAdeu"));
-        eliminarDocument("nouHola", "nouAdeu");
+        //eliminarDocument("nouHola", "nouAdeu");
     }
 }

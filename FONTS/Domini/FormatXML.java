@@ -33,15 +33,29 @@ public class FormatXML implements Format {
         // Treu tot els espais en blanc fins <document>
         c = c.replaceFirst("^\\s*", "");
 
+        //Lista de tags que te dues funcionalitats
+        // La primera es mirar si en la primera i la ultima iteracio el tag es <document> i </document>
+        // La segona es:
+        //  - En el cas de buscar un tag de obertura, mirar que no l'hagi troabt ja
+        //  - En el cas de buscar un tag de tancament, mirar que el tacncament del tag
+        //    actual correspon amb el tancament trobat
         List<String> tags = new ArrayList<>();
         tags.add("<document>");
-        tags.add("<autor>");tags.add("</autor>");
-        tags.add("<titol>");tags.add("</titol>");
-        tags.add("<contingut>");tags.add("</contingut>");
+        tags.add("");
+        tags.add("");
+        tags.add("");
         tags.add("</document>");
 
-        Boolean[] tagsTrobats = new Boolean[8];
-        Arrays.fill(tagsTrobats, Boolean.FALSE);
+        HashMap<String, String> closingTags = new HashMap<String, String>();
+        closingTags.put("<autor>", "</autor>");
+        closingTags.put("<titol>", "</titol>");
+        closingTags.put("<contingut>", "</contingut>");
+
+        HashMap<String, String> resultMap = new HashMap<String, String>();
+        resultMap.put("<autor>", "");
+        resultMap.put("<titol>", "");
+        resultMap.put("<contingut>", "");
+
         int tagsIterator = 0;
         int cIterator = 0;
         int listIterator = 0;
@@ -52,23 +66,28 @@ public class FormatXML implements Format {
 
         boolean insideTags = false;
         boolean foundContent = false;
-
-        while (cIterator < c.length()) {
+        boolean finished = false;
+        while (cIterator < c.length() && !finished) {
             currentChar = c.charAt(cIterator);
             // We have to search for a certain open tag (if first tag we can't have anything before itself)
             if (!insideTags) {
                 if (Character.compare(currentChar, '<') == 0) {
                     if (builtTag.equals("")) builtTag = builtTag + currentChar;
                     else throw new Exception("Error, fitxar mal estructurat");
-                }
-                else if (Character.compare(currentChar, '>') == 0 && (!builtTag.equals("") || tagsIterator == 0)) {
+                } else if (Character.compare(currentChar, '>') == 0 && (!builtTag.equals("") || tagsIterator == 0)) {
                     builtTag = builtTag + currentChar;
-                    if (tags.contains(builtTag) && tags.get(tagsIterator).equals(builtTag)) {
-                        if (tagsTrobats[0]) insideTags = true;
-                        tagsTrobats[tagsIterator] = true;
-                        builtTag = "";
-                        ++tagsIterator;
-                    } else throw new Exception("Error, fitxar mal estructurat");
+                    if (tagsIterator == 0) {
+                        if (tags.contains(builtTag) && tags.get(tagsIterator).equals(builtTag)) {
+                            builtTag = "";
+                            ++tagsIterator;
+                        } else throw new Exception("Error, fitxar mal estructurat");
+                    } else {
+                        if (!tags.contains(builtTag) && closingTags.containsKey(builtTag)) {
+                            tags.set(tagsIterator, builtTag);
+                            insideTags = true;
+                            builtTag = "";
+                        } else throw new Exception("Error, fitxar mal estructurat");
+                    }
                 } else if (!builtTag.equals("") || tagsIterator == 0) {
                     builtTag = builtTag + currentChar;
                 }
@@ -81,9 +100,9 @@ public class FormatXML implements Format {
                 } else {
                     if (builtTag.equals("")) {
                         if (Character.getNumericValue(currentChar) != -1) foundContent = true;
-                        if (foundContent) {
-                            String oldResult = result.get(listIterator);
-                            result.set(listIterator, oldResult + currentChar);
+                        if (foundContent && tagsIterator != (tags.size() - 1)) {
+                            String oldResult = resultMap.get(tags.get(tagsIterator));
+                            resultMap.put(tags.get(tagsIterator), (oldResult + currentChar));
                             if (Character.compare(currentChar, '\n') == 0) foundContent = false;
                         }
                     } else if (Character.compare(currentChar, '/') == 0) {
@@ -91,16 +110,20 @@ public class FormatXML implements Format {
                         else throw new Exception("Error, fitxar mal estructurat");
                     } else if (Character.compare(currentChar, '>') == 0) {
                         builtTag = builtTag + currentChar;
-                        if (tags.contains(builtTag) && tags.get(tagsIterator).equals(builtTag)) {
-                            if (!tagsTrobats[6]) {
-                                insideTags = false;
-                                foundContent = false;
-                            }
-                            tagsTrobats[tagsIterator] = true;
-                            builtTag = "";
-                            ++tagsIterator;
-                            ++listIterator;
-                        } else throw new Exception("Error, fitxar mal estructurat");
+                        if (tagsIterator == (tags.size() - 1)) {
+                            if (tags.contains(builtTag) && tags.get(tagsIterator).equals(builtTag)) {
+                                finished = true;
+                            } else throw new Exception("Error, fitxar mal estructurat");
+                        } else {
+                            if (builtTag.equals(closingTags.get(tags.get(tagsIterator)))) {
+                                if (tagsIterator != (tags.size() - 2)) {
+                                    foundContent = false;
+                                    insideTags = false;
+                                }
+                                builtTag = "";
+                                ++tagsIterator;
+                            } else throw new Exception("Error, fitxar mal estructurat");
+                        }
                     } else {
                         builtTag = builtTag + currentChar;
                     }
@@ -108,6 +131,11 @@ public class FormatXML implements Format {
             }
             ++cIterator;
         }
+        if (!finished) throw new Exception("Error, fitxer mal estructurat");
+        //From Map to List
+        result.set(0, resultMap.get("<autor>"));
+        result.set(1, resultMap.get("<titol>"));
+        result.set(2, resultMap.get("<contingut>"));
         // Per treure els espais en blanc inicials
         result.set(0, result.get(0).replaceFirst("^\\s*", ""));
         result.set(1, result.get(1).replaceFirst("^\\s*", ""));

@@ -1,23 +1,32 @@
 
 
 
+
+
+
+
+
+
+
+
 <document>
+
+
+
+asdasf<contingut>
+    El polete
+    La siguiente linea
+</contingut>
+    <titol>
+        Quel
+    </titol>
+asfasf
     asdf
     <autor>
 
 
-
         Marc
-
-
     </autor>
 
-    <titol>
-        Quel
-    </titol>
-asd
-    <contingut>
-        El polete
-        La siguiente linea
-    </contingut>
+
 </document>

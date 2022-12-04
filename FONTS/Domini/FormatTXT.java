@@ -32,60 +32,38 @@ public class FormatTXT implements Format {
         String c = fitxer.toString();
         //Treu tots els espais en blanc fins a 'autor:'
         c = c.replaceFirst("^\\s*", "");
-        char currentChar;
 
+        char currentChar;
+        boolean breakFound = false;
         int cIterator = 0;
         int listIterator;
-
-        List<String> tags = new ArrayList<>();
-        tags.add("autor:");
-        tags.add("titol:");
-
-        String builtTag = "";
-
-        // Utilitzo aquesta variable per no guardar al titol o a l'autor
-        // Els espais entre els : i la primera lletra
-        boolean firstLetter = false;
-
-        // Look if the first 2 lines are autor: and titol:
+        //Guardem autor i titol
         for (listIterator = 0; listIterator < 2; ++listIterator) {
-            int counter = 0;
-            while (counter < tags.get(listIterator).length() && cIterator < c.length()) {
+            while (!breakFound && cIterator < c.length()) {
                 currentChar = c.charAt(cIterator);
-                boolean whiteSpace = (Character.compare(currentChar, '\n') == 0 || Character.compare(currentChar, ' ') == 0);
-                if (!whiteSpace) firstLetter = true;
-                if (!whiteSpace || firstLetter) {
-                    builtTag = builtTag + currentChar;
-                    ++counter;
+                if (Character.compare(currentChar, '\n') == 0) breakFound = true;
+                else {
+                    String oldResult = result.get(listIterator);
+                    result.set(listIterator, oldResult + currentChar);
                 }
                 ++cIterator;
             }
-            firstLetter = false;
-            if (builtTag.equals(tags.get(listIterator))) {
-                currentChar = c.charAt(cIterator);
-                while(currentChar != '\n' && cIterator < c.length()) {
-                    if (Character.compare(currentChar, ' ') != 0) firstLetter = true;
-                    if (firstLetter || Character.compare(currentChar, ' ') != 0) {
-                        String oldResult = result.get(listIterator);
-                        result.set(listIterator, oldResult + currentChar);
-                    }
-
-                    ++cIterator;
-                    currentChar = c.charAt(cIterator);
-                }
-                firstLetter = false;
-                ++cIterator;
-                builtTag = "";
-            } else throw new Exception("Error, fitxar mal estructurat");
+            breakFound = false;
         }
-
+        //Guardem contingut
         while (cIterator < c.length()) {
             currentChar = c.charAt(cIterator);
             String oldResult = result.get(listIterator);
             result.set(listIterator, oldResult + currentChar);
-
             ++cIterator;
         }
+        // Per treure els espais en blanc finals
+        result.set(0, result.get(0).replaceAll("\\s+$", ""));
+        result.set(1, result.get(1).replaceAll("\\s+$", ""));
+        result.set(2, result.get(2).replaceAll("\\s+$", ""));
+
+        if (result.get(0).length() == 0) throw new Exception("Error, autor buit");
+        if (result.get(1).length() == 0) throw new Exception("Error, titol buit");
         return result;
     }
 
