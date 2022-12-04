@@ -11,6 +11,7 @@ public class MainView extends JFrame {
     private JTextField searchTextField;
     private JComboBox comboBox1;
     private JList list1;
+    private JButton button1;
     private JMenuBar MenuBar;
     private JMenu File;
     private JMenu Export;
