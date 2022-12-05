@@ -69,7 +69,7 @@ public class jocProvesControladorDomini {
         }
         System.out.println("\nDocument creat correctament.");
     }
-
+    /*
     public static void testQueryCrearDocumentPath() throws Exception {
         System.out.println("queryCrearDocumentPath");
 
@@ -87,7 +87,7 @@ public class jocProvesControladorDomini {
         }
         System.out.println("Document creat correctament.");
     }
-
+    */
     public static void testQueryEliminarDocument() throws Exception {
         System.out.println("queryEliminarDocument");
 
@@ -165,6 +165,7 @@ public class jocProvesControladorDomini {
         System.out.println("Contingut del document amb autor "+autor+" i títol "+titol+" modificat correctament.");
     }
 
+    /*
     public static void testQueryModificarContingutPath() throws Exception {
         System.out.println("queryModificarContingutPath");
 
@@ -181,7 +182,7 @@ public class jocProvesControladorDomini {
             System.out.println(e.toString());
             return;
         }
-    }
+    }*/
 
     public static void testQueryLlistarTitolsAutor() throws Exception {
         System.out.println("queryLlistarTitolsAutor");
@@ -373,7 +374,7 @@ public class jocProvesControladorDomini {
                     dcd.testQueryCrearDocument();
                     break;
                 case queryCrearDocumentPath:
-                    dcd.testQueryCrearDocumentPath();
+                    //dcd.testQueryCrearDocumentPath();
                     break;
                 case queryEliminarDocument:
                     dcd.testQueryEliminarDocument();
@@ -388,7 +389,7 @@ public class jocProvesControladorDomini {
                     dcd.testQueryModificarContingut();
                     break;
                 case queryModificarContingutPath:
-                    dcd.testQueryModificarContingutPath();
+                    //dcd.testQueryModificarContingutPath();
                     break;
                 case queryLlistarTitolsAutor:
                     dcd.testQueryLlistarTitolsAutor();

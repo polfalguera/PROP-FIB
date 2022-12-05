@@ -87,6 +87,7 @@ public class DriverControladorDomini {
         System.out.println("\nDocument creat correctament.");
     }
 
+    /*
     public static void testQueryCrearDocumentPath() {
         System.out.println("queryCrearDocumentPath");
         Scanner sc = new Scanner(System.in);
@@ -104,7 +105,7 @@ public class DriverControladorDomini {
         }
         System.out.println("Document creat correctament.");
     }
-
+    */
     public static void testQueryEliminarDocument() {
         System.out.println("queryEliminarDocument");
         Scanner sc = new Scanner(System.in);
@@ -182,6 +183,7 @@ public class DriverControladorDomini {
         System.out.println("Contingut del document amb autor "+autor+" i títol "+titol+" modificat correctament.");
     }
 
+    /*
     public static void testQueryModificarContingutPath() {
         System.out.println("queryModificarContingutPath");
         Scanner sc = new Scanner(System.in);
@@ -198,7 +200,7 @@ public class DriverControladorDomini {
             System.out.println(e.toString());
             return;
         }
-    }
+    }*/
 
     public static void testQueryLlistarTitolsAutor() {
         System.out.println("queryLlistarTitolsAutor");
@@ -408,7 +410,7 @@ public class DriverControladorDomini {
                     dcd.testQueryCrearDocument();
                     break;
                 case queryCrearDocumentPath:
-                    dcd.testQueryCrearDocumentPath();
+                    //dcd.testQueryCrearDocumentPath();
                     break;
                 case queryEliminarDocument:
                     dcd.testQueryEliminarDocument();
@@ -423,7 +425,7 @@ public class DriverControladorDomini {
                     dcd.testQueryModificarContingut();
                     break;
                 case queryModificarContingutPath:
-                    dcd.testQueryModificarContingutPath();
+                    //dcd.testQueryModificarContingutPath();
                     break;
                 case queryLlistarTitolsAutor:
                     dcd.testQueryLlistarTitolsAutor();

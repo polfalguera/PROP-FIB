@@ -72,16 +72,19 @@ public class ControladorDomini {
      * @param path path que apunta al fitxer que conte el contingut a introduir.
      */
 
-    // Ara que ja tenim el controlador de format i la capa de persistencia ja no es necessaria
+    /* Ara que ja tenim el controlador de format i la capa de persistencia ja no es necessaria
     // aquesta funcio
     public void queryCrearDocumentPath(String autor, String titol, String path) throws Exception {
         try {
             cjtDocuments.crearDocument(autor,titol);
             CtrlContingut.afegirContingutPath(path);
+            //Capa de persistencia
+            Persistencia.nouDocument(autor, titol, CtrlContingut.getContingut());
         }catch (Exception e) {
             throw new Exception(e.toString());
         }
     }
+    */
 
     /**
      * Modificadora
@@ -167,6 +170,7 @@ public class ControladorDomini {
      */
     // Ara que ja tenim el controlador de format i la capa de persistencia ja no es necessaria
     // aquesta funcio
+    /*
     public void queryModificarContingutPath(String autor, String titol, String path) throws Exception {
         try {
             int id = cjtDocuments.indexDocument(autor,titol);
@@ -174,7 +178,7 @@ public class ControladorDomini {
         }catch (Exception e) {
             throw new Exception(e.toString());
         }
-    }
+    }*/
 
     /**
      * Consultora
