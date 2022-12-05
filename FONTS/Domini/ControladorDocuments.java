@@ -34,7 +34,7 @@ public class ControladorDocuments {
      */
     public void crearDocument(String autor, String titol) throws Exception {
         if (autor.equals("")) {
-            throw new Exception("Error, autor buit");
+            throw new Exception("Error, autor buit"); //java.lang.Exception: Error, autor buit.
         }
         if (titol.equals("")) {
             throw new Exception("Error, titol buit");

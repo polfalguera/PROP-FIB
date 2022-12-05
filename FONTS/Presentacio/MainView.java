@@ -210,7 +210,7 @@ public class MainView extends JFrame {
                         ((DefaultListModel) list1.getModel()).addElement(doc);
                     }
                 } catch (Exception ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(null,ex.getMessage());
                 }
 
             }

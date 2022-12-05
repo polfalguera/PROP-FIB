@@ -58,7 +58,7 @@ public class ControladorDomini {
             //Capa de persistencia
             Persistencia.nouDocument(autor, titol, contingut);
         } catch (Exception e) {
-            throw new Exception(e.toString());
+            throw new Exception(e.getMessage());
         }
     }
 

@@ -48,9 +48,8 @@ public class ControladorPresentacio {
         try {
             return CtrlDomini.queryConsultaExpressioBooleana(expressio);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,e.toString());
+            throw new Exception(e);
         }
-        return null;
     }
     public void carregarVistaPrincipal() {
         vistaBenvinguda.setVisible(false);
