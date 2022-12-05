@@ -91,11 +91,26 @@ public class MainView extends JFrame {
         searchTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (comboBox1.getItemAt(comboBox1.getSelectedIndex()) == "Expressió Booleana" ) {
+                    String expressio = searchTextField.getText();
+                    try {
+                        List<String> docs = ictrlPresentacio.iqueryConsultaExpressioBooleana(expressio);
+                        if (docs.isEmpty()) {
+                            JOptionPane.showMessageDialog(null,"Cap document satisfà l'expressió booleana introduïda.");
+                        }
+                        else {
+                            JDialog aux = new LlistarDocuments(docs,"Expressió Booleana");
+                            aux.setVisible(true);
+                        }
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null,ex.toString());
+                    }
+                }
                 if (comboBox1.getItemAt(comboBox1.getSelectedIndex()) == "Llistar autor" ) {
                     String autor = searchTextField.getText();
                     try {
                         List<String> ti = ictrlPresentacio.iqueryLlistarAutorsPrefix(autor);
-                        JFrame aux = new LlistarTitols(ti,autor,"Llistar autor");
+                        JDialog aux = new LlistarTitols(ti,autor,"Llistar autor");
                         aux.setVisible(true);
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
@@ -105,7 +120,7 @@ public class MainView extends JFrame {
                     String autor = searchTextField.getText();
                     try {
                         List<String> ti = ictrlPresentacio.iqueryLlistarTitolsAutor(autor);
-                        JFrame aux = new LlistarTitols(ti,autor,"Llistar titol");
+                        JDialog aux = new LlistarTitols(ti,autor,"Llistar titol");
                         aux.setVisible(true);
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);

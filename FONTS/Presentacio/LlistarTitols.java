@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.List;
 
-public class LlistarTitols extends JFrame {
+public class LlistarTitols extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;

@@ -1,6 +1,8 @@
 package FONTS.Presentacio;
 
 import FONTS.Domini.ControladorDomini;
+
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,14 @@ public class ControladorPresentacio {
 
     public List<String> iqueryLlistarAutorsPrefix(String prefix) throws Exception {
         return CtrlDomini.queryLlistarAutorsPrefix(prefix);
+    }
+    public List<String> iqueryConsultaExpressioBooleana(String expressio) throws Exception {
+        try {
+            return CtrlDomini.queryConsultaExpressioBooleana(expressio);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,e.toString());
+        }
+        return null;
     }
     public void carregarVistaPrincipal() {
         vistaBenvinguda.setVisible(false);
