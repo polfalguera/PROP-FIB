@@ -106,6 +106,26 @@ public class MainView extends JFrame {
                         JOptionPane.showMessageDialog(null,ex.toString());
                     }
                 }
+                if (comboBox1.getItemAt(comboBox1.getSelectedIndex()) == "Similaritat" ) {
+                    String[] info = searchTextField.getText().split(",");
+                    try {
+                        List<String> docs = ictrlPresentacio.iqueryObtenirKSemblants(info[0],info[1],Integer.parseInt(info[2]),Integer.parseInt(info[3]));
+                        JDialog aux = new LlistarDocuments(docs,"Similaritat");
+                        aux.setVisible(true);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null,ex.toString());
+                    }
+                }
+                if (comboBox1.getItemAt(comboBox1.getSelectedIndex()) == "Rellevància" ) {
+                    String[] info = searchTextField.getText().split(",");
+                    try {
+                        List<String> docs = ictrlPresentacio.iqueryObtenirKRellevants(info[0],Integer.parseInt(info[1]),Integer.parseInt(info[2]));
+                        JDialog aux = new LlistarDocuments(docs,"Rellevància");
+                        aux.setVisible(true);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null,ex.toString());
+                    }
+                }
                 if (comboBox1.getItemAt(comboBox1.getSelectedIndex()) == "Llistar autor" ) {
                     String autor = searchTextField.getText();
                     try {

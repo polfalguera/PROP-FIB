@@ -20,6 +20,9 @@ public class LlistarDocuments extends JDialog {
         if (funcio == "Expressió Booleana") {
             infoTextField.setText("Llistat de documents que compleixen l'expressió booleana introduïda:");
         }
+        else if(funcio == "Similaritat") {
+            infoTextField.setText("Llistat de documents més semblants:");
+        }
         List<String> res = new ArrayList<>();
         for (int i = 0; i < documents.size()-1; i += 2) {
             String aux = (documents.get(i) + "," + documents.get(i + 1));
@@ -50,7 +53,6 @@ public class LlistarDocuments extends JDialog {
     }
 
     private void onCancel() { //Botó de sortir.
-        // add your code here if necessary
         dispose();
     }
 }

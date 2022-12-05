@@ -51,6 +51,20 @@ public class ControladorPresentacio {
             throw new Exception(e);
         }
     }
+    public List<String> iqueryObtenirKSemblants(String autor, String titol, int k, int mode) throws Exception {
+        try {
+            return CtrlDomini.queryObtenirKSemblants(autor,titol,k,mode);
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
+    public List<String> iqueryObtenirKRellevants(String paraules, int k, int mode) throws Exception {
+        try {
+            return CtrlDomini.queryObtenirKRellevants(paraules,k,mode);
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
     public void carregarVistaPrincipal() {
         vistaBenvinguda.setVisible(false);
         vistaPrincipal.setVisible(true);
