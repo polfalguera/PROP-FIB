@@ -101,7 +101,7 @@ public class ControladorDomini {
             //Capa de persistencia
             Persistencia.eliminarDocument(autor, titol);
         } catch (Exception e){
-            throw new Exception(e.toString());
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -120,7 +120,7 @@ public class ControladorDomini {
             String contingut = CtrlContingut.getContingut(index);
             Persistencia.modificarDocument(anticAutor, titol, nouAutor, titol, contingut);
         } catch (Exception e) {
-            throw new Exception(e.toString());
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -139,7 +139,7 @@ public class ControladorDomini {
             String contingut = CtrlContingut.getContingut(index);
             Persistencia.modificarDocument(autor, anticTitol, autor, nouTitol, contingut);
         } catch (Exception e) {
-            throw new Exception(e.toString());
+            throw new Exception(e.getMessage());
         }
     }
     /**
@@ -156,7 +156,7 @@ public class ControladorDomini {
             //Capa de persistencia
             Persistencia.modificarDocument(autor, titol, autor, titol, nouContingut);
         }catch (Exception e) {
-            throw new Exception(e.toString());
+            throw new Exception(e.getMessage());
         }
     }
     /**
@@ -190,7 +190,7 @@ public class ControladorDomini {
             List<String> llistat = cjtDocuments.llistarTitolsAutor(autor);
             return llistat;
         } catch (Exception e) {
-            throw new Exception(e.toString());
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -204,7 +204,7 @@ public class ControladorDomini {
             List<String> llistat = cjtDocuments.llistarAutorsPrefix(prefix);
             return llistat;
         } catch (Exception e) {
-            throw new Exception(e.toString());
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -220,7 +220,7 @@ public class ControladorDomini {
             String contingut = CtrlContingut.getContingut(id);
             return contingut;
         } catch (Exception e ) {
-            throw new Exception(e.toString());
+            throw new Exception(e.getMessage());
         }
     }
     /* PER A FUTURES ENTREGUES
