@@ -10,7 +10,6 @@ public class WelcomeView extends JFrame {
     private JPanel welcomePanel;
     private JLabel textBenvinguda;
     private JButton iniciarButton;
-    private JLabel empty;
     private JButton sortirButton;
     public void initializeListeners() {
         iniciarButton.addActionListener(new ActionListener() {
