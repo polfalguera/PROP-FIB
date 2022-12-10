@@ -76,7 +76,6 @@ public class ControladorPresentacio {
 
     public static void main (String[] args) {
         try {
-
             ControladorPresentacio CtrlPresentacio = new ControladorPresentacio();
             CtrlPresentacio.vistaBenvinguda.setVisible(true);
         } catch(Exception e) {

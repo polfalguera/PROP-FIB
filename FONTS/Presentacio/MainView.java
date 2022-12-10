@@ -18,7 +18,7 @@ public class MainView extends JFrame {
     private JPanel mainPanel;
     private JLabel searchLabel;
     private JTextField searchTextField;
-    private JComboBox comboBox1;
+    private JComboBox consultesComboBox;
 
 
     private JPopupMenu popupMenu;
@@ -35,6 +35,7 @@ public class MainView extends JFrame {
     private JButton modificarTitolButton;
     private JButton eliminarDocumentButton;
     private JButton modificarContingutButton;
+    private JButton historialButton;
     private JMenuBar MenuBar;
     private JMenu File;
     private JMenu Export;
@@ -131,7 +132,7 @@ public class MainView extends JFrame {
         searchTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (comboBox1.getItemAt(comboBox1.getSelectedIndex()) == "Expressió Booleana" ) {
+                if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Expressió Booleana" ) {
                     String expressio = searchTextField.getText();
                     try {
                         List<String> docs = ictrlPresentacio.iqueryConsultaExpressioBooleana(expressio);
@@ -146,7 +147,7 @@ public class MainView extends JFrame {
                         JOptionPane.showMessageDialog(null,ex.toString());
                     }
                 }
-                if (comboBox1.getItemAt(comboBox1.getSelectedIndex()) == "Similaritat" ) {
+                if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Similaritat" ) {
                     String[] info = searchTextField.getText().split(",");
                     try {
                         List<String> docs = ictrlPresentacio.iqueryObtenirKSemblants(info[0],info[1],Integer.parseInt(info[2]),Integer.parseInt(info[3]));
@@ -156,7 +157,7 @@ public class MainView extends JFrame {
                         JOptionPane.showMessageDialog(null,ex.toString());
                     }
                 }
-                if (comboBox1.getItemAt(comboBox1.getSelectedIndex()) == "Rellevància" ) {
+                if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Rellevància" ) {
                     String[] info = searchTextField.getText().split(",");
                     try {
                         List<String> docs = ictrlPresentacio.iqueryObtenirKRellevants(info[0],Integer.parseInt(info[1]),Integer.parseInt(info[2]));
@@ -166,7 +167,7 @@ public class MainView extends JFrame {
                         JOptionPane.showMessageDialog(null,ex.toString());
                     }
                 }
-                if (comboBox1.getItemAt(comboBox1.getSelectedIndex()) == "Llistar autor" ) {
+                if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar autor" ) {
                     String autor = searchTextField.getText();
                     try {
                         List<String> ti = ictrlPresentacio.iqueryLlistarAutorsPrefix(autor);
@@ -176,7 +177,7 @@ public class MainView extends JFrame {
                         JOptionPane.showMessageDialog(null,ex.toString());
                     }
                 }
-                if(comboBox1.getItemAt(comboBox1.getSelectedIndex()) == "Llistar titol" ) {
+                if(consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar titol" ) {
                     String autor = searchTextField.getText();
                     try {
                         List<String> ti = ictrlPresentacio.iqueryLlistarTitolsAutor(autor);
@@ -324,27 +325,7 @@ public class MainView extends JFrame {
         };
         eliminarDocumentButton.addActionListener(eliminar_document);
         pop_eliminar_document.addActionListener(eliminar_document);
-
-        eliminarDocumentButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (list1.getSelectedIndex() != -1) {
-                    String[] a = list1.getSelectedValue().toString().split(",");
-                    JDialog aux = new EliminarDocument();
-                    aux.setSize(350,150);
-                    aux.setVisible(true);
-                    boolean accept = ((EliminarDocument) aux).isAccept();
-                    try {
-                        if (accept) {
-                            ictrlPresentacio.iqueryEliminarDocument(a[0],a[1]);
-                            ((DefaultListModel) list1.getModel()).remove(list1.getSelectedIndex());
-                        }
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null,ex.toString());
-                    }
-                }
-            }
-        });
+        
         MouseAdapter mostrar_contingut = new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -365,10 +346,25 @@ public class MainView extends JFrame {
             }
         };
         list1.addMouseListener(mostrar_contingut);
-    }
 
-    public void inicializeActions() {
+        consultesComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Expressió Booleana") {
+                    historialButton.setVisible(true);
+                } else historialButton.setVisible(false);
+            }
+        });
 
+        historialButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JDialog aux = new HistorialExpressionsBooleanes();
+                aux.setSize(1000,1000);
+                aux.pack();
+                aux.setVisible(true);
+            }
+        });
     }
     public MainView(String title, ControladorPresentacio pCtrlPresentacio) throws Exception {
         super(title);
@@ -377,9 +373,9 @@ public class MainView extends JFrame {
         this.setContentPane(mainPanel);
         this.pack();
         this.setSize(750,500);
+        historialButton.setVisible(false);
         initializeMenuBar();
         initializeListeners();
-
     }
 
 }
