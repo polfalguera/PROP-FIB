@@ -62,8 +62,8 @@ public class FormatTXT implements Format {
         result.set(1, result.get(1).replaceAll("\\s+$", ""));
         result.set(2, result.get(2).replaceAll("\\s+$", ""));
 
-        if (result.get(0).length() == 0) throw new Exception("Error, autor buit");
-        if (result.get(1).length() == 0) throw new Exception("Error, titol buit");
+        if (result.get(0).length() == 0) throw new Exception("Error: autor buit");
+        if (result.get(1).length() == 0) throw new Exception("Error: títol buit");
         return result;
     }
 

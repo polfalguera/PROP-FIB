@@ -34,16 +34,16 @@ public class ControladorDocuments {
      */
     public void crearDocument(String autor, String titol) throws Exception {
         if (autor.equals("")) {
-            throw new Exception("Error, autor buit"); //java.lang.Exception: Error, autor buit.
+            throw new Exception("Error: autor buit"); //java.lang.Exception: Error, autor buit.
         }
         if (titol.equals("")) {
-            throw new Exception("Error, titol buit");
+            throw new Exception("Error: títol buit");
         }
         if (titolsPerAutor.containsKey(autor)) {
             if (!titolsPerAutor.get(autor).contains(titol)) {
                 titolsPerAutor.get(autor).add(titol);
             } else {
-                throw new Exception("Error, titol de l'autor ja existent");
+                throw new Exception("Error: títol de l'autor ja existent");
             }
         } else {
             List<String> titols = new ArrayList<String>();
@@ -63,18 +63,18 @@ public class ControladorDocuments {
      */
     public void eliminarDocument(String autor, String titol) throws Exception {
         if (autor.equals("")) {
-            throw new Exception("Error, autor buit");
+            throw new Exception("Error: autor buit");
         }
         if (titol.equals("")) {
-            throw new Exception("Error, titol buit");
+            throw new Exception("Error: títol buit");
         }
 
         if (!titolsPerAutor.containsKey(autor)) {
-            throw new Exception("Error, autor no existent");
+            throw new Exception("Error: autor no existent");
 
         }
         if (!titolsPerAutor.get(autor).contains(titol)) {
-            throw new Exception("Error, titol de l'autor no existent");
+            throw new Exception("Error: títol de l'autor no existent");
         }
         for (int i = 0; i < documents.size(); ++i) {
             Document doc = documents.get(i);
@@ -107,13 +107,13 @@ public class ControladorDocuments {
      */
     public void modificarAutor(String anticAutor, String nouAutor, String titol) throws Exception {
         if (nouAutor.equals("")) {
-            throw new Exception("Error, nou autor buit");
+            throw new Exception("Error: nou autor buit");
         }
         if (anticAutor.equals("")) {
-            throw new Exception("Error, autor buit");
+            throw new Exception("Error: autor buit");
         }
         if (titol.equals("")) {
-            throw new Exception("Error, titol buit");
+            throw new Exception("Error: títol buit");
         }
         if (nouAutor.equals((anticAutor))) return;
 
@@ -137,7 +137,7 @@ public class ControladorDocuments {
                         Document nou = new Document(titol, nouAutor);
                         documents.set(index, nou);
                     } else {
-                        throw new Exception("Error, titol del nou autor ja existent");
+                        throw new Exception("Error: títol del nou autor ja existent");
                     }
                 } else {
                     if (titolsPerAutor.get(anticAutor).size() == 1) {
@@ -161,10 +161,10 @@ public class ControladorDocuments {
                 }
 
             } else {
-                throw new Exception("Error, titol de l'autor no existent");
+                throw new Exception("Error: títol de l'autor no existent");
             }
         } else {
-            throw new Exception("Error, autor no existent");
+            throw new Exception("Error: autor no existent");
         }
 
     }
@@ -178,13 +178,13 @@ public class ControladorDocuments {
      */
     public void modificarTitol(String autor, String anticTitol, String nouTitol) throws Exception {
         if (nouTitol.equals("")) {
-            throw new Exception("Error, nou titol buit");
+            throw new Exception("Error: nou títol buit");
         }
         if (anticTitol.equals("")) {
-            throw new Exception("Error, titol buit");
+            throw new Exception("Error: títol buit");
         }
         if (autor.equals("")) {
-            throw new Exception("Error, autor buit");
+            throw new Exception("Error: autor buit");
         }
 
         if (anticTitol.equals(nouTitol)) return;
@@ -213,13 +213,13 @@ public class ControladorDocuments {
                     }
                     titolsPerAutor.get(autor).set(index, nouTitol);
                 } else {
-                    throw new Exception("Error, l'autor ja te un titol com el nou titol");
+                    throw new Exception("Error: l'autor ja té un títol com el nou títol");
                 }
             } else {
-                throw new Exception("Error, titol de l'autor no existent");
+                throw new Exception("Error: títol de l'autor no existent");
             }
         } else {
-            throw new Exception("Error, autor no existent");
+            throw new Exception("Error: autor no existent");
         }
     }
 
@@ -228,11 +228,11 @@ public class ControladorDocuments {
      * @param autor es l'autor del qual volem saber tots els seus titols
      * @return Retorna una llista que conte els titols de l'autor introduit
      * */
-    public List<String> llistarTitolsAutor(String autor) throws Exception{
+    public List<String> llistarTitolsAutor(String autor) throws Exception {
         List<String> llistat = new ArrayList<>();
 
         if (titolsPerAutor.containsKey(autor)) llistat = titolsPerAutor.get(autor);
-        if (llistat.isEmpty()) throw new Exception("No existeix cap titol de l'autor introduit");
+        if (llistat.isEmpty()) throw new Exception("Error: no existeix cap títol de l'autor introduït");
         return llistat;
     }
 
@@ -254,7 +254,7 @@ public class ControladorDocuments {
      * @param prefix es el prefix que han de contenir tots els autors que volem llistar
      * @return Retorna una llista que conte tots els autors que contenen el prefix introduit
      * */
-    public List<String> llistarAutorsPrefix(String prefix) {
+    public List<String> llistarAutorsPrefix(String prefix) throws Exception {
         List<String> llistat = new ArrayList<>();
 
         Set<String> autors = titolsPerAutor.keySet();
@@ -269,7 +269,7 @@ public class ControladorDocuments {
                 if (primerTrobat) break;
             }
         }
-
+        if (llistat.isEmpty()) throw new Exception("Error: no existeix cap autor amb el prefix introduït");
         return llistat;
     }
 
@@ -281,16 +281,16 @@ public class ControladorDocuments {
      * */
     public int indexDocument(String autor, String titol) throws Exception{
         if (titol.equals("")) {
-            throw new Exception("Error, titol buit");
+            throw new Exception("Error: títol buit");
         }
         if (autor.equals("")) {
-            throw new Exception("Error, autor buit");
+            throw new Exception("Error: autor buit");
         }
         if (!titolsPerAutor.containsKey(autor)) {
-            throw new Exception("Error, autor no existent");
+            throw new Exception("Error: autor no existent");
         }
         if (!titolsPerAutor.get(autor).contains(titol)) {
-            throw new Exception("Error, titol de l'autor no existent");
+            throw new Exception("Error: títol de l'autor no existent");
         }
         for (int i = 0; i < documents.size(); ++i) {
             Document doc = documents.get(i);
@@ -307,7 +307,7 @@ public class ControladorDocuments {
      * @return Retorna l'autor i el titol del document en la posicio index en documents
      * */
     public List<String> getAutorTitolIndex(int id) throws Exception {
-        if (id >= documents.size() || id < 0) throw new Exception("Error, index out of bounds");
+        if (id >= documents.size() || id < 0) throw new Exception("Error: index out of bounds");
         List<String> AutorTitol = new ArrayList<String>();
 
         AutorTitol.add(documents.get(id).getAutor());

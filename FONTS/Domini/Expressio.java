@@ -27,7 +27,7 @@ public class Expressio {
      * */
     public Expressio(String ex) throws Exception {
         if (ex.equals("")) {
-            throw new Exception("Expressio buida");
+            throw new Exception("Error: expressió buida");
         }
         String aux = "("+ex+")";
         if (esta_ben_Formalitzat(aux)) {
@@ -310,7 +310,7 @@ public class Expressio {
             //Tractar els casos que els operadors estan d'estar separats per espais
             if ( aux1 == 0 && aux%2 == 0 && (x == '&' || x == '|') ) {
                 if (expr.charAt(i-1) != ' ' || expr.charAt(i+1) != ' ') {
-                    throw new Exception("Error, Els operadors & i | han de estar separats per espais");
+                    throw new Exception("Error: els operadors & i | han d'estar separats per espais");
                 }
             }
             //Tractar els casos {}
@@ -323,7 +323,7 @@ public class Expressio {
             if (x == ' ' && aux%2 == 0 && aux1 == 0) {
                 if ( !((expr.charAt(i-1) == '&' || expr.charAt(i-1) == '|') ||
                         (expr.charAt(i+1) == '&' || expr.charAt(i+1) == '|'))) {
-                    throw new Exception("Error, Has de servir operadors per separar paraules");
+                    throw new Exception("Error: has de fer servir operadors per a separar paraules");
                 }
             }
 
@@ -360,7 +360,7 @@ public class Expressio {
         }
         // Check Empty Stack
         if (!stack.isEmpty()) {
-            throw new Exception("Error, Expressio mal formalitzat");
+            throw new Exception("Error: expressió mal formalitzada");
         }
         return true;
     }

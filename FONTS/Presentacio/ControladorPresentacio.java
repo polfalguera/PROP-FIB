@@ -5,6 +5,7 @@ import FONTS.Domini.ControladorDomini;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ControladorPresentacio {
 
@@ -19,54 +20,81 @@ public class ControladorPresentacio {
         this.vistaBenvinguda = new WelcomeView("Benvinguda!",this);
     }
     public void iqueryCrearDocument(String autor, String titol, String contingut) throws Exception {
-        CtrlDomini.queryCrearDocument(autor, titol, contingut);
+        try {
+            CtrlDomini.queryCrearDocument(autor, titol, contingut);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
     public void iqueryEliminarDocument(String autor, String titol) throws Exception {
-        CtrlDomini.queryEliminarDocument(autor,titol);
+        try {
+            CtrlDomini.queryEliminarDocument(autor,titol);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
-
-    public String iqueryGetContingutDocument(String autor, String titol) throws Exception{
-        return CtrlDomini.queryGetContingutDocument(autor, titol);
+    public String iqueryGetContingutDocument(String autor, String titol) throws Exception {
+        try {
+            return CtrlDomini.queryGetContingutDocument(autor, titol);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
-
     public void iqueryModificarAutor(String anticAutor, String nouAutor, String titol) throws Exception{
-        CtrlDomini.queryModificarAutor(anticAutor, nouAutor, titol);
+        try {
+            CtrlDomini.queryModificarAutor(anticAutor, nouAutor, titol);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
-
     public void iqueryModificarTitol(String autor, String anticTitol, String nouTitol) throws Exception {
-        CtrlDomini.queryModificarTitol(autor, anticTitol, nouTitol);
+        try {
+            CtrlDomini.queryModificarTitol(autor, anticTitol, nouTitol);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
     public void iqueryModificarContingut(String autor, String anticTitol, String nouTitol) throws Exception {
-        CtrlDomini.queryModificarContingut(autor, anticTitol, nouTitol);
+        try {
+            CtrlDomini.queryModificarContingut(autor, anticTitol, nouTitol);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
-
-
     public List<String> iqueryLlistarTitolsAutor(String autor) throws Exception {
-        return CtrlDomini.queryLlistarTitolsAutor(autor);
+        try {
+            return CtrlDomini.queryLlistarTitolsAutor(autor);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     public List<String> iqueryLlistarAutorsPrefix(String prefix) throws Exception {
-        return CtrlDomini.queryLlistarAutorsPrefix(prefix);
+        try {
+            return CtrlDomini.queryLlistarAutorsPrefix(prefix);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
     public List<String> iqueryConsultaExpressioBooleana(String expressio) throws Exception {
         try {
             return CtrlDomini.queryConsultaExpressioBooleana(expressio);
         } catch (Exception e) {
-            throw new Exception(e);
+            throw new Exception(e.getMessage());
         }
     }
     public List<String> iqueryObtenirKSemblants(String autor, String titol, int k, int mode) throws Exception {
         try {
             return CtrlDomini.queryObtenirKSemblants(autor,titol,k,mode);
         } catch (Exception e) {
-            throw new Exception(e);
+            throw new Exception(e.getMessage());
         }
     }
     public List<String> iqueryObtenirKRellevants(String paraules, int k, int mode) throws Exception {
         try {
             return CtrlDomini.queryObtenirKRellevants(paraules,k,mode);
         } catch (Exception e) {
-            throw new Exception(e);
+            throw new Exception(e.getMessage());
         }
     }
     public void carregarVistaPrincipal() {

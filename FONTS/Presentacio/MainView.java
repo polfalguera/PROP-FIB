@@ -144,7 +144,7 @@ public class MainView extends JFrame {
                             aux.setVisible(true);
                         }
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null,ex.toString());
+                        JOptionPane.showMessageDialog(null,ex.getMessage());
                     }
                 }
                 if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Similaritat" ) {
@@ -154,7 +154,7 @@ public class MainView extends JFrame {
                         JDialog aux = new LlistarDocuments(docs,"Similaritat");
                         aux.setVisible(true);
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null,ex.toString());
+                        JOptionPane.showMessageDialog(null,ex.getMessage());
                     }
                 }
                 if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Rellevància" ) {
@@ -164,7 +164,7 @@ public class MainView extends JFrame {
                         JDialog aux = new LlistarDocuments(docs,"Rellevància");
                         aux.setVisible(true);
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null,ex.toString());
+                        JOptionPane.showMessageDialog(null,ex.getMessage());
                     }
                 }
                 if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar autor" ) {
@@ -174,7 +174,7 @@ public class MainView extends JFrame {
                         JDialog aux = new LlistarTitols(ti,autor,"Llistar autor");
                         aux.setVisible(true);
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null,ex.toString());
+                        JOptionPane.showMessageDialog(null,ex.getMessage());
                     }
                 }
                 if(consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar titol" ) {
@@ -184,7 +184,7 @@ public class MainView extends JFrame {
                         JDialog aux = new LlistarTitols(ti,autor,"Llistar titol");
                         aux.setVisible(true);
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null,ex.toString());
+                        JOptionPane.showMessageDialog(null,ex.getMessage());
                     }
                 }
             }
@@ -228,7 +228,7 @@ public class MainView extends JFrame {
                             ictrlPresentacio.iqueryModificarContingut(a[0],a[1],nou_contingut);
                         }
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null,ex.toString());
+                        JOptionPane.showMessageDialog(null,ex.getMessage());
                     }
                 }
             }
@@ -251,7 +251,7 @@ public class MainView extends JFrame {
                             ((DefaultListModel) list1.getModel()).setElementAt(doc,list1.getSelectedIndex());
                         }
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null,ex.toString());
+                        JOptionPane.showMessageDialog(null,ex.getMessage());
                     }
                 }
             }
@@ -274,7 +274,7 @@ public class MainView extends JFrame {
                             ((DefaultListModel) list1.getModel()).setElementAt(doc,list1.getSelectedIndex());
                         }
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null,ex.toString());
+                        JOptionPane.showMessageDialog(null,ex.getMessage());
                     }
                 }
             }
@@ -298,6 +298,8 @@ public class MainView extends JFrame {
                     }
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null,ex.getMessage());
+                    JOptionPane.showMessageDialog(null,"Tornem a mostrar la finestra per a que puguis copiar el progrés que tenies.");
+                    aux.setVisible(true);
                 }
             }
         };
@@ -318,14 +320,14 @@ public class MainView extends JFrame {
                             ((DefaultListModel) list1.getModel()).remove(list1.getSelectedIndex());
                         }
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null,ex.toString());
+                        JOptionPane.showMessageDialog(null,ex.getMessage());
                     }
                 }
             }
         };
         eliminarDocumentButton.addActionListener(eliminar_document);
         pop_eliminar_document.addActionListener(eliminar_document);
-        
+
         MouseAdapter mostrar_contingut = new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -337,9 +339,9 @@ public class MainView extends JFrame {
                         String[] a = item.toString().split(",");
                         try {
                             String Contingut = ictrlPresentacio.iqueryGetContingutDocument(a[0],a[1]);
-                            JOptionPane.showMessageDialog(null,Contingut);
+                            MostrarContingut mc = new MostrarContingut(a[0],a[1],Contingut);
                         } catch (Exception ex) {
-                            JOptionPane.showMessageDialog(null,ex.toString());
+                            JOptionPane.showMessageDialog(null,ex.getMessage());
                         }
                     }
                 }

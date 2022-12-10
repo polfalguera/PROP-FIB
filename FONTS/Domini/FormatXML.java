@@ -73,20 +73,20 @@ public class FormatXML implements Format {
             if (!insideTags) {
                 if (Character.compare(currentChar, '<') == 0) {
                     if (builtTag.equals("")) builtTag = builtTag + currentChar;
-                    else throw new Exception("Error, fitxar mal estructurat");
+                    else throw new Exception("Error: fitxer mal estructurat");
                 } else if (Character.compare(currentChar, '>') == 0 && (!builtTag.equals("") || tagsIterator == 0)) {
                     builtTag = builtTag + currentChar;
                     if (tagsIterator == 0) {
                         if (tags.contains(builtTag) && tags.get(tagsIterator).equals(builtTag)) {
                             builtTag = "";
                             ++tagsIterator;
-                        } else throw new Exception("Error, fitxar mal estructurat");
+                        } else throw new Exception("Error: fitxer mal estructurat");
                     } else {
                         if (!tags.contains(builtTag) && closingTags.containsKey(builtTag)) {
                             tags.set(tagsIterator, builtTag);
                             insideTags = true;
                             builtTag = "";
-                        } else throw new Exception("Error, fitxar mal estructurat");
+                        } else throw new Exception("Error: fitxer mal estructurat");
                     }
                 } else if (!builtTag.equals("") || tagsIterator == 0) {
                     builtTag = builtTag + currentChar;
@@ -96,7 +96,7 @@ public class FormatXML implements Format {
             else {
                 if (Character.compare(currentChar, '<') == 0) {
                     if (builtTag.equals("")) builtTag = builtTag + currentChar;
-                    else throw new Exception("Error, fitxar mal estructurat");
+                    else throw new Exception("Error: fitxer mal estructurat");
                 } else {
                     if (builtTag.equals("")) {
                         if (Character.getNumericValue(currentChar) != -1) foundContent = true;
@@ -107,13 +107,13 @@ public class FormatXML implements Format {
                         }
                     } else if (Character.compare(currentChar, '/') == 0) {
                         if (builtTag.equals("<")) builtTag = builtTag + currentChar;
-                        else throw new Exception("Error, fitxar mal estructurat");
+                        else throw new Exception("Error: fitxer mal estructurat");
                     } else if (Character.compare(currentChar, '>') == 0) {
                         builtTag = builtTag + currentChar;
                         if (tagsIterator == (tags.size() - 1)) {
                             if (tags.contains(builtTag) && tags.get(tagsIterator).equals(builtTag)) {
                                 finished = true;
-                            } else throw new Exception("Error, fitxar mal estructurat");
+                            } else throw new Exception("Error: fitxer mal estructurat");
                         } else {
                             if (builtTag.equals(closingTags.get(tags.get(tagsIterator)))) {
                                 if (tagsIterator != (tags.size() - 2)) {
@@ -122,7 +122,7 @@ public class FormatXML implements Format {
                                 }
                                 builtTag = "";
                                 ++tagsIterator;
-                            } else throw new Exception("Error, fitxar mal estructurat");
+                            } else throw new Exception("Error: fitxer mal estructurat");
                         }
                     } else {
                         builtTag = builtTag + currentChar;
@@ -131,7 +131,7 @@ public class FormatXML implements Format {
             }
             ++cIterator;
         }
-        if (!finished) throw new Exception("Error, fitxer mal estructurat");
+        if (!finished) throw new Exception("Error: fitxer mal estructurat");
         //From Map to List
         result.set(0, resultMap.get("<autor>"));
         result.set(1, resultMap.get("<titol>"));
@@ -145,8 +145,8 @@ public class FormatXML implements Format {
         result.set(1, result.get(1).replaceAll("\\s+$", ""));
         result.set(2, result.get(2).replaceAll("\\s+$", ""));
 
-        if (result.get(0).length() == 0) throw new Exception("Error, autor buit");
-        if (result.get(1).length() == 0) throw new Exception("Error, titol buit");
+        if (result.get(0).length() == 0) throw new Exception("Error: autor buit");
+        if (result.get(1).length() == 0) throw new Exception("Error: títol buit");
 
         return result;
     }

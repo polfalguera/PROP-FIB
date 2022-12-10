@@ -72,7 +72,7 @@ public class ControladorFormat {
                 throw new Exception(e.toString());
             }
         }
-        else throw new Exception("Error, format incorrcte");
+        else throw new Exception("Error: format incorrecte");
     }
 
     /**
@@ -105,6 +105,6 @@ public class ControladorFormat {
                 throw new Exception(e.toString());
             }
         }
-        else throw new Exception("Error, format incorrcte");
+        else throw new Exception("Error: format incorrecte");
     }
 }

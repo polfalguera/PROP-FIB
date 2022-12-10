@@ -261,7 +261,7 @@ public class ControladorDomini {
             }
             return llistat;
         } catch (Exception e) {
-            throw new Exception(e.toString());
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -285,7 +285,7 @@ public class ControladorDomini {
             }
             return llistat;
         }catch (Exception e) {
-            throw new Exception(e.toString());
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -298,7 +298,7 @@ public class ControladorDomini {
         try {
             CtrlExpressions.anadir_expressio(expressio);
         } catch (Exception e) {
-            throw new Exception(e.toString());
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -311,7 +311,7 @@ public class ControladorDomini {
         try {
             CtrlExpressions.deleteExpressio(expressio);
         } catch (Exception e) {
-            throw new Exception(e.toString());
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -325,7 +325,7 @@ public class ControladorDomini {
         try {
             CtrlExpressions.setExpressio(antigaExpressio,novaExpressio);
         } catch (Exception e) {
-            throw new Exception(e.toString());
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -346,7 +346,7 @@ public class ControladorDomini {
             }
             return llistat;
         } catch (Exception e) {
-            throw new Exception(e.toString());
+            throw new Exception(e.getMessage());
         }
     }
     public void carregarDocument(String direccio, String format) throws Exception {
@@ -359,7 +359,7 @@ public class ControladorDomini {
             CtrlContingut.afegirContingut(contingut);
             Persistencia.nouDocument(autor, titol, contingut);
         } catch (Exception e) {
-            throw new Exception(e.toString());
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -375,7 +375,7 @@ public class ControladorDomini {
             String file = CtrlFormat.documentToFile(autor, titol, contingut, format);
             return file;
         } catch (Exception e) {
-            throw new Exception(e.toString());
+            throw new Exception(e.getMessage());
         }
     }
 

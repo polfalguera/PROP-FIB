@@ -27,7 +27,7 @@ public class ControladorExpressions {
      */
     private Expressio crearExpressio(String ex) throws Exception{
         if(ex.equals("")) {
-            throw new Exception("Error, expressio buida");
+            throw new Exception("Error: expressió buida");
         }
         return new Expressio(ex);
     }
@@ -47,10 +47,10 @@ public class ControladorExpressions {
      */
     private Expressio getExpressio(String ex) throws Exception{
         if(ex.equals("")) {
-            throw new Exception("Error, expressio buida");
+            throw new Exception("Error: expressió buida");
         }
         if(!expressions.containsKey(ex)) {
-            throw new Exception("Error, expressio no existeix");
+            throw new Exception("Error: expressió no existeix");
         }
         return expressions.get(ex);
     }
@@ -78,10 +78,10 @@ public class ControladorExpressions {
      */
     public void anadir_expressio(String ex) throws Exception{
         if(ex.equals("")) {
-            throw new Exception("Error, expressio buida");
+            throw new Exception("Error: expressió buida");
         }
         if (expressions.containsKey(ex)) {
-            throw new Exception("Error, expressio ja existent");
+            throw new Exception("Error: expressió ja existent");
         }
         Expressio new_ex = new Expressio(ex);
         //ex -> l'expressio de frase
@@ -90,7 +90,7 @@ public class ControladorExpressions {
             expressions.put(ex,new_ex);
             //System.out.println("S'ha afegit correctament la nova expressio");
         }else {
-            throw new Exception("Error, l'expressio esta mal formalitzada");
+            throw new Exception("Error: l'expressió està mal formalitzada");
         }
 
     }
@@ -102,10 +102,10 @@ public class ControladorExpressions {
      */
     public void deleteExpressio(String key) throws Exception{
         if(key.equals("")) {
-            throw new Exception("Error, expressio buida");
+            throw new Exception("Error: expressió buida");
         }
         if(!expressions.containsKey(key)){
-            throw new Exception("Error, expressio no existent");
+            throw new Exception("Error: expressió no existent");
         }
         expressions.remove(key);
     }
@@ -116,10 +116,10 @@ public class ControladorExpressions {
      */
     public void setExpressio(String key,String nova_ex) throws Exception {
         if(key.equals("")) {
-            throw new Exception("Error, expressio buida");
+            throw new Exception("Error: expressió buida");
         }
         if(nova_ex.equals("")) {
-            throw new Exception("Error, expressio nova buida");
+            throw new Exception("Error: expressió nova buida");
         }
         try {
             deleteExpressio(key);

@@ -73,7 +73,7 @@ public class ConjuntContinguts {
         try {
             this.stopWords = assignarStopWords();
         } catch (Exception e) {
-            throw e;
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -102,7 +102,7 @@ public class ConjuntContinguts {
             while((line = br.readLine()) != null) result.add(line);
             return result;
         } catch (Exception e) {
-            throw new Exception("Error, no s'han pogut carregar les stopwords");
+            throw new Exception("Error: no s'han pogut carregar les stopwords");
         }
     }
     /**
@@ -164,11 +164,11 @@ public class ConjuntContinguts {
                 }
             }
 
-            if (contingut.isEmpty()) throw new Exception("Error, contingut buit");
+            if (contingut.isEmpty()) throw new Exception("Error: contingut buit");
             this.freqContingut.add(text);
             this.Contingut.add(contingut.toString());
         } catch (Exception e) {
-            throw new Exception("Error, path del document incorrecte");
+            throw new Exception("Error: path del document incorrecte");
         }
     }
     /**
@@ -176,7 +176,7 @@ public class ConjuntContinguts {
      * @param contingut és el Contingut a introduir.
      */
     public void afegirContingut(String contingut) throws Exception {
-        if (contingut == "") throw new Exception("Error, contingut buit");
+        if (contingut == "") throw new Exception("Error: contingut buit");
 
         HashMap<String, Integer> text = new HashMap<String, Integer>();
         String[] words = contingut.split("\\p{Punct}| |\\n|¿|¡");
@@ -198,7 +198,7 @@ public class ConjuntContinguts {
      * @param path és la ruta on es troba el fitxer.
      */
     public void modificarContingutPath(int id, String path) throws Exception {
-        if (this.freqContingut.size() <= id) throw new Exception("Error, index out of bounds");
+        if (this.freqContingut.size() <= id) throw new Exception("Error: index out of bounds");
         try {
             String line;
             FileReader file = new FileReader(path);
@@ -225,11 +225,11 @@ public class ConjuntContinguts {
                 }
             }
 
-            if (contingut.isEmpty()) throw new Exception("Error, contingut buit");
+            if (contingut.isEmpty()) throw new Exception("Error: contingut buit");
             this.freqContingut.set(id, text);
             this.Contingut.set(id, contingut.toString());
         } catch (Exception e) {
-            throw new Exception("Error, path del document incorrecte");
+            throw new Exception("Error: path del document incorrecte");
         }
     }
     /**
@@ -238,8 +238,8 @@ public class ConjuntContinguts {
      * @param contingut és el nou Contingut a reemplaçar.
      */
     public void modificarContingut(int id, String contingut) throws Exception {
-        if (this.freqContingut.size() <= id) throw new Exception("Error, index out of bounds");
-        if (contingut == "") throw new Exception("Error, contingut buit");
+        if (this.freqContingut.size() <= id) throw new Exception("Error: index out of bounds");
+        if (contingut == "") throw new Exception("Error: contingut buit");
 
         HashMap<String, Integer> text = new HashMap<String, Integer>();
         String[] words = contingut.split("\\p{Punct}| |\\n|¿|¡");
@@ -284,7 +284,7 @@ public class ConjuntContinguts {
      * @return retorna un String amb el Contingut del Document amb índex id.
      */
     public String getContingut(int id) throws Exception {
-        if (id >= this.Contingut.size()) throw new Exception("Error, index out of bounds");
+        if (id >= this.Contingut.size()) throw new Exception("Error: index out of bounds");
         return this.Contingut.get(id);
     }
     /**
@@ -292,7 +292,7 @@ public class ConjuntContinguts {
      * @param id és l'índex del Document.
      */
     public void eliminarContingut(int id) throws Exception {
-        if (id >= this.Contingut.size()) throw new Exception("Error, index out of bounds");
+        if (id >= this.Contingut.size()) throw new Exception("Error: index out of bounds");
         this.freqContingut.remove(id);
         this.Contingut.remove(id);
     }
@@ -302,7 +302,7 @@ public class ConjuntContinguts {
      * @return retorna un vector de String amb les paraules del Document amb índex id.
      */
     public String[] obtenirParaulesContingut(int id) throws Exception {
-        if (id >= this.Contingut.size()) throw new Exception("Error, index out of bounds");
+        if (id >= this.Contingut.size()) throw new Exception("Error: index out of bounds");
         String[] aux = this.Contingut.get(id).split("\\p{Punct}| |\\n|¿|¡");
         ArrayList<String> res = new ArrayList<>();
         for (String word: aux) if (word != "" && !this.stopWords.contains(word)) res.add(word);
