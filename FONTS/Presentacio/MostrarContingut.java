@@ -11,18 +11,20 @@ public class MostrarContingut extends JDialog {
 
     public MostrarContingut(String a, String t, String c) {
         setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(buttonSortir);
+        //setModal(true); //Fa que les finestres obertes abans que el dialog no es puguin utilitzar fins a que es tanqui el dialog.
+        //getRootPane().setDefaultButton(buttonSortir); Si cliques ENTER l'acció equivalent és picar el botó sortir.
 
         /*-----------------------------------------*/
-        pack();
         infoLabel.setText("Contingut del document amb autor "+a+" i títol '"+t+"':");
-        contingut.setSize(500,500);
         contingut.setText(c);
+        contingut.setCaretPosition(0); //To set scrollbar at the top of the text.
+        pack();
+        setSize(500,500);
         setVisible(true);
         /*-----------------------------------------*/
 
         buttonSortir.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 onSortir();
             }

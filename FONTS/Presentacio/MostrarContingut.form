@@ -53,7 +53,9 @@
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <verticalScrollBarPolicy value="20"/>
+            </properties>
             <border type="none"/>
             <children>
               <component id="d5e0" class="javax.swing.JTextArea" binding="contingut">
@@ -61,6 +63,7 @@
                 <properties>
                   <editable value="false"/>
                   <lineWrap value="true"/>
+                  <wrapStyleWord value="true"/>
                 </properties>
               </component>
             </children>

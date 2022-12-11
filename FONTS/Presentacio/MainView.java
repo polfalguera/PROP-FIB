@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.Set;
 
 
 public class MainView extends JFrame {
@@ -361,10 +362,8 @@ public class MainView extends JFrame {
         historialButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JDialog aux = new HistorialExpressionsBooleanes();
-                aux.setSize(1000,1000);
-                aux.pack();
-                aux.setVisible(true);
+                Set<String> exs = ictrlPresentacio.iqueryGetConjuntExpressions();
+                JDialog aux = new HistorialExpressionsBooleanes(exs);
             }
         });
     }

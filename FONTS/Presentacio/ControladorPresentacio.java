@@ -1,10 +1,13 @@
 package FONTS.Presentacio;
 
 import FONTS.Domini.ControladorDomini;
+import FONTS.Domini.Expressio;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 public class ControladorPresentacio {
@@ -82,6 +85,10 @@ public class ControladorPresentacio {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
+    }
+    public Set<String> iqueryGetConjuntExpressions() {
+        HashMap<String,Expressio> cjtEx = CtrlDomini.queryGetConjuntExpressions();
+        return cjtEx.keySet();
     }
     public List<String> iqueryObtenirKSemblants(String autor, String titol, int k, int mode) throws Exception {
         try {

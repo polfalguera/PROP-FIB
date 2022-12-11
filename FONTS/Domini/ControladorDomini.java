@@ -3,6 +3,7 @@ package FONTS.Domini;
 import FONTS.Persistencia.Persistencia;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -348,6 +349,9 @@ public class ControladorDomini {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
+    }
+    public HashMap<String,Expressio> queryGetConjuntExpressions() {
+        return CtrlExpressions.getCjtExpressions();
     }
     public void carregarDocument(String direccio, String format) throws Exception {
         try {

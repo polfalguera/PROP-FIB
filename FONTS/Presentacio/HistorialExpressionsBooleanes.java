@@ -2,14 +2,23 @@ package FONTS.Presentacio;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Set;
+
+/**
+ * Classes per a poder copiar en el CLIPBOARD l'expressió desitjada.
+ */
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.Toolkit;
 
 public class HistorialExpressionsBooleanes extends JDialog {
     private JPanel contentPane;
     private JButton buttonSortir;
     private JList expressionsList;
-    private JButton copiarExpressióButton;
-    private JButton modificarExpressióButton;
-    private JButton eliminarExpressióButton;
+    private JButton copiarExpressioButton;
+    private JButton modificarExpressioButton;
+    private JButton eliminarExpressioButton;
 
     public void initialize() {
         buttonSortir.addActionListener(new ActionListener() {
@@ -29,18 +38,25 @@ public class HistorialExpressionsBooleanes extends JDialog {
             public void actionPerformed(ActionEvent e) { onSortir(); }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        copiarExpressióButton.addActionListener(new ActionListener() {
+        copiarExpressioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String a = expressionsList.getSelectedValue().toString();
+                Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+                cb.setContents(new StringSelection(a),null);
             }
         });
     }
-    public HistorialExpressionsBooleanes() {
+    public HistorialExpressionsBooleanes(Set<String> exs) {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonSortir);
+        //getRootPane().setDefaultButton(buttonSortir);
 
         initialize();
+        for (String ex: exs) { ((DefaultListModel) expressionsList.getModel()).addElement(ex); }
+        pack();
+        setSize(750,375);
+        setVisible(true);
     }
     private void onSortir() {
         // add your code here if necessary

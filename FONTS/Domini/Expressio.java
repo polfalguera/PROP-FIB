@@ -27,7 +27,7 @@ public class Expressio {
      * */
     public Expressio(String ex) throws Exception {
         if (ex.equals("")) {
-            throw new Exception("Error: expressió buida");
+            throw new Exception("Expressio buida");
         }
         String aux = "("+ex+")";
         if (esta_ben_Formalitzat(aux)) {
@@ -80,7 +80,7 @@ public class Expressio {
         /**
          * Representa el node del arbol binari
          * */
-         Node root;
+        Node root;
         /**
          * @return Retorna el root del arbre
          * */
@@ -310,7 +310,7 @@ public class Expressio {
             //Tractar els casos que els operadors estan d'estar separats per espais
             if ( aux1 == 0 && aux%2 == 0 && (x == '&' || x == '|') ) {
                 if (expr.charAt(i-1) != ' ' || expr.charAt(i+1) != ' ') {
-                    throw new Exception("Error: els operadors & i | han d'estar separats per espais");
+                    throw new Exception("Error: els operadors & i | han de estar separats per espais");
                 }
             }
             //Tractar els casos {}
@@ -323,7 +323,7 @@ public class Expressio {
             if (x == ' ' && aux%2 == 0 && aux1 == 0) {
                 if ( !((expr.charAt(i-1) == '&' || expr.charAt(i-1) == '|') ||
                         (expr.charAt(i+1) == '&' || expr.charAt(i+1) == '|'))) {
-                    throw new Exception("Error: has de fer servir operadors per a separar paraules");
+                    throw new Exception("Error: has de servir operadors per separar paraules");
                 }
             }
 
@@ -360,7 +360,7 @@ public class Expressio {
         }
         // Check Empty Stack
         if (!stack.isEmpty()) {
-            throw new Exception("Error: expressió mal formalitzada");
+            throw new Exception("Error, Expressio mal formalitzat");
         }
         return true;
     }
@@ -368,7 +368,7 @@ public class Expressio {
     /**
      * Representa un node d'un arbre binari.
      * */
-      static class Node {
+    static class Node {
         /**
          * Representa la paraula o una sequencia de paraules del node.
          * */

@@ -50,16 +50,14 @@
               <component id="c478a" class="javax.swing.JList" binding="expressionsList">
                 <constraints/>
                 <properties>
-                  <model>
-                    <item value="(&quot;hola adéu&quot; | pep) &amp; {jugar cantar ballar}"/>
-                  </model>
+                  <model/>
                 </properties>
               </component>
             </children>
           </scrollpane>
         </children>
       </grid>
-      <component id="e45aa" class="javax.swing.JButton" binding="copiarExpressióButton">
+      <component id="e45aa" class="javax.swing.JButton" binding="copiarExpressioButton">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -67,7 +65,7 @@
           <text value="Copiar expressió"/>
         </properties>
       </component>
-      <component id="17066" class="javax.swing.JButton" binding="modificarExpressióButton" default-binding="true">
+      <component id="17066" class="javax.swing.JButton" binding="modificarExpressioButton">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -75,7 +73,7 @@
           <text value="Modificar expressió"/>
         </properties>
       </component>
-      <component id="1a96d" class="javax.swing.JButton" binding="eliminarExpressióButton" default-binding="true">
+      <component id="1a96d" class="javax.swing.JButton" binding="eliminarExpressioButton">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
