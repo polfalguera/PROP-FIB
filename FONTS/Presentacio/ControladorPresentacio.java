@@ -86,6 +86,14 @@ public class ControladorPresentacio {
             throw new Exception(e.getMessage());
         }
     }
+
+    public void iqueryEliminarExpressioBooleana(String expressio) throws Exception {
+        try {
+            CtrlDomini.queryEliminarExpressioBooleana(expressio);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
     public Set<String> iqueryGetConjuntExpressions() {
         HashMap<String,Expressio> cjtEx = CtrlDomini.queryGetConjuntExpressions();
         return cjtEx.keySet();

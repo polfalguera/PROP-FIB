@@ -364,6 +364,18 @@ public class MainView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Set<String> exs = ictrlPresentacio.iqueryGetConjuntExpressions();
                 JDialog aux = new HistorialExpressionsBooleanes(exs);
+                String exSel = ((HistorialExpressionsBooleanes) aux).getExSeleccionada();
+                List<String> exsEl = ((HistorialExpressionsBooleanes) aux).getExsEliminades();
+                if (!exSel.isEmpty()) {
+                    searchTextField.setText(exSel);
+                }
+                try {
+                    if (!exsEl.isEmpty()) {
+                        for (String ex: exsEl) { ictrlPresentacio.iqueryEliminarExpressioBooleana(ex); }
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
             }
         });
     }

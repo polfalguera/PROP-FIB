@@ -2,13 +2,14 @@ package FONTS.Presentacio;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
  * Classes per a poder copiar en el CLIPBOARD l'expressió desitjada.
  */
 import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.Toolkit;
 
@@ -16,9 +17,10 @@ public class HistorialExpressionsBooleanes extends JDialog {
     private JPanel contentPane;
     private JButton buttonSortir;
     private JList expressionsList;
-    private JButton copiarExpressioButton;
-    private JButton modificarExpressioButton;
+    private JButton seleccionarExpressioButton;
     private JButton eliminarExpressioButton;
+    private String exSeleccionada = new String();
+    private List<String> exsEliminades = new ArrayList<>();
 
     public void initialize() {
         buttonSortir.addActionListener(new ActionListener() {
@@ -38,12 +40,25 @@ public class HistorialExpressionsBooleanes extends JDialog {
             public void actionPerformed(ActionEvent e) { onSortir(); }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        copiarExpressioButton.addActionListener(new ActionListener() {
+        seleccionarExpressioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String a = expressionsList.getSelectedValue().toString();
-                Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
-                cb.setContents(new StringSelection(a),null);
+                if (expressionsList.getSelectedIndex() != -1) {
+                    exSeleccionada = expressionsList.getSelectedValue().toString();
+                    dispose();
+                }
+            }
+        });
+
+        eliminarExpressioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (expressionsList.getSelectedIndex() != -1) {
+                    String exEliminada = expressionsList.getSelectedValue().toString(); //agafo l'expressió seleccionada
+                    ((DefaultListModel) expressionsList.getModel()).remove(expressionsList.getSelectedIndex()); //elimino l'expressió de la llista
+
+                    exsEliminades.add(exEliminada);
+                }
             }
         });
     }
@@ -62,4 +77,6 @@ public class HistorialExpressionsBooleanes extends JDialog {
         // add your code here if necessary
         dispose();
     }
+    public String getExSeleccionada() { return exSeleccionada; }
+    public List<String> getExsEliminades() { return exsEliminades; }
 }
