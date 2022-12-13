@@ -368,16 +368,15 @@ public class ControladorDomini {
     }
 
     /**
-     * De moment retorno un String que conte tot el que hauria d'haver-hi
-     * en el document que es descarrega en el format desitjat a exportar
-     *
+     * @param direccio es la direccio a la que es vol exportar el document
+     * @param format es el format al que es vol exportar el fitxer, pot ser: "txt", "xml" o "jamp"
      * */
-    public String exportarDocument(String autor, String titol, String format) throws Exception {
+    public void exportarDocument(String autor, String titol, String format, String direccio) throws Exception {
         try {
             int index = cjtDocuments.indexDocument(autor, titol);
             String contingut = CtrlContingut.getContingut(index);
             String file = CtrlFormat.documentToFile(autor, titol, contingut, format);
-            return file;
+            Persistencia.persistirADireccio(titol, autor, file, direccio, format);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }

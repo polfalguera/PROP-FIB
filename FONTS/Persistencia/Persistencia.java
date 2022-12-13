@@ -28,6 +28,26 @@ public class Persistencia {
         writer.close();
     }
 
+    public static void persistirADireccio(String titol, String autor, String contingutFitxer, String direccio, String format) throws Exception {
+        StringBuilder fileName = new StringBuilder("");
+        fileName.append(autor.replaceAll(" ", "_"));
+        fileName.append("-");
+        fileName.append(titol.replaceAll(" ", "_"));
+        fileName.append("." + format);
+
+        StringBuilder path = new StringBuilder("");
+        path.append(direccio);
+
+        File file = new File(path.toString(), fileName.toString());
+        if (!file.createNewFile()) throw new Exception("Error, ja s'ha exportat el mateix document a la carpeta seleccionada");
+
+        path.append("/").append(fileName);
+        FileWriter fitxer = new FileWriter(path.toString());
+        BufferedWriter writer = new BufferedWriter(fitxer);
+        writer.write(contingutFitxer);
+        writer.close();
+    }
+
     public static void eliminarDocument(String autor, String titol) throws Exception {
         StringBuilder fileName = new StringBuilder("");
         fileName.append(autor.replaceAll(" ", "_"));
