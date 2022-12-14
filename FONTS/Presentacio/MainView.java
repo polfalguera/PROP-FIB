@@ -14,8 +14,6 @@ import java.util.Set;
 
 public class MainView extends JFrame {
     private ControladorPresentacio ictrlPresentacio;
-
-    private JLabel autor;
     private JPanel mainPanel;
     private JLabel searchLabel;
     private JTextField searchTextField;
@@ -30,13 +28,16 @@ public class MainView extends JFrame {
     private JMenuItem pop_modificar_contingut;
     private JMenuItem pop_eliminar_document;
 
-    private JList list1;
+    private JList listDocuments;
     private JButton crearDocumentButton;
     private JButton modificarAutorButton;
     private JButton modificarTitolButton;
     private JButton eliminarDocumentButton;
     private JButton modificarContingutButton;
     private JButton historialButton;
+    private JButton importarDocumentButton;
+    private JButton exportarDocumentButton;
+    private JComboBox formatComboBox;
     private JMenuBar MenuBar;
     private JMenu File;
     private JMenu Export;
@@ -112,7 +113,7 @@ public class MainView extends JFrame {
     }
 
     public void initializeListeners() throws Exception{
-        list1.addMouseListener(new MouseAdapter() {
+        listDocuments.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 showPopup(e);
@@ -123,7 +124,7 @@ public class MainView extends JFrame {
             }
             private void showPopup(MouseEvent e) {
                 if (e.isPopupTrigger() &&
-                        list1.locationToIndex(e.getPoint()) == list1.getSelectedIndex()) {
+                        listDocuments.locationToIndex(e.getPoint()) == listDocuments.getSelectedIndex()) {
                     popupMenu.show(e.getComponent(),
                             e.getX(), e.getY());
                 }
@@ -218,8 +219,8 @@ public class MainView extends JFrame {
 
         ActionListener modificar_contingut = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (list1.getSelectedIndex() != -1) {
-                    String[] a = list1.getSelectedValue().toString().split(",");
+                if (listDocuments.getSelectedIndex() != -1) {
+                    String[] a = listDocuments.getSelectedValue().toString().split(",");
                     JDialog aux = new ModificarContingut();
                     aux.setVisible(true);
                     String nou_contingut = ((ModificarContingut) aux).getContingut();
@@ -239,8 +240,8 @@ public class MainView extends JFrame {
 
         ActionListener modificar_autor = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (list1.getSelectedIndex() != -1) {
-                    String[] a = list1.getSelectedValue().toString().split(",");
+                if (listDocuments.getSelectedIndex() != -1) {
+                    String[] a = listDocuments.getSelectedValue().toString().split(",");
                     JDialog aux = new ModificarAutor();
                     aux.setVisible(true);
                     String nou_autor = ((ModificarAutor) aux).getNouAutor();
@@ -249,7 +250,7 @@ public class MainView extends JFrame {
                     try {
                         if (accept) {
                             ictrlPresentacio.iqueryModificarAutor(a[0],nou_autor,a[1]);
-                            ((DefaultListModel) list1.getModel()).setElementAt(doc,list1.getSelectedIndex());
+                            ((DefaultListModel) listDocuments.getModel()).setElementAt(doc, listDocuments.getSelectedIndex());
                         }
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null,ex.getMessage());
@@ -262,8 +263,8 @@ public class MainView extends JFrame {
 
         ActionListener modificar_titol = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (list1.getSelectedIndex() != -1) {
-                    String[] a = list1.getSelectedValue().toString().split(",");
+                if (listDocuments.getSelectedIndex() != -1) {
+                    String[] a = listDocuments.getSelectedValue().toString().split(",");
                     JDialog aux = new ModificarTitol();
                     aux.setVisible(true);
                     String nou_titol = ((ModificarTitol) aux).getNouTitol();
@@ -272,7 +273,7 @@ public class MainView extends JFrame {
                     try {
                         if (accept) {
                             ictrlPresentacio.iqueryModificarTitol(a[0],a[1],nou_titol);
-                            ((DefaultListModel) list1.getModel()).setElementAt(doc,list1.getSelectedIndex());
+                            ((DefaultListModel) listDocuments.getModel()).setElementAt(doc, listDocuments.getSelectedIndex());
                         }
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null,ex.getMessage());
@@ -295,7 +296,7 @@ public class MainView extends JFrame {
                     if (accept) {
                         ictrlPresentacio.iqueryCrearDocument(autor,titol,contingut);
                         String doc = autor+","+titol;
-                        ((DefaultListModel) list1.getModel()).addElement(doc);
+                        ((DefaultListModel) listDocuments.getModel()).addElement(doc);
                     }
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null,ex.getMessage());
@@ -309,8 +310,8 @@ public class MainView extends JFrame {
 
         ActionListener eliminar_document = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (list1.getSelectedIndex() != -1) {
-                    String[] a = list1.getSelectedValue().toString().split(",");
+                if (listDocuments.getSelectedIndex() != -1) {
+                    String[] a = listDocuments.getSelectedValue().toString().split(",");
                     JDialog aux = new EliminarDocument();
                     aux.setSize(350,150);
                     aux.setVisible(true);
@@ -318,7 +319,7 @@ public class MainView extends JFrame {
                     try {
                         if (accept) {
                             ictrlPresentacio.iqueryEliminarDocument(a[0],a[1]);
-                            ((DefaultListModel) list1.getModel()).remove(list1.getSelectedIndex());
+                            ((DefaultListModel) listDocuments.getModel()).remove(listDocuments.getSelectedIndex());
                         }
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null,ex.getMessage());
@@ -348,7 +349,7 @@ public class MainView extends JFrame {
                 }
             }
         };
-        list1.addMouseListener(mostrar_contingut);
+        listDocuments.addMouseListener(mostrar_contingut);
 
         consultesComboBox.addActionListener(new ActionListener() {
             @Override
@@ -375,6 +376,29 @@ public class MainView extends JFrame {
                     }
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+            }
+        });
+
+        exportarDocumentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (listDocuments.getSelectedIndex() != -1) {
+                    String[] doc = listDocuments.getSelectedValue().toString().split(",");
+                    JFileChooser chooser = new JFileChooser();
+                    chooser.setCurrentDirectory(new java.io.File("."));
+                    chooser.setDialogTitle("Selecciona el directori on desar el document");
+                    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                    chooser.setAcceptAllFileFilterUsed(false);
+                    if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
+                        String addr = chooser.getSelectedFile().toString();
+                        String format = formatComboBox.getItemAt(formatComboBox.getSelectedIndex()).toString();
+                        try {
+                            ictrlPresentacio.iqueryExportarDocument(doc[0],doc[1],format,addr);
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(null,ex.toString());
+                        }
+                    }
                 }
             }
         });

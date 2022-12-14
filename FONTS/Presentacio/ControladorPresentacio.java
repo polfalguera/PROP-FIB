@@ -112,6 +112,14 @@ public class ControladorPresentacio {
             throw new Exception(e.getMessage());
         }
     }
+
+    public void iqueryExportarDocument(String autor, String titol, String format, String direccio) throws Exception {
+        try {
+            CtrlDomini.exportarDocument(autor,titol,format,direccio);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
     public void carregarVistaPrincipal() {
         vistaBenvinguda.setVisible(false);
         vistaPrincipal.setVisible(true);

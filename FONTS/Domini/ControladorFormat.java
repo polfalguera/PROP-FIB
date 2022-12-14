@@ -91,7 +91,7 @@ public class ControladorFormat {
                 throw new Exception(e.toString());
             }
         }
-        else if (format == "xlml") {
+        else if (format == "xml") {
             try {
                 return formatejadorXML.documentToFile(autor, titol, contingut);
             } catch (Exception e) {
