@@ -195,4 +195,7 @@ public class ControladorExpressions {
         return id_docs;
     }
 
+    public void setCjtExpressions(HashMap<String, Expressio> expressions) {
+        this.expressions = expressions;
+    }
 }

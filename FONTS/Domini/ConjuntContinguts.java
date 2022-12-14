@@ -10,6 +10,8 @@ import java.util.*;
  * @author Alex Ares Marin.
  */
 public class ConjuntContinguts {
+
+
     /**
      * Representa el conjunt de Continguts.
      */
@@ -77,6 +79,9 @@ public class ConjuntContinguts {
         }
     }
 
+    public void setFrequencies(List<HashMap<String, Integer>> freq) {
+        this.freqContingut = freq;
+    }
     /**
      * Llegeix dels fitxers amb les paraules considerades StopWords.
      * @return Retorna un conjunt amb les paraules considerades StopWords.
@@ -315,4 +320,5 @@ public class ConjuntContinguts {
     public List<String> getConjuntContinguts() {
         return this.Contingut;
     }
+    public List<HashMap<String, Integer>> getFreqContingut() { return this.freqContingut; }
 }

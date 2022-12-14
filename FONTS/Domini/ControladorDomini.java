@@ -45,6 +45,36 @@ public class ControladorDomini {
             throw new Exception(e.toString());
         }
     }
+
+    public void tancarPrograma() throws Exception {
+        try {
+            //Guardem les expressions
+            HashMap<String, Expressio> expresions = CtrlExpressions.getCjtExpressions();
+            Persistencia.persisitirExpressio(expresions);
+            //Guardem les frequencies
+            List<HashMap<String, Integer>> freq = CtrlContingut.getFreqContingut();
+            for (int i = 0; i < freq.size(); ++i) {
+                List<String> AutorTitol = queryGetAutorTitolIndex(i);
+                Persistencia.persitirFrequencies(AutorTitol.get(0), AutorTitol.get(1), freq.get(i));
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+    public void obrirPrograma() throws Exception {
+        try {
+            //Recuperem les expressions
+            HashMap<String, Expressio> expressions = Persistencia.recuperarExpressions();
+            CtrlExpressions.setCjtExpressions(expressions);
+
+            //Recuperem les frequencies
+            List<HashMap<String, Integer>> freq = Persistencia.recuperarFreq();
+            CtrlContingut.setFrequencies(freq);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
     /**
      * Modificadora
      * Afegeix un document al controlador de documents, i el seu contingut al controlador de contingut
@@ -56,8 +86,9 @@ public class ControladorDomini {
         try {
             cjtDocuments.crearDocument(autor,titol);
             CtrlContingut.afegirContingut(contingut);
+            String c = CtrlFormat.documentToFile(autor,titol,contingut,"txt");
             //Capa de persistencia
-            Persistencia.nouDocument(autor, titol, contingut);
+            Persistencia.nouDocument(autor, titol, c);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -119,7 +150,8 @@ public class ControladorDomini {
             //Capa de persistencia
             int index = cjtDocuments.indexDocument(nouAutor, titol);
             String contingut = CtrlContingut.getContingut(index);
-            Persistencia.modificarDocument(anticAutor, titol, nouAutor, titol, contingut);
+            String c = CtrlFormat.documentToFile(nouAutor,titol,contingut,"txt");
+            Persistencia.modificarDocument(anticAutor, titol, nouAutor, titol, c);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -138,7 +170,8 @@ public class ControladorDomini {
             //Capa de persistencia
             int index = cjtDocuments.indexDocument(autor, nouTitol);
             String contingut = CtrlContingut.getContingut(index);
-            Persistencia.modificarDocument(autor, anticTitol, autor, nouTitol, contingut);
+            String c = CtrlFormat.documentToFile(autor,nouTitol,contingut,"txt");
+            Persistencia.modificarDocument(autor, anticTitol, autor, nouTitol, c);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -154,8 +187,9 @@ public class ControladorDomini {
         try {
             int id = cjtDocuments.indexDocument(autor,titol);
             CtrlContingut.modificarContingut(id,nouContingut);
+            String c = CtrlFormat.documentToFile(autor,titol,nouContingut,"txt");
             //Capa de persistencia
-            Persistencia.modificarDocument(autor, titol, autor, titol, nouContingut);
+            Persistencia.modificarDocument(autor, titol, autor, titol, c);
         }catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -232,6 +266,7 @@ public class ControladorDomini {
             throw new Exception(e.toString());
         }
     }
+    */
     public List<String> queryGetAutorTitolIndex(int id) throws Exception {
         try {
             return cjtDocuments.getAutorTitolIndex(id);
@@ -239,7 +274,6 @@ public class ControladorDomini {
             throw new Exception(e.toString());
         }
     }
-    */
     /**
      * Consultora
      * @param autor es l'autor del document a consultar els k docuemnts semblants
@@ -297,6 +331,7 @@ public class ControladorDomini {
      */
     public void queryCrearExpressioBooleana(String expressio) throws Exception {
         try {
+            int i = CtrlExpressions.getNumExpressions();
             CtrlExpressions.anadir_expressio(expressio);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -311,6 +346,7 @@ public class ControladorDomini {
     public void queryEliminarExpressioBooleana(String expressio) throws Exception {
         try {
             CtrlExpressions.deleteExpressio(expressio);
+
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -361,7 +397,8 @@ public class ControladorDomini {
             String contingut = data.get(2);
             cjtDocuments.crearDocument(autor,titol);
             CtrlContingut.afegirContingut(contingut);
-            Persistencia.nouDocument(autor, titol, contingut);
+            String c = CtrlFormat.documentToFile(autor,titol,contingut,"txt");
+            Persistencia.nouDocument(autor, titol, c);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
