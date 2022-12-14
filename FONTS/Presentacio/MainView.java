@@ -41,7 +41,11 @@ public class MainView extends JFrame {
     private JButton historialButton;
     private JButton importarDocumentButton;
     private JButton exportarDocumentButton;
-    private JComboBox formatComboBox;
+    private JSpinner nDocumentsSpinner;
+    private JRadioButton tfidf0RadioButton;
+    private JRadioButton tfidf1RadioButton;
+    private JPanel simi_rellePanel;
+    private JLabel nDocumentsLabel;
     private JMenuBar MenuBar;
     private JMenu File;
     private JMenu Edit;
@@ -155,8 +159,11 @@ public class MainView extends JFrame {
                 }
                 if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Similaritat" ) {
                     String[] info = searchTextField.getText().split(",");
+                    int k = (Integer) nDocumentsSpinner.getValue();
+                    int mode = 0;
+                    if (tfidf1RadioButton.isSelected()) mode = 1;
                     try {
-                        List<String> docs = ictrlPresentacio.iqueryObtenirKSemblants(info[0],info[1],Integer.parseInt(info[2]),Integer.parseInt(info[3]));
+                        List<String> docs = ictrlPresentacio.iqueryObtenirKSemblants(info[0],info[1],k,mode);
                         JDialog aux = new LlistarDocuments(docs,"Similaritat");
                         aux.setVisible(true);
                     } catch (Exception ex) {
@@ -361,6 +368,12 @@ public class MainView extends JFrame {
                 if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Expressió Booleana") {
                     historialButton.setVisible(true);
                 } else historialButton.setVisible(false);
+                if ((consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Similaritat") ||
+                        (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Rellevància"))
+                {
+                    simi_rellePanel.setVisible(true);
+                }
+                else simi_rellePanel.setVisible(false);
             }
         });
 
@@ -434,7 +447,6 @@ public class MainView extends JFrame {
                     if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
                         String addr = chooser.getSelectedFile().toString();
                         String format = chooser.getFileFilter().getDescription();
-                        //String format = formatComboBox.getItemAt(formatComboBox.getSelectedIndex()).toString();
                         try {
                             System.out.println(addr);
                             ictrlPresentacio.iqueryExportarDocument(doc[0],doc[1],format,addr);
@@ -469,7 +481,6 @@ public class MainView extends JFrame {
                     if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
                         String addr = chooser.getSelectedFile().toString();
                         String format = chooser.getFileFilter().getDescription();
-                        //String format = formatComboBox.getItemAt(formatComboBox.getSelectedIndex()).toString();
                         try {
                             ictrlPresentacio.iqueryExportarDocument(doc[0],doc[1],format,addr);
                         } catch (Exception ex) {

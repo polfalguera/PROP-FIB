@@ -266,7 +266,7 @@ public class ConjuntContinguts {
      * @param k és el nombre de Continguts a buscar.
      * @param mode indica amb quin mode calcular l'assignació de pesos en tf-idf.
      *             0 --> freq*log(N/n).
-     *             1 --> log(1+freq).
+     *             1 --> freq*log(N/n).
      * @return retorna un conjunt amb els índexs més rellevants.
      */
     public int[] kRellevants(String[] paraules, int k, int mode) {
