@@ -112,6 +112,13 @@ public class ControladorPresentacio {
             throw new Exception(e.getMessage());
         }
     }
+    public void icarregarDocument(String direccio, String format) throws Exception {
+        try {
+            CtrlDomini.carregarDocument(direccio, format);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
 
     public void iqueryExportarDocument(String autor, String titol, String format, String direccio) throws Exception {
         try {

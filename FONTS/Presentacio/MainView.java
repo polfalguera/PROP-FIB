@@ -2,6 +2,7 @@ package FONTS.Presentacio;
 
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.event.ActionEvent;
 
@@ -28,6 +29,9 @@ public class MainView extends JFrame {
     private JMenuItem pop_modificar_contingut;
     private JMenuItem pop_eliminar_document;
 
+    private JMenuItem pop_exportar_document;
+    private JMenuItem pop_importar_document;
+
     private JList listDocuments;
     private JButton crearDocumentButton;
     private JButton modificarAutorButton;
@@ -40,16 +44,14 @@ public class MainView extends JFrame {
     private JComboBox formatComboBox;
     private JMenuBar MenuBar;
     private JMenu File;
-    private JMenu Export;
     private JMenu Edit;
     private JMenu Help;
     private JMenuItem Open;
     private JMenuItem NewDoc;
     private JMenuItem Save;
     private JMenuItem SaveAs;
-    private JMenuItem txt;
-    private JMenuItem xml;
-    private JMenuItem jamp;
+    private JMenuItem Export;
+    private JMenuItem Import;
     private JMenuItem Copy;
     private JMenuItem Paste;
     private JMenuItem Cut;
@@ -63,12 +65,16 @@ public class MainView extends JFrame {
         pop_modificar_titol = new JMenuItem("modificar titol");
         pop_modificar_contingut = new JMenuItem("modificar contingut");
         pop_eliminar_document = new JMenuItem("eliminar document");
+        pop_exportar_document = new JMenuItem("exportar document");
+        pop_importar_document = new JMenuItem("importar document");
+
         popupMenu.add(pop_crear_document);
         popupMenu.add(pop_modificar_autor);
         popupMenu.add(pop_modificar_titol);
         popupMenu.add(pop_modificar_contingut);
         popupMenu.add(pop_eliminar_document);
-
+        popupMenu.add(pop_exportar_document);
+        popupMenu.add(pop_importar_document);
         this.MenuBar = new JMenuBar();
 
         //Initializing items
@@ -76,9 +82,9 @@ public class MainView extends JFrame {
         this.NewDoc = new JMenuItem("New document");
         this.Save = new JMenuItem("Save file");
         this.SaveAs = new JMenuItem("Save file as...");
-        this.txt = new JMenuItem(".txt");
-        this.xml = new JMenuItem(".xml");
-        this.jamp = new JMenuItem(".jamp");
+        this.Export = new JMenuItem("Exportar document");
+        this.Import = new JMenuItem("Importar document");
+
         this.Copy = new JMenuItem("Copy");
         this.Paste = new JMenuItem("Paste");
         this.Cut = new JMenuItem("Cut");
@@ -86,7 +92,6 @@ public class MainView extends JFrame {
 
         //Initializing menus
         this.File = new JMenu("File");
-        this.Export = new JMenu("Export");
         this.Edit = new JMenu("Edit");
         this.Help = new JMenu("Help");
 
@@ -95,9 +100,9 @@ public class MainView extends JFrame {
         this.File.add(NewDoc);
         this.File.add(Save);
         this.File.add(SaveAs);
-        this.Export.add(txt);
-        this.Export.add(xml);
-        this.Export.add(jamp);
+        this.File.add(Export);
+        this.File.add(Import);
+
         this.Edit.add(Copy);
         this.Edit.add(Paste);
         this.Edit.add(Cut);
@@ -105,7 +110,6 @@ public class MainView extends JFrame {
 
         //Adding menus
         this.MenuBar.add(File);
-        this.File.add(Export);
         this.MenuBar.add(Edit);
         this.MenuBar.add(Help);
         this.setJMenuBar(MenuBar);
@@ -307,7 +311,7 @@ public class MainView extends JFrame {
         };
         crearDocumentButton.addActionListener(crear_document);
         pop_crear_document.addActionListener(crear_document);
-
+        NewDoc.addActionListener(crear_document);
         ActionListener eliminar_document = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (listDocuments.getSelectedIndex() != -1) {
@@ -379,6 +383,72 @@ public class MainView extends JFrame {
                 }
             }
         });
+        ActionListener importar_document = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser chooser = new JFileChooser();
+                chooser.setCurrentDirectory(new java.io.File("."));
+                chooser.setDialogTitle("Selecciona el archiu que vols importar");
+                chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
+                chooser.setAcceptAllFileFilterUsed(false);
+                FileNameExtensionFilter i_filter_txt = new FileNameExtensionFilter("txt", "txt");
+                FileNameExtensionFilter i_filter_xml = new FileNameExtensionFilter("xml", "xml");
+                FileNameExtensionFilter i_filter_jamp = new FileNameExtensionFilter("jamp", "jamp");
+                chooser.addChoosableFileFilter(i_filter_txt);
+                chooser.addChoosableFileFilter(i_filter_xml);
+                chooser.addChoosableFileFilter(i_filter_jamp);
+                if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
+                    String addr = chooser.getSelectedFile().toString();
+                    String format = chooser.getFileFilter().getDescription();
+                    try {
+                        System.out.println(addr);
+                        System.out.println(format);
+                        ictrlPresentacio.icarregarDocument(addr,format);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null,ex.toString());
+                    }
+                }
+            }
+        };
+        importarDocumentButton.addActionListener(importar_document);
+        pop_importar_document.addActionListener(importar_document);
+        Import.addActionListener(importar_document);
+
+        ActionListener exportar_document = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (listDocuments.getSelectedIndex() != -1) {
+                    String[] doc = listDocuments.getSelectedValue().toString().split(",");
+                    JFileChooser chooser = new JFileChooser();
+                    chooser.setCurrentDirectory(new java.io.File("."));
+                    chooser.setDialogTitle("Selecciona el directori on desar el document");
+                    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                    chooser.setAcceptAllFileFilterUsed(false);
+                    FileNameExtensionFilter e_filter_txt = new FileNameExtensionFilter("txt", "txt");
+                    FileNameExtensionFilter e_filter_xml = new FileNameExtensionFilter("xml", "xml");
+                    FileNameExtensionFilter e_filter_jamp = new FileNameExtensionFilter("jamp", "jamp");
+                    chooser.addChoosableFileFilter(e_filter_txt);
+                    chooser.addChoosableFileFilter(e_filter_xml);
+                    chooser.addChoosableFileFilter(e_filter_jamp);
+                    if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
+                        String addr = chooser.getSelectedFile().toString();
+                        String format = chooser.getFileFilter().getDescription();
+                        //String format = formatComboBox.getItemAt(formatComboBox.getSelectedIndex()).toString();
+                        try {
+                            System.out.println(addr);
+                            ictrlPresentacio.iqueryExportarDocument(doc[0],doc[1],format,addr);
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(null,ex.toString());
+                        }
+                    }
+                }
+            }
+        };
+
+        exportarDocumentButton.addActionListener(exportar_document);
+        pop_exportar_document.addActionListener(exportar_document);
+        Export.addActionListener(exportar_document);
 
         exportarDocumentButton.addActionListener(new ActionListener() {
             @Override
@@ -390,9 +460,16 @@ public class MainView extends JFrame {
                     chooser.setDialogTitle("Selecciona el directori on desar el document");
                     chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                     chooser.setAcceptAllFileFilterUsed(false);
+                    FileNameExtensionFilter e_filter_txt = new FileNameExtensionFilter("txt", "txt");
+                    FileNameExtensionFilter e_filter_xml = new FileNameExtensionFilter("xml", "xml");
+                    FileNameExtensionFilter e_filter_jamp = new FileNameExtensionFilter("jamp", "jamp");
+                    chooser.addChoosableFileFilter(e_filter_txt);
+                    chooser.addChoosableFileFilter(e_filter_xml);
+                    chooser.addChoosableFileFilter(e_filter_jamp);
                     if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
                         String addr = chooser.getSelectedFile().toString();
-                        String format = formatComboBox.getItemAt(formatComboBox.getSelectedIndex()).toString();
+                        String format = chooser.getFileFilter().getDescription();
+                        //String format = formatComboBox.getItemAt(formatComboBox.getSelectedIndex()).toString();
                         try {
                             ictrlPresentacio.iqueryExportarDocument(doc[0],doc[1],format,addr);
                         } catch (Exception ex) {
