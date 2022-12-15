@@ -163,20 +163,20 @@
               <text value="Nº documents"/>
             </properties>
           </component>
-          <component id="8afcf" class="javax.swing.JRadioButton" binding="tfidf0RadioButton">
+          <component id="8afcf" class="javax.swing.JRadioButton" binding="Model1">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="freq*log(N/n)"/>
+              <text value="Model1"/>
             </properties>
           </component>
-          <component id="a43fd" class="javax.swing.JRadioButton" binding="tfidf1RadioButton">
+          <component id="a43fd" class="javax.swing.JRadioButton" binding="Model2">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="freq*log(N/n)"/>
+              <text value="Model2"/>
             </properties>
           </component>
         </children>

@@ -42,8 +42,9 @@ public class MainView extends JFrame {
     private JButton importarDocumentButton;
     private JButton exportarDocumentButton;
     private JSpinner nDocumentsSpinner;
-    private JRadioButton tfidf0RadioButton;
-    private JRadioButton tfidf1RadioButton;
+    private JRadioButton Model1;
+    private JRadioButton Model2;
+    private ButtonGroup models;
     private JPanel simi_rellePanel;
     private JLabel nDocumentsLabel;
     private JMenuBar MenuBar;
@@ -118,6 +119,11 @@ public class MainView extends JFrame {
         this.MenuBar.add(Help);
         this.setJMenuBar(MenuBar);
 
+        //RadioButtons
+        models = new ButtonGroup();
+        models.add(Model1);
+        models.add(Model2);
+        Model1.setSelected(true);
     }
 
     public void initializeListeners() throws Exception{
@@ -160,8 +166,13 @@ public class MainView extends JFrame {
                 if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Similaritat" ) {
                     String[] info = searchTextField.getText().split(",");
                     int k = (Integer) nDocumentsSpinner.getValue();
-                    int mode = 0;
-                    if (tfidf1RadioButton.isSelected()) mode = 1;
+                    int mode;
+                    if (Model2.isSelected()) {
+                        mode = 1;
+                    }
+                    else {
+                        mode = 0;
+                    }
                     try {
                         List<String> docs = ictrlPresentacio.iqueryObtenirKSemblants(info[0],info[1],k,mode);
                         JDialog aux = new LlistarDocuments(docs,"Similaritat");
@@ -171,9 +182,17 @@ public class MainView extends JFrame {
                     }
                 }
                 if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Rellevància" ) {
-                    String[] info = searchTextField.getText().split(",");
+                    String info = searchTextField.getText();
+                    int k = (Integer) nDocumentsSpinner.getValue();
+                    int mode;
+                    if (Model2.isSelected()) {
+                        mode = 1;
+                    }
+                    else {
+                        mode = 0;
+                    }
                     try {
-                        List<String> docs = ictrlPresentacio.iqueryObtenirKRellevants(info[0],Integer.parseInt(info[1]),Integer.parseInt(info[2]));
+                        List<String> docs = ictrlPresentacio.iqueryObtenirKRellevants(info,k,mode);
                         JDialog aux = new LlistarDocuments(docs,"Rellevància");
                         aux.setVisible(true);
                     } catch (Exception ex) {
