@@ -50,7 +50,7 @@ public class ControladorDomini {
         try {
             //Guardem les expressions
             HashMap<String, Expressio> expresions = CtrlExpressions.getCjtExpressions();
-            Persistencia.persisitirExpressio(expresions);
+            Persistencia.persisitirExpressio((List<String>) expresions.keySet());
             //Guardem les frequencies
             List<HashMap<String, Integer>> freq = CtrlContingut.getFreqContingut();
             for (int i = 0; i < freq.size(); ++i) {
@@ -64,12 +64,20 @@ public class ControladorDomini {
     public void obrirPrograma() throws Exception {
         try {
             //Recuperem les expressions
-            HashMap<String, Expressio> expressions = Persistencia.recuperarExpressions();
-            CtrlExpressions.setCjtExpressions(expressions);
+            List<String> expressions = Persistencia.recuperarExpressions();
+            for (String s : expressions) CtrlExpressions.anadir_expressio(s);
 
             //Recuperem les frequencies
             List<HashMap<String, Integer>> freq = Persistencia.recuperarFreq();
             CtrlContingut.setFrequencies(freq);
+
+            //Recuperem els documents
+            List<String> documents = Persistencia.recuperarDocuments();
+            CtrlContingut.inicializarContinguts(documents.size());
+            for (String s : documents) {
+                List<String> d = CtrlFormat.extractTitolAutorContingutDocument(s, "txt");
+                cjtDocuments.crearDocument(d.get(0), d.get(1));
+            }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }

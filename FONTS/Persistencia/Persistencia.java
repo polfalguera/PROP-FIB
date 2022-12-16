@@ -6,12 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import FONTS.Domini.*;
-
-
 public class Persistencia {
 
-    public static void persisitirExpressio(HashMap<String, Expressio> expressions) throws Exception {
+    public static void persisitirExpressio(List<String> expressions) throws Exception {
         StringBuilder fileName = new StringBuilder("");
         fileName.append("expressions.txt");
 
@@ -24,7 +21,7 @@ public class Persistencia {
         path.append("/").append(fileName);
         FileWriter fitxer = new FileWriter(path.toString());
         BufferedWriter writer = new BufferedWriter(fitxer);
-        for (String s: expressions.keySet()) writer.write(s+"\n");
+        for (String s: expressions) writer.write(s+"\n");
 
         writer.close();
     }
@@ -107,10 +104,14 @@ public class Persistencia {
         path.append("/DATA/Documents");
         path.append("/").append(fileName);
 
-        ControladorFormat CtrlFormat = new ControladorFormat();
+        StringBuilder contingut = new StringBuilder("");
 
-        List<String> fitxer = CtrlFormat.extractTitolAutorContingut(path.toString(), "txt");
-        return fitxer.get(2);
+        FileReader file = new FileReader(path.toString());
+        BufferedReader br = new BufferedReader(file);
+        String line;
+        while((line = br.readLine()) != null) contingut.append(line+"\n");
+
+        return contingut.toString();
     }
 
     public static void persitirFrequencies(String autor, String titol, HashMap<String, Integer> freq) throws Exception {
@@ -137,8 +138,8 @@ public class Persistencia {
         writer.close();
     }
 
-    public static HashMap<String, Expressio> recuperarExpressions() throws Exception {
-        HashMap<String, Expressio> expressions = new HashMap<String, Expressio>();
+    public static List<String> recuperarExpressions() throws Exception {
+        List<String> expressions = new ArrayList<String>();
 
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
         path.append("/DATA/expressions/expressions.txt");
@@ -147,13 +148,13 @@ public class Persistencia {
         BufferedReader br = new BufferedReader(file);
         String line;
         while((line = br.readLine()) != null && line != "") {
-            expressions.put(line, new Expressio(line));
+            expressions.add(line);
         }
         return expressions;
     }
 
     public static List<HashMap<String, Integer>> recuperarFreq() throws Exception {
-        List<HashMap<String,Integer>> freq = new ArrayList<HashMap<String, Integer>>();
+        List<HashMap<String, Integer>> freq = new ArrayList<HashMap<String, Integer>>();
 
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
         path.append("/DATA/frequencies");
@@ -162,16 +163,15 @@ public class Persistencia {
         File[] arxius = carpeta.listFiles();
         if (arxius == null || arxius.length == 0) {
             return freq;
-        }
-        else {
-            for (int i=0; i < arxius.length; i++) {
+        } else {
+            for (int i = 0; i < arxius.length; i++) {
                 File arxiu = arxius[i];
                 if (arxiu.isFile() && (arxiu.getName() != "dummy.txt")) {
-                    HashMap<String,Integer> paraules = new HashMap<String,Integer>();
+                    HashMap<String, Integer> paraules = new HashMap<String, Integer>();
                     String line;
                     FileReader f = new FileReader(arxiu);
                     BufferedReader br = new BufferedReader(f);
-                    while((line = br.readLine()) != null) {
+                    while ((line = br.readLine()) != null) {
                         String[] l = line.split(" ");
                         paraules.put(l[0], Integer.valueOf(l[1]));
                     }
@@ -180,5 +180,30 @@ public class Persistencia {
             }
         }
         return freq;
+    }
+
+    public static List <String> recuperarDocuments() throws Exception {
+        List<String> resultat = new ArrayList<String>();
+        StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
+        path.append("/DATA/frequencies");
+
+        File carpeta = new File(path.toString());
+        File[] arxius = carpeta.listFiles();
+        if (arxius == null || arxius.length == 0) {
+            return resultat;
+        } else {
+            for (int i = 0; i < arxius.length; i++) {
+                File arxiu = arxius[i];
+                if (arxiu.isFile() && (arxiu.getName() != "dummy.txt")) {
+                    String line;
+                    StringBuilder contingut = new StringBuilder("");
+                    FileReader f = new FileReader(arxiu);
+                    BufferedReader br = new BufferedReader(f);
+                    while ((line = br.readLine()) != null) contingut.append(line+"\n");
+                    resultat.add(contingut.toString());
+                }
+            }
+        }
+        return resultat;
     }
 }

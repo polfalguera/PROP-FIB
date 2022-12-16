@@ -11,7 +11,6 @@ import java.util.*;
  */
 public class ConjuntContinguts {
 
-
     /**
      * Representa el conjunt de Continguts.
      */
@@ -60,6 +59,8 @@ public class ConjuntContinguts {
      * del ControladorDocuments
      */
     private List<String> Contingut;
+
+    private Queue<Integer> cache = new LinkedList<Integer> ();
 
     /**
      * Representa les stopWords
@@ -138,6 +139,31 @@ public class ConjuntContinguts {
         else return Math.log(this.Contingut.size() / n);
     }
 
+    public void inicializarContinguts(int size) {
+        List<String> c = new ArrayList<String>(size);
+        for (int i = 0; i < size; ++i) c.set(i, null);
+        this.Contingut = c;
+    }
+
+    private void actualitzarCache(int index) {
+        List<Integer> aux = new ArrayList<>(cache.size());
+        for (int i = 0; i < cache.size(); ++i) aux.add(i, cache.poll());
+        boolean esta = false;
+        for (int i = 0; i < aux.size(); ++i) {
+            if (aux.get(i) != index) esta = true;
+            else cache.add(aux.get(i));
+        }
+        if (esta) cache.add(index);
+    }
+
+    private void actualitzarCacheIndex(int index) {
+        for (int i = 0; i < cache.size(); ++i) {
+            int id = cache.poll();
+            if (id > index) cache.add(id - 1);
+            else cache.add(id);
+        }
+    }
+
     /**
      * Afegeix un nou Contingut llegint d'un fitxer.
      * @param path és la ruta on es troba el fitxer.
@@ -192,6 +218,13 @@ public class ConjuntContinguts {
                 if (!text.containsKey(word)) text.put(word, 1);
                 else text.put(word, text.get(word)+1);
             }
+        }
+
+        if (cache.size() < 5) cache.add(Contingut.size());
+        else {
+            int ultim = cache.poll();
+            Contingut.set(ultim, null);
+            cache.add(Contingut.size());
         }
 
         this.Contingut.add(contingut);
@@ -257,6 +290,21 @@ public class ConjuntContinguts {
             }
         }
 
+        if (cache.size() < 5) {
+            if (cache.contains(id)) actualitzarCache(id);
+            else cache.add(Contingut.size());
+        }
+        else {
+            if (cache.contains(id)) {
+                actualitzarCache(id);
+            }
+            else {
+                int ultim = cache.poll();
+                Contingut.set(ultim, null);
+                cache.add(id);
+            }
+        }
+
         this.Contingut.set(id, contingut);
         this.freqContingut.set(id, text);
     }
@@ -298,6 +346,9 @@ public class ConjuntContinguts {
      */
     public void eliminarContingut(int id) throws Exception {
         if (id >= this.Contingut.size()) throw new Exception("Error: index out of bounds");
+
+        cache.remove(id);
+        actualitzarCacheIndex(id);
         this.freqContingut.remove(id);
         this.Contingut.remove(id);
     }
