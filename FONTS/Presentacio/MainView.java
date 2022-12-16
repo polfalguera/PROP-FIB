@@ -41,7 +41,12 @@ public class MainView extends JFrame {
     private JButton historialButton;
     private JButton importarDocumentButton;
     private JButton exportarDocumentButton;
-    private JComboBox formatComboBox;
+    private JSpinner nDocumentsSpinner;
+    private JRadioButton Model1;
+    private JRadioButton Model2;
+    private ButtonGroup models;
+    private JPanel simi_rellePanel;
+    private JLabel nDocumentsLabel;
     private JMenuBar MenuBar;
     private JMenu File;
     private JMenu Edit;
@@ -114,6 +119,11 @@ public class MainView extends JFrame {
         this.MenuBar.add(Help);
         this.setJMenuBar(MenuBar);
 
+        //RadioButtons
+        models = new ButtonGroup();
+        models.add(Model1);
+        models.add(Model2);
+        Model1.setSelected(true);
     }
 
     public void initializeListeners() throws Exception{
@@ -155,8 +165,16 @@ public class MainView extends JFrame {
                 }
                 if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Similaritat" ) {
                     String[] info = searchTextField.getText().split(",");
+                    int k = (Integer) nDocumentsSpinner.getValue();
+                    int mode;
+                    if (Model2.isSelected()) {
+                        mode = 1;
+                    }
+                    else {
+                        mode = 0;
+                    }
                     try {
-                        List<String> docs = ictrlPresentacio.iqueryObtenirKSemblants(info[0],info[1],Integer.parseInt(info[2]),Integer.parseInt(info[3]));
+                        List<String> docs = ictrlPresentacio.iqueryObtenirKSemblants(info[0],info[1],k,mode);
                         JDialog aux = new LlistarDocuments(docs,"Similaritat");
                         aux.setVisible(true);
                     } catch (Exception ex) {
@@ -164,9 +182,17 @@ public class MainView extends JFrame {
                     }
                 }
                 if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Rellevància" ) {
-                    String[] info = searchTextField.getText().split(",");
+                    String info = searchTextField.getText();
+                    int k = (Integer) nDocumentsSpinner.getValue();
+                    int mode;
+                    if (Model2.isSelected()) {
+                        mode = 1;
+                    }
+                    else {
+                        mode = 0;
+                    }
                     try {
-                        List<String> docs = ictrlPresentacio.iqueryObtenirKRellevants(info[0],Integer.parseInt(info[1]),Integer.parseInt(info[2]));
+                        List<String> docs = ictrlPresentacio.iqueryObtenirKRellevants(info,k,mode);
                         JDialog aux = new LlistarDocuments(docs,"Rellevància");
                         aux.setVisible(true);
                     } catch (Exception ex) {
@@ -361,6 +387,12 @@ public class MainView extends JFrame {
                 if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Expressió Booleana") {
                     historialButton.setVisible(true);
                 } else historialButton.setVisible(false);
+                if ((consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Similaritat") ||
+                        (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Rellevància"))
+                {
+                    simi_rellePanel.setVisible(true);
+                }
+                else simi_rellePanel.setVisible(false);
             }
         });
 
@@ -434,7 +466,6 @@ public class MainView extends JFrame {
                     if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
                         String addr = chooser.getSelectedFile().toString();
                         String format = chooser.getFileFilter().getDescription();
-                        //String format = formatComboBox.getItemAt(formatComboBox.getSelectedIndex()).toString();
                         try {
                             System.out.println(addr);
                             ictrlPresentacio.iqueryExportarDocument(doc[0],doc[1],format,addr);
@@ -469,7 +500,6 @@ public class MainView extends JFrame {
                     if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
                         String addr = chooser.getSelectedFile().toString();
                         String format = chooser.getFileFilter().getDescription();
-                        //String format = formatComboBox.getItemAt(formatComboBox.getSelectedIndex()).toString();
                         try {
                             ictrlPresentacio.iqueryExportarDocument(doc[0],doc[1],format,addr);
                         } catch (Exception ex) {
