@@ -1,5 +1,7 @@
 package FONTS.Persistencia;
 
+import FONTS.Presentacio.ControladorPresentacio;
+
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -149,7 +151,7 @@ public class Persistencia {
         FileReader file = new FileReader(path.toString());
         BufferedReader br = new BufferedReader(file);
         String line;
-        while((line = br.readLine()) != null && line != "") {
+        while((line = br.readLine()) != null && !line.equals("")) {
             expressions.add(line);
         }
         return expressions;
@@ -168,7 +170,7 @@ public class Persistencia {
         } else {
             for (int i = 0; i < arxius.length; i++) {
                 File arxiu = arxius[i];
-                if (arxiu.isFile() && (arxiu.getName() != "dummy.txt")) {
+                if (arxiu.isFile() && (!arxiu.getName().equals("dummy.txt"))) {
                     HashMap<String, Integer> paraules = new HashMap<String, Integer>();
                     String line;
                     FileReader f = new FileReader(arxiu);
@@ -196,7 +198,7 @@ public class Persistencia {
         } else {
             for (int i = 0; i < arxius.length; i++) {
                 File arxiu = arxius[i];
-                if (arxiu.isFile() && (arxiu.getName() != "dummy.txt")) {
+                if (arxiu.isFile() && (!arxiu.getName().equals("dummy.txt"))) {
                     String line;
                     StringBuilder contingut = new StringBuilder("");
                     FileReader f = new FileReader(arxiu);
@@ -207,5 +209,21 @@ public class Persistencia {
             }
         }
         return resultat;
+    }
+
+    public static void main (String[] args) throws Exception{
+        try {
+            List<HashMap<String, Integer>> res = recuperarFreq();
+            for (int i = 0; i < res.size(); ++i) {
+                HashMap<String, Integer> aux = res.get(i);
+                for (HashMap.Entry<String, Integer> entry : aux.entrySet()) {
+                    String key = entry.getKey();
+                    int value = entry.getValue();
+                    System.out.println(key+" "+value+"\n");
+                }
+            }
+        } catch(Exception e) {
+            System.out.println(e.toString());
+        }
     }
 }
