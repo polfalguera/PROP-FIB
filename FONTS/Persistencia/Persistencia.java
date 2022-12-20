@@ -166,7 +166,7 @@ public class Persistencia {
         } else {
             for (int i = 0; i < arxius.length; i++) {
                 File arxiu = arxius[i];
-                if (arxiu.isFile() && (arxiu.getName() != "dummy.txt")) {
+                if (arxiu.isFile() && (arxiu.getName() != "expressions.txt")) {
                     HashMap<String, Integer> paraules = new HashMap<String, Integer>();
                     String line;
                     FileReader f = new FileReader(arxiu);
@@ -194,7 +194,7 @@ public class Persistencia {
         } else {
             for (int i = 0; i < arxius.length; i++) {
                 File arxiu = arxius[i];
-                if (arxiu.isFile() && (arxiu.getName() != "dummy.txt")) {
+                if (arxiu.isFile() && (arxiu.getName() != "expressions.txt")) {
                     String line;
                     StringBuilder contingut = new StringBuilder("");
                     FileReader f = new FileReader(arxiu);
