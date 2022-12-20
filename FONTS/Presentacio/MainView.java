@@ -4,11 +4,8 @@ package FONTS.Presentacio;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Set;
 
@@ -481,31 +478,15 @@ public class MainView extends JFrame {
         pop_exportar_document.addActionListener(exportar_document);
         Export.addActionListener(exportar_document);
 
-        exportarDocumentButton.addActionListener(new ActionListener() {
+        addWindowListener(new WindowAdapter()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if (listDocuments.getSelectedIndex() != -1) {
-                    String[] doc = listDocuments.getSelectedValue().toString().split(",");
-                    JFileChooser chooser = new JFileChooser();
-                    chooser.setCurrentDirectory(new java.io.File("."));
-                    chooser.setDialogTitle("Selecciona el directori on desar el document");
-                    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                    chooser.setAcceptAllFileFilterUsed(false);
-                    FileNameExtensionFilter e_filter_txt = new FileNameExtensionFilter("txt", "txt");
-                    FileNameExtensionFilter e_filter_xml = new FileNameExtensionFilter("xml", "xml");
-                    FileNameExtensionFilter e_filter_jamp = new FileNameExtensionFilter("jamp", "jamp");
-                    chooser.addChoosableFileFilter(e_filter_txt);
-                    chooser.addChoosableFileFilter(e_filter_xml);
-                    chooser.addChoosableFileFilter(e_filter_jamp);
-                    if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
-                        String addr = chooser.getSelectedFile().toString();
-                        String format = chooser.getFileFilter().getDescription();
-                        try {
-                            ictrlPresentacio.iqueryExportarDocument(doc[0],doc[1],format,addr);
-                        } catch (Exception ex) {
-                            JOptionPane.showMessageDialog(null,ex.toString());
-                        }
-                    }
+            public void windowClosing(WindowEvent e)
+            {
+                try {
+                    ictrlPresentacio.iqueryTancarPrograma();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
                 }
             }
         });

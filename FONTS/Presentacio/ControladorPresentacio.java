@@ -23,7 +23,7 @@ public class ControladorPresentacio {
         this.vistaBenvinguda = new WelcomeView("Benvinguda!",this);
         CtrlDomini.obrirPrograma();
     }
-    /*public void iqueryObrirPrograma() throws Exception {
+    public void iqueryObrirPrograma() throws Exception {
         try {
             CtrlDomini.obrirPrograma();
         } catch (Exception e) {
@@ -36,7 +36,7 @@ public class ControladorPresentacio {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-    }*/
+    }
     public void iqueryCrearDocument(String autor, String titol, String contingut) throws Exception {
         try {
             CtrlDomini.queryCrearDocument(autor, titol, contingut);
