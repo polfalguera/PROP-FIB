@@ -187,7 +187,7 @@ public class Persistencia {
     public static List <String> recuperarDocuments() throws Exception {
         List<String> resultat = new ArrayList<String>();
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
-        path.append("/DATA/frequencies");
+        path.append("/DATA/documents");
 
         File carpeta = new File(path.toString());
         File[] arxius = carpeta.listFiles();
