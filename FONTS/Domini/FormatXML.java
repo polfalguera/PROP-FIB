@@ -150,6 +150,9 @@ public class FormatXML implements Format {
 
         return result;
     }
+    public List<String> extractTitolAutorContingutDocument(String raw) throws Exception {
+        return null;
+    }
 
     /**
      * Consultora

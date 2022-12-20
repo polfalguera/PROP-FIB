@@ -16,6 +16,8 @@ public interface Format {
      */
     public List<String> extractTitolAutorContingut(String direccio) throws Exception;
 
+    public List<String> extractTitolAutorContingutDocument(String raw) throws Exception;
+
     /**
      * Consultora
      * @param autor es l'autor del document.

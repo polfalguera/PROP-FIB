@@ -74,6 +74,15 @@ public class ControladorFormat {
         }
         else throw new Exception("Error: format incorrecte");
     }
+    public List<String> extractTitolAutorContingutDocument(String raw, String format) throws  Exception {
+        if (format.equals("txt")) {
+            try {
+                return formatejadorTXT.extractTitolAutorContingutDocument(raw);
+            } catch (Exception e) {
+                throw new Exception(e.toString());
+            }
+        } else throw new Exception("Error: format incorrecte");
+    }
 
     /**
      * Consultora

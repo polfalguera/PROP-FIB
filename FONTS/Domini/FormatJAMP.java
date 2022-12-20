@@ -17,6 +17,9 @@ public class FormatJAMP implements Format {
         return null;
     }
 
+    public List<String> extractTitolAutorContingutDocument(String raw) throws Exception {
+        return null;
+    }
     /**
      * Consultora
      * @param autor es l'autor del document.
