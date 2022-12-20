@@ -1,4 +1,6 @@
 package FONTS.Domini;
+import FONTS.Persistencia.Persistencia;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.file.Paths;
@@ -338,7 +340,16 @@ public class ConjuntContinguts {
      */
     public String getContingut(int id) throws Exception {
         if (id >= this.Contingut.size()) throw new Exception("Error: index out of bounds");
-        return this.Contingut.get(id);
+        if (cache.contains(id)) return this.Contingut.get(id);
+        else {
+            if (cache.size() < 5) cache.add(Contingut.size());
+            else {
+                int ultim = cache.poll();
+                Contingut.set(ultim, null);
+                cache.add(id);
+            }
+            throw new Exception("El contingut no està en memoria");
+        }
     }
     /**
      * Eliminem el Contingut del Document amb índex id.

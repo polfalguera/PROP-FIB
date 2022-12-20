@@ -161,7 +161,13 @@ public class ControladorDomini {
             String c = CtrlFormat.documentToFile(nouAutor,titol,contingut,"txt");
             Persistencia.modificarDocument(anticAutor, titol, nouAutor, titol, c);
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            if (e.getMessage() == "El contingut no està en memoria") {
+                String doc = Persistencia.obtenirContingut(anticAutor, titol);
+                List<String> d = CtrlFormat.extractTitolAutorContingutDocument(doc, "txt");
+                CtrlContingut.modificarContingut(cjtDocuments.indexDocument(nouAutor, titol), d.get(2));
+                Persistencia.modificarDocument(anticAutor, titol, nouAutor, titol, d.get(2));
+            }
+            else throw new Exception(e.getMessage());
         }
     }
 
