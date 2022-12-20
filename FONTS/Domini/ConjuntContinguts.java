@@ -294,7 +294,7 @@ public class ConjuntContinguts {
 
         if (cache.size() < 5) {
             if (cache.contains(id)) actualitzarCache(id);
-            else cache.add(Contingut.size());
+            else cache.add(id);
         }
         else {
             if (cache.contains(id)) {

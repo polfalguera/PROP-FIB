@@ -21,7 +21,22 @@ public class ControladorPresentacio {
         this.CtrlDomini = new ControladorDomini();
         this.vistaPrincipal = new MainView("Document Manager",this);
         this.vistaBenvinguda = new WelcomeView("Benvinguda!",this);
+        CtrlDomini.obrirPrograma();
     }
+    /*public void iqueryObrirPrograma() throws Exception {
+        try {
+            CtrlDomini.obrirPrograma();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+    public void iqueryTancarPrograma() throws Exception {
+        try {
+            CtrlDomini.tancarPrograma();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }*/
     public void iqueryCrearDocument(String autor, String titol, String contingut) throws Exception {
         try {
             CtrlDomini.queryCrearDocument(autor, titol, contingut);
@@ -132,7 +147,7 @@ public class ControladorPresentacio {
         vistaPrincipal.setVisible(true);
     }
 
-    public static void main (String[] args) {
+    public static void main (String[] args) throws Exception{
         try {
             ControladorPresentacio CtrlPresentacio = new ControladorPresentacio();
             CtrlPresentacio.vistaBenvinguda.setVisible(true);

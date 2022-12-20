@@ -187,7 +187,12 @@ public class ControladorDomini {
             String c = CtrlFormat.documentToFile(autor,nouTitol,contingut,"txt");
             Persistencia.modificarDocument(autor, anticTitol, autor, nouTitol, c);
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            if (e.getMessage() == "El contingut no està en memoria") {
+                String doc = Persistencia.obtenirContingut(autor, anticTitol);
+                List<String> d = CtrlFormat.extractTitolAutorContingutDocument(doc, "txt");
+                CtrlContingut.modificarContingut(cjtDocuments.indexDocument(autor, nouTitol), d.get(2));
+                Persistencia.modificarDocument(autor, anticTitol, autor, nouTitol, d.get(2));
+            } else throw new Exception(e.getMessage());
         }
     }
     /**
@@ -269,7 +274,15 @@ public class ControladorDomini {
             String contingut = CtrlContingut.getContingut(id);
             return contingut;
         } catch (Exception e ) {
-            throw new Exception(e.getMessage());
+            if (e.getMessage() == "El contingut no està en memoria") {
+                String doc = Persistencia.obtenirContingut(autor, titol);
+                List<String> d = CtrlFormat.extractTitolAutorContingutDocument(doc, "txt");
+                CtrlContingut.modificarContingut(cjtDocuments.indexDocument(autor, titol), d.get(2));
+                // Ara ja el tenim en memoria
+                int id = cjtDocuments.indexDocument(autor,titol);
+                String contingut = CtrlContingut.getContingut(id);
+                return contingut;
+            } else throw new Exception(e.getMessage());
         }
     }
     /* PER A FUTURES ENTREGUES
@@ -387,7 +400,12 @@ public class ControladorDomini {
      * */
     public List<String> queryConsultaExpressioBooleana(String expressio) throws Exception {
         try {
-            List<String> continguts = CtrlContingut.getConjuntContinguts();
+            //List<String> continguts = CtrlContingut.getConjuntContinguts();
+            List <String> fitxers = Persistencia.recuperarDocuments();
+            List <String> continguts = new ArrayList<String>();
+            for (int i = 0; i < fitxers.size(); ++i) {
+                continguts.add(CtrlFormat.extractTitolAutorContingutDocument(fitxers.get(i), "txt").get(2));
+            }
 
             List<Integer> indexos = CtrlExpressions.ConsultaExpressioBooleana(expressio,continguts);
 
@@ -429,7 +447,17 @@ public class ControladorDomini {
             String file = CtrlFormat.documentToFile(autor, titol, contingut, format);
             Persistencia.persistirADireccio(titol, autor, file, direccio, format);
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            if (e.getMessage() == "El contingut no està en memoria") {
+                String doc = Persistencia.obtenirContingut(autor, titol);
+                List<String> d = CtrlFormat.extractTitolAutorContingutDocument(doc, "txt");
+                CtrlContingut.modificarContingut(cjtDocuments.indexDocument(autor, titol), d.get(2));
+                // Ara ja el tenim en memoria
+                int id = cjtDocuments.indexDocument(autor,titol);
+                String contingut = CtrlContingut.getContingut(id);
+                //Ja tenim el contingut carregat a memoria
+                String file = CtrlFormat.documentToFile(autor, titol, contingut, format);
+                Persistencia.persistirADireccio(titol, autor, file, direccio, format);
+            } else throw new Exception(e.getMessage());
         }
     }
 
