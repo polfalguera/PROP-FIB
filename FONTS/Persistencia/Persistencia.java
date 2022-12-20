@@ -16,7 +16,9 @@ public class Persistencia {
         path.append("/DATA/expressions");
 
         File file = new File(path.toString(), fileName.toString());
-        if (!file.createNewFile()) throw new Exception("Error, ja existeix el document");
+        //l'elimino i el creo buit
+        file.delete();
+        file.createNewFile();
 
         path.append("/").append(fileName);
         FileWriter fitxer = new FileWriter(path.toString());
@@ -166,7 +168,7 @@ public class Persistencia {
         } else {
             for (int i = 0; i < arxius.length; i++) {
                 File arxiu = arxius[i];
-                if (arxiu.isFile() && (arxiu.getName() != "expressions.txt")) {
+                if (arxiu.isFile() && (arxiu.getName() != "dummy.txt")) {
                     HashMap<String, Integer> paraules = new HashMap<String, Integer>();
                     String line;
                     FileReader f = new FileReader(arxiu);
@@ -194,7 +196,7 @@ public class Persistencia {
         } else {
             for (int i = 0; i < arxius.length; i++) {
                 File arxiu = arxius[i];
-                if (arxiu.isFile() && (arxiu.getName() != "expressions.txt")) {
+                if (arxiu.isFile() && (arxiu.getName() != "dummy.txt")) {
                     String line;
                     StringBuilder contingut = new StringBuilder("");
                     FileReader f = new FileReader(arxiu);
