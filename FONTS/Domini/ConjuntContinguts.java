@@ -342,12 +342,6 @@ public class ConjuntContinguts {
         if (id >= this.Contingut.size()) throw new Exception("Error: index out of bounds");
         if (cache.contains(id)) return this.Contingut.get(id);
         else {
-            if (cache.size() < 5) cache.add(Contingut.size());
-            else {
-                int ultim = cache.poll();
-                Contingut.set(ultim, null);
-                cache.add(id);
-            }
             throw new Exception("El contingut no està en memoria");
         }
     }
