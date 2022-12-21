@@ -1,9 +1,12 @@
 package FONTS.Presentacio;
 
 
+import FONTS.Domini.Document;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import java.awt.*;
 import java.awt.event.*;
 
 import java.util.List;
@@ -58,8 +61,9 @@ public class MainView extends JFrame {
     private JMenuItem Paste;
     private JMenuItem Cut;
     private JMenuItem SelectAll;
+    private TextPrompt placeholder;
 
-    public void initializeMenuBar() {
+    public void initialize() {
 
         popupMenu = new JPopupMenu();
         pop_crear_document = new JMenuItem("crear document");
@@ -121,6 +125,16 @@ public class MainView extends JFrame {
         models.add(Model1);
         models.add(Model2);
         Model1.setSelected(true);
+
+        List<Document> docs = ictrlPresentacio.iqueryGetCjtDocuments();
+        for (Document d: docs) {
+            ((DefaultListModel) listDocuments.getModel()).addElement(d.getAutor()+","+d.getTitol());
+        }
+
+        historialButton.setVisible(false);
+        placeholder = new TextPrompt("Introdueix un autor i un títol. P. ex. Toni,El canvi climàtic", searchTextField);
+        placeholder.changeAlpha(0.75f);
+        placeholder.changeStyle(Font.ITALIC);
     }
 
     public void initializeListeners() throws Exception{
@@ -382,14 +396,27 @@ public class MainView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Expressió Booleana") {
+                    placeholder.setText("Introdueix una expressió booleana. P. ex. {p1 p2 p3} & (“hola adéu” | pep) & !joan");
                     historialButton.setVisible(true);
-                } else historialButton.setVisible(false);
-                if ((consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Similaritat") ||
-                        (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Rellevància"))
-                {
+                }
+                else if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Similaritat") {
+                    placeholder.setText("Introdueix un autor i un títol. P. ex. Toni,El canvi climàtic");
                     simi_rellePanel.setVisible(true);
                 }
-                else simi_rellePanel.setVisible(false);
+                else if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Rellevància") {
+                    placeholder.setText("Introdueix les paraules que han de contenir els documents. P. ex. taula cadira finestra");
+                }
+                else if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar titol") {
+                    placeholder.setText("Introdueix un autor. P. ex. Toni");
+                }
+                else if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar autor") {
+                    placeholder.setText("Introdueix un prefix. P. ex. T");
+                }
+                else {
+                    historialButton.setVisible(false);
+                    simi_rellePanel.setVisible(false);
+                    simi_rellePanel.setVisible(false);
+                }
             }
         });
 
@@ -433,7 +460,9 @@ public class MainView extends JFrame {
                     try {
                         System.out.println(addr);
                         System.out.println(format);
-                        ictrlPresentacio.icarregarDocument(addr,format);
+                        List<String> autorItitol = ictrlPresentacio.icarregarDocument(addr,format);
+                        String doc = autorItitol.get(0)+","+autorItitol.get(1);
+                        ((DefaultListModel) listDocuments.getModel()).addElement(doc);
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null,ex.toString());
                     }
@@ -498,8 +527,7 @@ public class MainView extends JFrame {
         this.setContentPane(mainPanel);
         this.pack();
         this.setSize(750,500);
-        historialButton.setVisible(false);
-        initializeMenuBar();
+        initialize();
         initializeListeners();
     }
 

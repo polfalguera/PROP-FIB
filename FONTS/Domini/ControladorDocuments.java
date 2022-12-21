@@ -25,6 +25,7 @@ public class ControladorDocuments {
         this.documents = new ArrayList<Document>();
         this.titolsPerAutor = new TreeMap<String, List<String>>();
     }
+    public List<Document> getCjtDocuments() { return documents; }
 
     /**
      * Modificadora

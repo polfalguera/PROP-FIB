@@ -80,6 +80,7 @@ public class ControladorDomini {
             //Recuperem els documents
             List<String> documents = Persistencia.recuperarDocuments();
             CtrlContingut.inicializarContinguts(documents.size());
+            List <String> autorsItitols = new ArrayList<>();
             for (String s : documents) {
                 List<String> d = CtrlFormat.extractTitolAutorContingutDocument(s, "txt");
                 cjtDocuments.crearDocument(d.get(0), d.get(1));
@@ -427,7 +428,7 @@ public class ControladorDomini {
     public HashMap<String,Expressio> queryGetConjuntExpressions() {
         return CtrlExpressions.getCjtExpressions();
     }
-    public void carregarDocument(String direccio, String format) throws Exception {
+    public List<String> carregarDocument(String direccio, String format) throws Exception {
         try {
             List<String> data = CtrlFormat.extractTitolAutorContingut(direccio, format);
             String autor = data.get(0);
@@ -437,6 +438,9 @@ public class ControladorDomini {
             CtrlContingut.afegirContingut(contingut);
             String c = CtrlFormat.documentToFile(autor,titol,contingut,"txt");
             Persistencia.nouDocument(autor, titol, c);
+            List<String> aux = new ArrayList<>();
+            aux.add(autor); aux.add(titol);
+            return aux;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -467,6 +471,7 @@ public class ControladorDomini {
         }
     }
 
+    public List<Document> queryGetCjtDocuments() { return cjtDocuments.getCjtDocuments(); }
     /**
      * Consultora
      * @param autor es l'autor del document que volem comprovar si existeix

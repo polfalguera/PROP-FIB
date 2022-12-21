@@ -1,6 +1,7 @@
 package FONTS.Presentacio;
 
 import FONTS.Domini.ControladorDomini;
+import FONTS.Domini.Document;
 import FONTS.Domini.Expressio;
 
 import javax.swing.*;
@@ -19,9 +20,9 @@ public class ControladorPresentacio {
 
     public ControladorPresentacio() throws Exception {
         this.CtrlDomini = new ControladorDomini();
+        CtrlDomini.obrirPrograma();
         this.vistaPrincipal = new MainView("Document Manager",this);
         this.vistaBenvinguda = new WelcomeView("Benvinguda!",this);
-        CtrlDomini.obrirPrograma();
     }
     public void iqueryObrirPrograma() throws Exception {
         try {
@@ -37,6 +38,7 @@ public class ControladorPresentacio {
             throw new Exception(e.getMessage());
         }
     }
+    public List<Document> iqueryGetCjtDocuments() { return CtrlDomini.queryGetCjtDocuments(); }
     public void iqueryCrearDocument(String autor, String titol, String contingut) throws Exception {
         try {
             CtrlDomini.queryCrearDocument(autor, titol, contingut);
@@ -127,9 +129,9 @@ public class ControladorPresentacio {
             throw new Exception(e.getMessage());
         }
     }
-    public void icarregarDocument(String direccio, String format) throws Exception {
+    public List<String> icarregarDocument(String direccio, String format) throws Exception {
         try {
-            CtrlDomini.carregarDocument(direccio, format);
+            return CtrlDomini.carregarDocument(direccio, format);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
