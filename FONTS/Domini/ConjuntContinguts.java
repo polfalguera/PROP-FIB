@@ -62,7 +62,7 @@ public class ConjuntContinguts {
      */
     private List<String> Contingut;
 
-    private Queue<Integer> cache = new LinkedList<Integer> ();
+    private Queue<Integer> cache;
 
     /**
      * Representa les stopWords
@@ -75,6 +75,7 @@ public class ConjuntContinguts {
     public ConjuntContinguts() throws Exception {
         this.freqContingut = new ArrayList<HashMap<String, Integer>>();
         this.Contingut = new ArrayList<String>();
+        this.cache = new LinkedList<Integer>();
         try {
             this.stopWords = assignarStopWords();
         } catch (Exception e) {
@@ -142,8 +143,8 @@ public class ConjuntContinguts {
     }
 
     public void inicializarContinguts(int size) {
-        List<String> c = new ArrayList<String>(size);
-        for (int i = 0; i < size; ++i) c.set(i, null);
+        List<String> c = new ArrayList<String>();
+        for (int i = 0; i < size; ++i) c.add(null);
         this.Contingut = c;
     }
 

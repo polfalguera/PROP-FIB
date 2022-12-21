@@ -116,6 +116,6 @@ public class FormatTXT implements Format {
      * que es la representacio del document en .txt.
      */
     public String documentToFile(String autor, String titol, String contingut) throws Exception{
-        return (("autor:" + autor + '\n') + ("titol:" + titol + '\n') + contingut);
+        return ((autor + '\n') + (titol + '\n') + contingut);
     }
 }

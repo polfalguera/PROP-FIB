@@ -39,7 +39,7 @@ public class ControladorDomini {
             this.CtrlExpressions = new ControladorExpressions();
             this.CtrlFormat = new ControladorFormat();
             // Aqui podriem llegir de disc els documents
-            // persistits en una altre sesio
+            // persistits en un altre sesio
         }
         catch (Exception e) {
             throw new Exception(e.toString());
@@ -50,8 +50,14 @@ public class ControladorDomini {
         try {
             //Guardem les expressions
             HashMap<String, Expressio> expresions = CtrlExpressions.getCjtExpressions();
-            Persistencia.persisitirExpressio((List<String>) expresions.keySet());
+            List<String> e = new ArrayList<String>();
+            for (HashMap.Entry<String, Expressio> entry : expresions.entrySet()) {
+                e.add(entry.getKey());
+            }
+            Persistencia.persisitirExpressio(e);
+
             //Guardem les frequencies
+            Persistencia.buidarFrequencies();
             List<HashMap<String, Integer>> freq = CtrlContingut.getFreqContingut();
             for (int i = 0; i < freq.size(); ++i) {
                 List<String> AutorTitol = queryGetAutorTitolIndex(i);

@@ -11,18 +11,9 @@ import java.util.List;
 public class Persistencia {
 
     public static void persisitirExpressio(List<String> expressions) throws Exception {
-        StringBuilder fileName = new StringBuilder("");
-        fileName.append("expressions.txt");
-
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
-        path.append("/DATA/expressions");
+        path.append("/DATA/expressions/expressions.txt");
 
-        File file = new File(path.toString(), fileName.toString());
-        //l'elimino i el creo buit
-        file.delete();
-        file.createNewFile();
-
-        path.append("/").append(fileName);
         FileWriter fitxer = new FileWriter(path.toString());
         BufferedWriter writer = new BufferedWriter(fitxer);
         for (String s: expressions) writer.write(s+"\n");
@@ -118,6 +109,20 @@ public class Persistencia {
         return contingut.toString();
     }
 
+    public static void buidarFrequencies() throws Exception {
+        StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
+        path.append("/DATA/frequencies");
+
+        File carpeta = new File(path.toString());
+        File[] arxius = carpeta.listFiles();
+        if (arxius != null && arxius.length != 0) {
+            for (int i = 0; i < arxius.length; i++) {
+                File arxiu = arxius[i];
+                if (arxiu.isFile() && (!arxiu.getName().equals("dummy.txt"))) arxiu.delete();
+            }
+        }
+    }
+
     public static void persitirFrequencies(String autor, String titol, HashMap<String, Integer> freq) throws Exception {
         StringBuilder fileName = new StringBuilder("");
         fileName.append(autor.replaceAll(" ", "_"));
@@ -209,21 +214,5 @@ public class Persistencia {
             }
         }
         return resultat;
-    }
-
-    public static void main (String[] args) throws Exception{
-        try {
-            List<HashMap<String, Integer>> res = recuperarFreq();
-            for (int i = 0; i < res.size(); ++i) {
-                HashMap<String, Integer> aux = res.get(i);
-                for (HashMap.Entry<String, Integer> entry : aux.entrySet()) {
-                    String key = entry.getKey();
-                    int value = entry.getValue();
-                    System.out.println(key+" "+value+"\n");
-                }
-            }
-        } catch(Exception e) {
-            System.out.println(e.toString());
-        }
     }
 }
