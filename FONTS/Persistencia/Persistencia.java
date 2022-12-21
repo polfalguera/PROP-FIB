@@ -3,10 +3,13 @@ package FONTS.Persistencia;
 import FONTS.Presentacio.ControladorPresentacio;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.io.InputStream;
 
 public class Persistencia {
 
@@ -72,10 +75,12 @@ public class Persistencia {
         fileName.append(".txt");
 
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
-        path.append("/DATA/Documents");
+        path.append("/DATA/Documents/");
+        path.append(fileName);
+        
+        File file = new File(path.toString());
 
-        File file = new File(path.toString(), fileName.toString());
-        if (!file.delete()) throw new Exception("Error, no existeix el document");
+        if (!Files.deleteIfExists(Paths.get(path.toString()))) throw new Exception("Error, no existeix el document");
     }
 
     public static void modificarDocument(String autor, String titol, String nouAutor, String nouTitol, String Contingut) throws Exception {
@@ -105,6 +110,8 @@ public class Persistencia {
         BufferedReader br = new BufferedReader(file);
         String line;
         while((line = br.readLine()) != null) contingut.append(line+"\n");
+        br.close();
+        file.close();
 
         return contingut.toString();
     }
@@ -159,6 +166,8 @@ public class Persistencia {
         while((line = br.readLine()) != null && !line.equals("")) {
             expressions.add(line);
         }
+        br.close();
+        file.close();
         return expressions;
     }
 
@@ -185,6 +194,9 @@ public class Persistencia {
                         paraules.put(l[0], Integer.valueOf(l[1]));
                     }
                     freq.add(paraules);
+                    br.close();
+                    f.close();
+
                 }
             }
         }
@@ -210,6 +222,8 @@ public class Persistencia {
                     BufferedReader br = new BufferedReader(f);
                     while ((line = br.readLine()) != null) contingut.append(line+"\n");
                     resultat.add(contingut.toString());
+                    br.close();
+                    f.close();
                 }
             }
         }

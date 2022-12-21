@@ -118,6 +118,7 @@ public class ControladorDocuments {
         }
         if (nouAutor.equals((anticAutor))) return;
 
+
         if (titolsPerAutor.containsKey(anticAutor)) {
             if (titolsPerAutor.get(anticAutor).contains(titol)) {
                 if (titolsPerAutor.containsKey(nouAutor)) {

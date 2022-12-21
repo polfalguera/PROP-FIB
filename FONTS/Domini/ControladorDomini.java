@@ -82,6 +82,7 @@ public class ControladorDomini {
             CtrlContingut.inicializarContinguts(documents.size());
             List <String> autorsItitols = new ArrayList<>();
             for (String s : documents) {
+
                 List<String> d = CtrlFormat.extractTitolAutorContingutDocument(s, "txt");
                 cjtDocuments.crearDocument(d.get(0), d.get(1));
             }
@@ -167,12 +168,14 @@ public class ControladorDomini {
             String contingut = CtrlContingut.getContingut(index);
             String c = CtrlFormat.documentToFile(nouAutor,titol,contingut,"txt");
             Persistencia.modificarDocument(anticAutor, titol, nouAutor, titol, c);
+
         } catch (Exception e) {
             if (e.getMessage() == "El contingut no està en memoria") {
                 String doc = Persistencia.obtenirContingut(anticAutor, titol);
                 List<String> d = CtrlFormat.extractTitolAutorContingutDocument(doc, "txt");
                 CtrlContingut.modificarContingut(cjtDocuments.indexDocument(nouAutor, titol), d.get(2));
-                Persistencia.modificarDocument(anticAutor, titol, nouAutor, titol, d.get(2));
+                String cont = CtrlFormat.documentToFile(nouAutor,titol,d.get(2),"txt");
+                Persistencia.modificarDocument(anticAutor, titol, nouAutor, titol, cont);
             }
             else throw new Exception(e.getMessage());
         }
@@ -198,7 +201,8 @@ public class ControladorDomini {
                 String doc = Persistencia.obtenirContingut(autor, anticTitol);
                 List<String> d = CtrlFormat.extractTitolAutorContingutDocument(doc, "txt");
                 CtrlContingut.modificarContingut(cjtDocuments.indexDocument(autor, nouTitol), d.get(2));
-                Persistencia.modificarDocument(autor, anticTitol, autor, nouTitol, d.get(2));
+                String cont = CtrlFormat.documentToFile(autor,nouTitol,d.get(2),"txt");
+                Persistencia.modificarDocument(autor, anticTitol, autor, nouTitol, cont);
             } else throw new Exception(e.getMessage());
         }
     }
