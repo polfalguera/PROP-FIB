@@ -100,8 +100,11 @@ public class ControladorDomini {
      */
     public void queryCrearDocument(String autor, String titol, String contingut) throws Exception {
         try {
-            CtrlContingut.afegirContingut(contingut);
+            if (contingut.equals("")) throw new Exception("Error: contingut buit");
+            if (titol.equals("")) throw new Exception("Error: títol buit");
+            if (autor.equals("")) throw new Exception("Error: autor buit");
             cjtDocuments.crearDocument(autor,titol);
+            CtrlContingut.afegirContingut(contingut);
             String c = CtrlFormat.documentToFile(autor,titol,contingut,"txt");
             //Capa de persistencia
             Persistencia.nouDocument(autor, titol, c);
