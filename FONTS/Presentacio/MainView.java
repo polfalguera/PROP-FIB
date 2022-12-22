@@ -66,6 +66,7 @@ public class MainView extends JFrame {
     private TextPrompt placeholder;
 
     private TextPrompt placeholder_titol;
+    private String expressioAmodificar = "";
 
     public void initialize() {
 
@@ -150,7 +151,8 @@ public class MainView extends JFrame {
         placeholder_titol.changeAlpha(0.75f);
         placeholder_titol.changeStyle(Font.ITALIC);
 
-
+        SpinnerModel model = new SpinnerNumberModel(0, 0, 1000, 1);
+        nDocumentsSpinner = new JSpinner(model);
     }
 
     public void initializeListeners() throws Exception {
@@ -181,6 +183,10 @@ public class MainView extends JFrame {
                     String expressio = searchTextField.getText();
                     try {
                         List<String> docs = ictrlPresentacio.iqueryConsultaExpressioBooleana(expressio);
+                        if (!expressioAmodificar.equals("")) {
+                            ictrlPresentacio.iqueryEliminarExpressioBooleana(expressioAmodificar);
+                            expressioAmodificar = "";
+                        }
                         if (docs.isEmpty()) {
                             JOptionPane.showMessageDialog(null, "Cap document satisfà l'expressió booleana introduïda.");
                         } else {
@@ -192,6 +198,7 @@ public class MainView extends JFrame {
                     }
                 }
                 if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Similaritat") {
+                    expressioAmodificar = "";
                     int k = (Integer) nDocumentsSpinner.getValue();
                     int mode;
                     if (Model2.isSelected()) {
@@ -210,6 +217,7 @@ public class MainView extends JFrame {
                     }
                 }
                 if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Rellevància") {
+                    expressioAmodificar = "";
                     String info = searchTextField.getText();
                     int k = (Integer) nDocumentsSpinner.getValue();
                     int mode;
@@ -227,6 +235,7 @@ public class MainView extends JFrame {
                     }
                 }
                 if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar autor") {
+                    expressioAmodificar = "";
                     String autor = searchTextField.getText();
                     try {
                         List<String> ti = ictrlPresentacio.iqueryLlistarAutorsPrefix(autor);
@@ -237,6 +246,7 @@ public class MainView extends JFrame {
                     }
                 }
                 if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar titol") {
+                    expressioAmodificar = "";
                     String autor = searchTextField.getText();
                     try {
                         List<String> ti = ictrlPresentacio.iqueryLlistarTitolsAutor(autor);
@@ -441,12 +451,13 @@ public class MainView extends JFrame {
                     placeholder.setText("Introdueix un autor. P. ex. Toni");
                     simi_rellePanel.setVisible(false);
                     titolTextField.setVisible(false);
+                    historialButton.setVisible(false);
                 } else if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar autor") {
                     placeholder.setText("Introdueix un prefix. P. ex. T");
                     simi_rellePanel.setVisible(false);
                     titolTextField.setVisible(false);
-                }
-                else if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Rellevància") {
+                    historialButton.setVisible(false);
+                } else if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Rellevància") {
                     placeholder.setText("Introdueix les paraules que han de contenir els documents. P. ex. taula cadira finestra");
                     simi_rellePanel.setVisible(false);
                     titolTextField.setVisible(false);
@@ -465,6 +476,10 @@ public class MainView extends JFrame {
                 List<String> exsEl = ((HistorialExpressionsBooleanes) aux).getExsEliminades();
                 if (!exSel.isEmpty()) {
                     searchTextField.setText(exSel);
+                    boolean modificada = ((HistorialExpressionsBooleanes) aux).isAccept();
+                    if (modificada) {
+                        expressioAmodificar = exSel;
+                    }
                 }
                 try {
                     if (!exsEl.isEmpty()) {
@@ -484,6 +499,7 @@ public class MainView extends JFrame {
                 chooser.setCurrentDirectory(new File("."));
                 chooser.setDialogTitle("Selecciona el archiu que vols importar");
                 chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                chooser.setMultiSelectionEnabled(true);
 
                 chooser.setAcceptAllFileFilterUsed(false);
                 FileNameExtensionFilter i_filter_txt = new FileNameExtensionFilter("txt", "txt");
@@ -493,12 +509,16 @@ public class MainView extends JFrame {
                 chooser.addChoosableFileFilter(i_filter_xml);
                 chooser.addChoosableFileFilter(i_filter_jamp);
                 if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
-                    String addr = chooser.getSelectedFile().toString();
+                    //String addr = chooser.getSelectedFile().toString();
+                    File[] files = chooser.getSelectedFiles();
                     String format = chooser.getFileFilter().getDescription();
                     try {
-                        List<String> autorItitol = ictrlPresentacio.icarregarDocument(addr, format);
-                        String doc = autorItitol.get(0) + "    ,   " + autorItitol.get(1);
-                        ((DefaultListModel) listDocuments.getModel()).addElement(doc);
+                        for (File f : files) {
+                            String addr = f.toString();
+                            List<String> autorItitol = ictrlPresentacio.icarregarDocument(addr, format);
+                            String doc = autorItitol.get(0) + "    ,   " + autorItitol.get(1);
+                            ((DefaultListModel) listDocuments.getModel()).addElement(doc);
+                        }
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, ex.toString());
                     }
