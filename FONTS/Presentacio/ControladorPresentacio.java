@@ -18,6 +18,10 @@ public class ControladorPresentacio {
     private final MainView vistaPrincipal;
     private final WelcomeView vistaBenvinguda;
 
+    public List<String> iqueryGetAutorTitolIndex(int id) throws Exception {
+        return this.CtrlDomini.queryGetAutorTitolIndex(id);
+    }
+
     public ControladorPresentacio() throws Exception {
         this.CtrlDomini = new ControladorDomini();
         CtrlDomini.obrirPrograma();
