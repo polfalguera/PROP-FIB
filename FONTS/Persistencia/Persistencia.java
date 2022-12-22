@@ -15,7 +15,7 @@ public class Persistencia {
 
     public static void persisitirExpressio(List<String> expressions) throws Exception {
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
-        path.append("/DATA/expressions/expressions.txt");
+        path.append("/RESOURCES/expressions/expressions.txt");
 
         FileWriter fitxer = new FileWriter(path.toString());
         BufferedWriter writer = new BufferedWriter(fitxer);
@@ -33,7 +33,7 @@ public class Persistencia {
         fileName.append(".txt");
 
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
-        path.append("/DATA/documents");
+        path.append("/RESOURCES/documents");
 
         File file = new File(path.toString(), fileName.toString());
         if (!file.createNewFile()) throw new Exception("Error, ja existeix el document");
@@ -76,7 +76,7 @@ public class Persistencia {
         fileName.append(".txt");
 
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
-        path.append("/DATA/Documents/");
+        path.append("/RESOURCES/Documents/");
         path.append(fileName);
         
         File file = new File(path.toString());
@@ -102,7 +102,7 @@ public class Persistencia {
         fileName.append(".txt");
 
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
-        path.append("/DATA/Documents");
+        path.append("/RESOURCES/Documents");
         path.append("/").append(fileName);
 
         StringBuilder contingut = new StringBuilder("");
@@ -119,7 +119,7 @@ public class Persistencia {
 
     public static void buidarFrequencies() throws Exception {
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
-        path.append("/DATA/frequencies");
+        path.append("/RESOURCES/frequencies");
 
         File carpeta = new File(path.toString());
         File[] arxius = carpeta.listFiles();
@@ -139,7 +139,7 @@ public class Persistencia {
         fileName.append(".txt");
 
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
-        path.append("/DATA/frequencies");
+        path.append("/RESOURCES/frequencies");
 
         File file = new File(path.toString(), fileName.toString());
         if (!file.createNewFile()) throw new Exception("Error, ja existeix el document");
@@ -161,7 +161,7 @@ public class Persistencia {
         List<String> expressions = new ArrayList<String>();
 
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
-        path.append("/DATA/expressions/expressions.txt");
+        path.append("/RESOURCES/expressions/expressions.txt");
 
         FileReader file = new FileReader(path.toString());
         BufferedReader br = new BufferedReader(file);
@@ -178,7 +178,7 @@ public class Persistencia {
         List<HashMap<String, Integer>> freq = new ArrayList<HashMap<String, Integer>>();
 
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
-        path.append("/DATA/frequencies");
+        path.append("/RESOURCES/frequencies");
 
         File carpeta = new File(path.toString());
         File[] arxius = carpeta.listFiles();
@@ -208,7 +208,7 @@ public class Persistencia {
     public static List <String> recuperarDocuments() throws Exception {
         List<String> resultat = new ArrayList<String>();
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
-        path.append("/DATA/documents");
+        path.append("/RESOURCES/documents");
 
         File carpeta = new File(path.toString());
         File[] arxius = carpeta.listFiles();

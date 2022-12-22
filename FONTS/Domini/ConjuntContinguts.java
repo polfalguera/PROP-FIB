@@ -95,17 +95,17 @@ public class ConjuntContinguts {
             Set<String> result = new HashSet<String>();
             //empty-ca.txt
             String line;
-            String path = Paths.get("DATA/empty-ca-utf8.txt").toAbsolutePath().toString();
+            String path = Paths.get("RESOURCES/empty-ca-utf8.txt").toAbsolutePath().toString();
             FileReader file = new FileReader(path);
             BufferedReader br = new BufferedReader(file);
             while((line = br.readLine()) != null) result.add(line);
             //empty-eng.txt
-            path = Paths.get("DATA/empty-eng-utf8.txt").toAbsolutePath().toString();
+            path = Paths.get("RESOURCES/empty-eng-utf8.txt").toAbsolutePath().toString();
             file = new FileReader(path);
             br = new BufferedReader(file);
             while((line = br.readLine()) != null) result.add(line);
             //empty-sp.txt
-            path = Paths.get("DATA/empty-sp-utf8.txt").toAbsolutePath().toString();
+            path = Paths.get("RESOURCES/empty-sp-utf8.txt").toAbsolutePath().toString();
             file = new FileReader(path);
             br = new BufferedReader(file);
             while((line = br.readLine()) != null) result.add(line);
