@@ -29,6 +29,9 @@ public class FormatXML implements Format {
             lletra = (char)br.read();
             fitxer.append(lletra);
         }
+        br.close();
+        file.close();
+
         String c = fitxer.toString();
         // Treu tot els espais en blanc fins <document>
         c = c.replaceFirst("^\\s*", "");

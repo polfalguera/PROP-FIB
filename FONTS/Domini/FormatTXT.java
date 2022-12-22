@@ -29,6 +29,9 @@ public class FormatTXT implements Format {
             lletra = (char)br.read();
             fitxer.append(lletra);
         }
+        br.close();
+        file.close();
+
         String c = fitxer.toString();
         //Treu tots els espais en blanc fins a 'autor:'
         //c = c.replaceFirst("^\\s*", "");

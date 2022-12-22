@@ -30,6 +30,9 @@ public class FormatJAMP implements Format {
             lletra = (char)br.read();
             fitxer.append(lletra);
         }
+        br.close();
+        file.close();
+
         String c = fitxer.toString();
 
 

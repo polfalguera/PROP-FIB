@@ -20,8 +20,8 @@ public class Persistencia {
         FileWriter fitxer = new FileWriter(path.toString());
         BufferedWriter writer = new BufferedWriter(fitxer);
         for (String s: expressions) writer.write(s+"\n");
-
         writer.close();
+        fitxer.close();
     }
 
     //Contingut sera el contingut del document formatejat en txt
@@ -42,8 +42,8 @@ public class Persistencia {
         FileWriter fitxer = new FileWriter(path.toString());
         BufferedWriter writer = new BufferedWriter(fitxer);
         writer.write(contingut);
-
         writer.close();
+        fitxer.close();
     }
 
     public static void persistirADireccio(String titol, String autor, String contingutFitxer, String direccio, String format) throws Exception {
@@ -63,8 +63,9 @@ public class Persistencia {
         FileWriter fitxer = new FileWriter(path.toString());
         BufferedWriter writer = new BufferedWriter(fitxer);
         writer.write(contingutFitxer);
-
         writer.close();
+        fitxer.close();
+
     }
 
     public static void eliminarDocument(String autor, String titol) throws Exception {
@@ -152,6 +153,8 @@ public class Persistencia {
             writer.write(key+" "+value+"\n");
         }
         writer.close();
+        fitxer.close();
+
     }
 
     public static List<String> recuperarExpressions() throws Exception {
@@ -196,7 +199,6 @@ public class Persistencia {
                     freq.add(paraules);
                     br.close();
                     f.close();
-
                 }
             }
         }
