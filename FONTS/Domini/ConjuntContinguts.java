@@ -61,7 +61,11 @@ public class ConjuntContinguts {
      * del ControladorDocuments
      */
     private List<String> Contingut;
-
+    /**
+     * Representa una cache amb l'index dels continguts carregats a memoria.
+     * En cada posició tenim els index de la cache LRU.
+     * El primer element de la cua és aquell que s'ha accedit fa més temps
+     */
     private Queue<Integer> cache;
 
     /**
@@ -83,9 +87,14 @@ public class ConjuntContinguts {
         }
     }
 
+    /**
+     * Assigna les frequencies en freqContingut.
+     * @param freq assigna freq a l'estructura de dades freqContingut.
+     */
     public void setFrequencies(List<HashMap<String, Integer>> freq) {
         this.freqContingut = freq;
     }
+
     /**
      * Llegeix dels fitxers amb les paraules considerades StopWords.
      * @return Retorna un conjunt amb les paraules considerades StopWords.
@@ -116,6 +125,9 @@ public class ConjuntContinguts {
     }
     /**
      * Calcula depenent del mode escollit el tf per a l'assignació de pesos.
+     * @param paraula és la paraula per la que es calcula idf.
+     * @param id índex del contingut a obtenir les freqüències
+     * @param mode és el mode per calcular el idf
      * @return retorna un double amb els càlculs corresponents.
      */
     private double tf(String paraula, int id, int mode) {
@@ -130,6 +142,8 @@ public class ConjuntContinguts {
     }
     /**
      * Calcula depenent del mode escollit l'idf per a l'assignació de pesos.
+     * @param paraula és la paraula per la que es calcula idf.
+     * @param mode és el mode per calcular el idf
      * @return retorna un double amb els càlculs corresponents.
      */
     private double idf(String paraula, int mode) {
@@ -142,12 +156,20 @@ public class ConjuntContinguts {
         else return Math.log(this.Contingut.size() / n);
     }
 
+    /**
+     * Inicialitza els Continguts a null perquè inicalment no tenim cap contingut carregat en memoria.
+     * @param size és la mida que tindra Contignut inicialment.
+     */
     public void inicializarContinguts(int size) {
         List<String> c = new ArrayList<String>();
         for (int i = 0; i < size; ++i) c.add(null);
         this.Contingut = c;
     }
 
+    /**
+     * Actualitza l'ordre de la cache seguit l'ordre LRU.
+     * @param index és l'index que acabam de accdeir i per tant hem de actualitzar l'ordre de la cua.
+     */
     private void actualitzarCache(int index) {
         List<Integer> aux = new ArrayList<>(cache.size());
         for (int i = 0; i < cache.size(); ++i) aux.add(i, cache.poll());
@@ -159,6 +181,10 @@ public class ConjuntContinguts {
         if (esta) cache.add(index);
     }
 
+    /**
+     * Actualitza els valors de la cache donat un index esborrat.
+     * @param index és el índex d'un contingut esborrat.
+     */
     private void actualitzarCacheIndex(int index) {
         for (int i = 0; i < cache.size(); ++i) {
             int id = cache.poll();
@@ -167,44 +193,6 @@ public class ConjuntContinguts {
         }
     }
 
-    /**
-     * Afegeix un nou Contingut llegint d'un fitxer.
-     * @param path és la ruta on es troba el fitxer.
-     */
-    public void afegirContingutPath(String path) throws Exception {
-        try {
-            String line;
-            FileReader file = new FileReader(path);
-            BufferedReader br = new BufferedReader(file);
-
-            HashMap<String, Integer> text = new HashMap<String, Integer>();
-            StringBuilder contingut = new StringBuilder();
-            boolean primer = true;
-
-            while((line = br.readLine()) != null) {
-                if (primer) {
-                    contingut.append(line);
-                    primer =  false;
-                }
-                else contingut.append("\n"+line);
-                //Splits each line into words
-                String[] words = line.split("\\p{Punct}| |\\n|¿|¡");
-                for (String word : words) {
-                    word = word.toLowerCase();
-                    if (!this.stopWords.contains(word) && !word.equals("")) {
-                        if (!text.containsKey(word)) text.put(word, 1);
-                        else text.put(word, text.get(word)+1);
-                    }
-                }
-            }
-
-            if (contingut.isEmpty()) throw new Exception("Error: contingut buit");
-            this.freqContingut.add(text);
-            this.Contingut.add(contingut.toString());
-        } catch (Exception e) {
-            throw new Exception("Error: path del document incorrecte");
-        }
-    }
     /**
      * Afegeix un nou Contingut.
      * @param contingut és el Contingut a introduir.
@@ -233,46 +221,7 @@ public class ConjuntContinguts {
         this.Contingut.add(contingut);
         this.freqContingut.add(text);
     }
-    /**
-     * Modifica el Contingut llegint el nou Contingut d'un fitxer.
-     * @param id és l'índex del Document.
-     * @param path és la ruta on es troba el fitxer.
-     */
-    public void modificarContingutPath(int id, String path) throws Exception {
-        if (this.freqContingut.size() <= id) throw new Exception("Error: index out of bounds");
-        try {
-            String line;
-            FileReader file = new FileReader(path);
-            BufferedReader br = new BufferedReader(file);
 
-            HashMap<String, Integer> text = new HashMap<String, Integer>();
-            StringBuilder contingut = new StringBuilder();
-            boolean primer = true;
-
-            while((line = br.readLine()) != null) {
-                if (primer) {
-                    contingut.append(line);
-                    primer =  false;
-                }
-                else contingut.append("\n"+line);
-                //Splits each line into words
-                String[] words = line.split("\\p{Punct}| |\\n|¿|¡");
-                for (String word : words) {
-                    word = word.toLowerCase();
-                    if (!this.stopWords.contains(word) && word != "") {
-                        if (!text.containsKey(word)) text.put(word, 1);
-                        else text.put(word, text.get(word)+1);
-                    }
-                }
-            }
-
-            if (contingut.isEmpty()) throw new Exception("Error: contingut buit");
-            this.freqContingut.set(id, text);
-            this.Contingut.set(id, contingut.toString());
-        } catch (Exception e) {
-            throw new Exception("Error: path del document incorrecte");
-        }
-    }
     /**
      * Modifica el Contingut per un altre nou.
      * @param id és l'índex del Document.
@@ -377,5 +326,9 @@ public class ConjuntContinguts {
     public List<String> getConjuntContinguts() {
         return this.Contingut;
     }
+    /**
+     * Obtenim totes les Frequencies dels Documents que hi ha fins al moment.
+     * @return retorna una llista amb les frequencies de cada un dels Documents.
+     */
     public List<HashMap<String, Integer>> getFreqContingut() { return this.freqContingut; }
 }

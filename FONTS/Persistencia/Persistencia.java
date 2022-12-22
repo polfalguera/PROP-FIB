@@ -13,6 +13,10 @@ import java.io.InputStream;
 
 public class Persistencia {
 
+    /**
+     * Persisteix totes les expressiosn que hi ha en el sistema.
+     * @param expressions es una llista d'String que conte l'String de cada una de les expressions del sistema.
+     */
     public static void persisitirExpressio(List<String> expressions) throws Exception {
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
         path.append("/RESOURCES/expressions/expressions.txt");
@@ -24,7 +28,12 @@ public class Persistencia {
         fitxer.close();
     }
 
-    //Contingut sera el contingut del document formatejat en txt
+    /**
+     * Persisteix un nou Document.
+     * @param autor es l'autor del document a persistir.
+     * @param titol es el titol del document a persistir.
+     * @param contingut es el contingut del document formatejat en txt
+     */
     public static void nouDocument(String autor, String titol, String contingut) throws Exception {
         StringBuilder fileName = new StringBuilder("");
         fileName.append(autor.replaceAll(" ", "_"));
@@ -46,6 +55,14 @@ public class Persistencia {
         fitxer.close();
     }
 
+    /**
+     * Persisteix un nou document donat el seu, titol, autor, contingut, direccio i format.
+     * @param autor es l'autor del document a persistir.
+     * @param titol es el titol del document a persistir.
+     * @param contingutFitxer es el contingut del document formatejat en format
+     * @param direccio es la direccio on persistir el document
+     * @param format es el format en el que es persistira el document
+     */
     public static void persistirADireccio(String titol, String autor, String contingutFitxer, String direccio, String format) throws Exception {
         StringBuilder fileName = new StringBuilder("");
         fileName.append(autor.replaceAll(" ", "_"));
@@ -65,9 +82,13 @@ public class Persistencia {
         writer.write(contingutFitxer);
         writer.close();
         fitxer.close();
-
     }
 
+    /**
+     * Elimina dels documents persistits el document amb autor titol proporcionat.
+     * @param autor es l'autor del document a eliminar.
+     * @param titol es el titol del document a eliminar.
+     */
     public static void eliminarDocument(String autor, String titol) throws Exception {
         StringBuilder fileName = new StringBuilder("");
         fileName.append(autor.replaceAll(" ", "_"));
@@ -84,16 +105,25 @@ public class Persistencia {
         if (!Files.deleteIfExists(Paths.get(path.toString()))) throw new Exception("Error, no existeix el document");
     }
 
+    /**
+     * Modifica el document amb autor i titol per un amb nouAutor, nouTitol amb Contingut
+     * @param autor es l'autor del document a modificar.
+     * @param titol es el titol del document a modificar.
+     * @param nouAutor es l'autor del nou document
+     * @param nouTitol es el titol del nou document
+     * @param Contingut es el Contingut en format txt del document
+     */
     public static void modificarDocument(String autor, String titol, String nouAutor, String nouTitol, String Contingut) throws Exception {
         eliminarDocument(autor, titol);
         nouDocument(nouAutor, nouTitol, Contingut);
-
-        /*if (nouAutor != "" && nouTitol != "") nouDocument(nouAutor, nouTitol, Contingut);
-        else if (nouAutor != "") nouDocument(nouAutor, titol, Contingut);
-        else if (nouTitol != "") nouDocument(autor, nouTitol, Contingut);
-        else nouDocument(autor, titol, Contingut);*/
     }
 
+    /**
+     * Obte el contingut del document amb autor i titol
+     * @param autor es l'autor del document.
+     * @param titol es el titol del document.
+     * @return retorna el contingut del document persitir amb autor i titol en format txt
+     */
     public static String obtenirContingut(String autor, String titol) throws Exception {
         StringBuilder fileName = new StringBuilder("");
         fileName.append(autor.replaceAll(" ", "_"));
@@ -117,6 +147,9 @@ public class Persistencia {
         return contingut.toString();
     }
 
+    /**
+     * Buida tot el que hi ha en la carpeta RESOURCES/frequencies
+     */
     public static void buidarFrequencies() throws Exception {
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
         path.append("/RESOURCES/frequencies");
@@ -130,7 +163,12 @@ public class Persistencia {
             }
         }
     }
-
+    /**
+     * Persisteix les frequencies de les paraules del document amb autor i titol
+     * @param autor es l'autor del document.
+     * @param titol es el titol del document.
+     * @param freq son les frequencies de les paraules del document amb autor i titol
+     */
     public static void persitirFrequencies(String autor, String titol, HashMap<String, Integer> freq) throws Exception {
         StringBuilder fileName = new StringBuilder("");
         fileName.append(autor.replaceAll(" ", "_"));
@@ -157,6 +195,10 @@ public class Persistencia {
 
     }
 
+    /**
+     * Recupera totes les expressions persistides de l'execució anterior
+     * @return retorna una llista d'String amb les expressions de l'execucio anterior
+     */
     public static List<String> recuperarExpressions() throws Exception {
         List<String> expressions = new ArrayList<String>();
 
@@ -174,6 +216,10 @@ public class Persistencia {
         return expressions;
     }
 
+    /**
+     * Recupera totes les frequencies de les paraules dels documents persistits de l'execució anterior
+     * @return retorna una llista on cada posició és un document amb les frequencies de les paraules del document
+     */
     public static List<HashMap<String, Integer>> recuperarFreq() throws Exception {
         List<HashMap<String, Integer>> freq = new ArrayList<HashMap<String, Integer>>();
 
@@ -205,6 +251,10 @@ public class Persistencia {
         return freq;
     }
 
+    /**
+     * Recupera el contingut de tots els documents persistits
+     * @return retorna una llista d'String on cada posició representa un document i conte el contingut en format txt
+     */
     public static List <String> recuperarDocuments() throws Exception {
         List<String> resultat = new ArrayList<String>();
         StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
