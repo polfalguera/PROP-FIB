@@ -1,7 +1,0 @@
-En aquest directori trobem els fitxers .class i els fitxers.sh per executar els drivers i test.
-
->CLASS: conte tots els fitxers .class.
-
->drivers: conte tots els fitxers per a executar els diferents drivers.
-
->test: onte tots els fitxers per a executar el testGlobal.
