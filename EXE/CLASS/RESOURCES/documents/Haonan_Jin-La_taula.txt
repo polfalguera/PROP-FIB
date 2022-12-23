@@ -1,4 +1,0 @@
-Haonan Jin
-La taula
-Una taula pot estar composada per quatre potes.
-I això es el següent paragraf.
