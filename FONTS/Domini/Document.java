@@ -1,5 +1,9 @@
 package FONTS.Domini;
 
+/**
+ * Representa la classe Document.
+ * @author Marc Quel.
+ */
 public class Document {
 
     /**
