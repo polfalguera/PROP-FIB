@@ -1,0 +1,19 @@
+En aquest directori es troben les diferents carpetes del projecte, el README i un document de text amb les dades dels integrants del grup.
+
+>DOCS: Conte el manual d'usuari, els jocs de proves, i els fitxers necessaris per els jocs de proves
+
+>EXE: Conte tot allo que es genera despres de compilar el programa
+
+>FONTS: conte tots els fitxers .java del programa
+
+>JavaDoc: conte tots els fitxers per poder consultar la documentacio del codi
+
+>META-INF: conte el manifest necessari per compilar
+
+>RESOURCES: conte els documents, frequencies i expressions persistides, un manifest, i les stopwords
+
+>equip.txt: Descriu les dades dels integrants de l'equip
+
+>executa.bat: Es pot utilitzar per executar el programa despres de compilar en Windows
+
+>executa.sh: Es pot utilitzar per executar el programa despres de compilar en MacOS i Linux

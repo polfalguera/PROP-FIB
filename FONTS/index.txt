@@ -1,9 +1,12 @@
-En aquest directori es troben les diferents carpetes del projecte, el README i un document de text amb les dades dels integrants del grup.
 
->Domini: conte tots els fitxers .java relacionats amb les classes.
+>Domini: conte tots els fitxers .java relacionats amb les classes de la capa del domini.
 
->Drivers: conte tots els fitxers .java dels drivers de les classes.
+>Persistencia: conte tots els fitxers .java relacionats amb les classes de la capa de persistencia.
 
->lib: conte les llibreries necesaries per al JUnit.
+>Presentacio: conte tots els fitxers .java relacionats amb les classes de la capa de la presentacio.
 
->Test: conte tots els fitxers .java del testos de les classes.
+>lib: conte les llibreries necesaries per el programa
+
+>Compilar.bat: fitxer per compilar el programa en Windows
+
+>Compilar.sh: fitxer per compilar el programa en Linux o MacOS

@@ -1,8 +1,9 @@
 En aquest directori es troba la seguent documentacio:
 
->CASOS D'US.pdf: Un document de text amb la descripcio dels casos d'us.
->CASOS D'US DIAGRAMA.pdf: Un pdf amb el diagrama dels casos d'us.
->DESCRIPCIÓ DEL DIAGRAMA DE CLASSES.pdf: Un document de text amb la descripcio de les diferents classes, atributs i operacions del diagrama de classes.
->DIAGRAMA DE CLASSES - UML.pdf: Un pdf amb el diagrama de classes UML.
->ESTRUCTURA DE DADES I ALGORISMES: Un document de text amb les descripcions dels algoritmes i estructures de dades usats en el programa.
+>MANUAL D'USUARI.pdf: Un pdf que descriu com utilitzar el programa
+>JOC DE PROVES.pdf: Un pdf que estipula un seguit joc de proves a seguir amb els seus resultats esperats
 >RELACIONS MEMBRE I GRUP.pdf: Un document de text amb la relacio membres/classes.
+>JocDeProva2 Documents txt necessaris per fer els jocs de prova 2
+>JocDeProva3 Documents txt, jamp i xml necessaris per fer els jocs de prova 3
+>JocDeProva4 Documents txt necessaris per fer els jocs de prova 4
+>JocDeProva5 Documents txt necessaris per fer els jocs de prova 5

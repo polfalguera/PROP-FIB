@@ -1,0 +1,13 @@
+>documents: Conte tots els documents persistits
+
+>expressions: Conte totes les expressions persistides
+
+>frequencies: Conte totes les frequencies persistides
+
+>ControladorPresentacio.mf: Manifest utilitzat per compiar
+
+>empty-ca-utf8.txt: Stopwords en catala
+
+>empty-eng-utf8.txt: Stopwords en angles
+
+>empty-sp-utf8.txt: Stopwords en castella
