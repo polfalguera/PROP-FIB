@@ -57,11 +57,8 @@ public class FormatJAMP implements Format {
             throw new Exception("Error: fitxer mal estructurat");
         c = c.substring(1);
         c = c.replaceFirst("^\\s*", "");
-        System.out.println(c);
         while (cIterator < c.length() && (!autorFinished || !titolFinished || !contingutFound)) {
             currentChar = c.charAt(cIterator);
-            System.out.println(builtTag);
-            System.out.println(c);
             if (!readData) {
                 if (((Character.compare(currentChar, 'a') == 0 && listIterator == 0) ||
                         ((Character.compare(currentChar, 't') == 0 && listIterator == 1)) ||
@@ -82,7 +79,6 @@ public class FormatJAMP implements Format {
                             builtTag = "";
                             readData = true;
                             firstLetterRead = false;
-                            System.out.println(listIterator);
                             if (listIterator == 2) contingutFound = true;
                         } else throw new Exception("Error: fitxer mal estructurat");
                     } else throw new Exception("Error: fitxer mal estructurat");
@@ -97,7 +93,7 @@ public class FormatJAMP implements Format {
                     if (c.length() - 1 >= cIterator + 1) {
                         String aux = c.substring(cIterator + 1);
                         aux = aux.replaceFirst("^\\s*", "");
-                        if ((Character.compare(aux.charAt(0), ',') == 0)) {
+                        if (aux.length() > 0 && (Character.compare(aux.charAt(0), ',') == 0)) {
                             if (c.length() - 1 >= cIterator + 2) {
                                 c = c.substring(cIterator + 2);
                                 c = c.replaceFirst("^\\s*", "");
@@ -118,7 +114,6 @@ public class FormatJAMP implements Format {
             }
             ++cIterator;
         }
-        System.out.println("Contngut de c: " + c);
 
         c = c.replaceFirst("^\\s*", "");
         if (!(c.length() > 1) || Character.compare(c.charAt(0), '{') != 0)
@@ -133,8 +128,6 @@ public class FormatJAMP implements Format {
 
         while (cIterator < c.length() && (!contingutFinished)) {
             currentChar = c.charAt(cIterator);
-            System.out.println(builtTag);
-            System.out.println(c);
             if (!readData) {
                 if (((Character.compare(currentChar, 'p') == 0)) && !firstLetterRead ) {
                     if (builtTag.equals("")) {
@@ -151,7 +144,6 @@ public class FormatJAMP implements Format {
                             builtTag = "";
                             readData = true;
                             firstLetterRead = false;
-                            System.out.println(listIterator);
                         } else throw new Exception("Error: fitxer mal estructurat");
                     } else throw new Exception("Error: fitxer mal estructurat");
 
@@ -165,7 +157,7 @@ public class FormatJAMP implements Format {
                     if (c.length() - 1 >= cIterator + 1) {
                         String aux = c.substring(cIterator + 1);
                         aux = aux.replaceFirst("^\\s*", "");
-                        if ((Character.compare(aux.charAt(0), ',') == 0)) {
+                        if (aux.length() > 0 && (Character.compare(aux.charAt(0), ',') == 0)) {
                             if (c.length() - 1 >= cIterator + 2) {
                                 c = c.substring(cIterator + 2);
                                 c = c.replaceFirst("^\\s*", "");
@@ -174,6 +166,7 @@ public class FormatJAMP implements Format {
                                 cIterator = -1;
                                 String oldResult = result.get(listIterator);
                                 result.set(listIterator, oldResult + '\n');
+                                if (c.length() == 0) throw new Exception("Error: fitxer mal estructurat");
                                 if ((Character.compare(c.charAt(0), '}') == 0)) {
                                     contingutFinished = true;
                                 }
