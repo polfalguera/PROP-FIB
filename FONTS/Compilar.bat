@@ -1,6 +1,12 @@
-javac Domini/*.java
-javac Domini/*.java Drivers/*.java
-javac -cp ./lib/junit-4.13.1.jar:./lib/hamcrest-core-1.3.jar Domini/*.java Test/*.java
-mv ./Domini/*.class ../EXE/CLASS/FONTS/Domini
-mv ./Drivers/*.class ../EXE/CLASS/FONTS/Drivers
-mv ./Test/*.class ../EXE/CLASS/FONTS/Test
+rmdir ..\EXE /s
+javac -cp "..;.\lib\forms_rt-7.0.3.jar" -d ..\EXE\CLASS Presentacio\ControladorPresentacio.java
+cd ..\EXE\CLASS
+mkdir RESOURCES
+cd .\FONTS
+mkdir lib
+cd ..\..\..\FONTS
+Xcopy ..\RESOURCES ..\EXE\CLASS\RESOURCES /E/H/C/I
+Xcopy .\lib ..\EXE\CLASS\FONTS\lib /E/H/C/I
+copy ..\RESOURCES\ControladorPresentacio.mf ..\EXE\CLASS
+cd ..\EXE\CLASS
+jar cmf ControladorPresentacio.mf ControladorPresentacio.jar .\FONTS\Presentacio\*.class .\FONTS\Persistencia\*.class .\FONTS\Domini\*.class
