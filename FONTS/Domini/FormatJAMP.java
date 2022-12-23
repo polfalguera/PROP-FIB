@@ -209,7 +209,12 @@ public class FormatJAMP implements Format {
 
         return result;
     }
-
+    /**
+     * Consultora
+     * @param raw es tot el contingut que conte un fitxer .jamp guardat en un String.
+     * @return Donat tot el contingut d'un fitxer .jamp guardat en un String, null, ja que no
+     * cal implementar aquest metode de la interficia Format en aquesta classe
+     */
     public List<String> extractTitolAutorContingutDocument(String raw) throws Exception {
         return null;
     }

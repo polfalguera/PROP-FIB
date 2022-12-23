@@ -45,7 +45,9 @@ public class ControladorDomini {
             throw new Exception(e.toString());
         }
     }
-
+    /**
+     * Persisteix a disc tant les frequencies de totes els continguts com les expressions
+     */
     public void tancarPrograma() throws Exception {
         try {
             //Guardem les expressions
@@ -67,6 +69,11 @@ public class ControladorDomini {
             throw new Exception(e.getMessage());
         }
     }
+
+    /**
+     * Carrega de disc a les estrucutres de dades les expressions persistides,
+     * les frequencies presistides, i els documents persistits
+     */
     public void obrirPrograma() throws Exception {
         try {
             //Recuperem les expressions
@@ -94,6 +101,7 @@ public class ControladorDomini {
     /**
      * Modificadora
      * Afegeix un document al controlador de documents, i el seu contingut al controlador de contingut
+     * Tambe persisteix el document a disc
      * @param autor es l'autor del document a crear.
      * @param titol es el titol del document a crear.
      * @param contingut es el contingut del document a crear.
@@ -118,6 +126,7 @@ public class ControladorDomini {
      * Modificadora
      * Elimina un document del controlador de documents, i el seu contingut
      * del controlador de contingut
+     * Tambe l'elimina de disc
      * @param autor es l'autor del document a crear.
      * @param titol es el titol del document a crear.
      */
@@ -195,7 +204,7 @@ public class ControladorDomini {
     }
     /**
      * Modificadora
-     * Modifica el contingut d'un document del controlador de contingut
+     * Modifica el contingut d'un document
      * @param autor es l'autor del document a modificar.
      * @param titol es el titol del document a modificar.
      * @param nouContingut es el nou contingut del document a modificar.
@@ -263,7 +272,12 @@ public class ControladorDomini {
             } else throw new Exception(e.getMessage());
         }
     }
-
+    /**
+     * Consultora
+     * @param id es l'index del document que es vol consultar al controlador de documents
+     * @return Retorna l'autor i el titol del docuement que es troba en la posicio del parametre id en la llista
+     * de documents del controlador de documents
+     * */
     public List<String> queryGetAutorTitolIndex(int id) throws Exception {
         try {
             return cjtDocuments.getAutorTitolIndex(id);
@@ -418,9 +432,24 @@ public class ControladorDomini {
             throw new Exception(e.getMessage());
         }
     }
+
+    /**
+     * Consultora
+     * @return Retorna totes les expresions que estan carregades a memoria.
+     * */
     public HashMap<String,Expressio> queryGetConjuntExpressions() {
         return CtrlExpressions.getCjtExpressions();
     }
+
+    /**
+     * Consultora
+     * @param direccio Es la direccio d'on es vol llegir el fitxer a carregar
+     * @param format Es el format del fitxer que es vol carregar. Pot ser: "txt", "xml" o "jamp"
+     * Crea un document nou al sistema que conte l'autor, el titol i el contingut
+     * extrets del fitxer guardat a la direccio que s'ha pasat com a parametre
+     * @return Retorna l'autor i el titol del document creat
+     *
+     * */
     public List<String> carregarDocument(String direccio, String format) throws Exception {
         try {
             List<String> data = CtrlFormat.extractTitolAutorContingut(direccio, format);
@@ -444,7 +473,11 @@ public class ControladorDomini {
 
     /**
      * @param direccio es la direccio a la que es vol exportar el document
+     * @param autor es l'autor del docuement que es vol exportar
+     * @param titol es el titol del docuement que es vol exportar
      * @param format es el format al que es vol exportar el fitxer, pot ser: "txt", "xml" o "jamp"
+     * Guarda a la direccio especificada un fitxer amb el format especificat que conte l'autor, el
+     * titol i el contingut del document a exportar.
      * */
     public void exportarDocument(String autor, String titol, String format, String direccio) throws Exception {
         try {
@@ -467,13 +500,22 @@ public class ControladorDomini {
         }
     }
 
+    /**
+     * Consultora
+     * @return Retorna la llista de documents del controlador de documents
+     * */
     public List<Document> queryGetCjtDocuments() { return cjtDocuments.getCjtDocuments(); }
     /**
      * Consultora
-     * @param autor es l'autor del document que volem comprovar si existeix
-     * @param titol es el titol del document que volem comprovar si existeix
+     * @param autor es l'autor del document que es vol comprovar si existeix
+     * @param titol es el titol del document que es vol comprovar si existeix
      * @return Retorna true si el document existeix, sino retorna false.
      * */
     public boolean queryExisteixDocument(String autor, String titol) { return cjtDocuments.existeixDocument(autor,titol); }
+    /**
+     * Consultora
+     * @param expressio es l'expressio que es vol comprovar si existeix.
+     * @return Retorna true si l'expressio existeix, sino retorna false.
+     * */
     public boolean queryExisteixExpressioBooleana(String expressio) { return CtrlExpressions.ExistExpressio(expressio); }
 }

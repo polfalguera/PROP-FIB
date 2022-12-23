@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.io.InputStream;
-
+/**
+ * Representa el controlador de persistencia
+ * @author Alex Ares.
+ */
 public class Persistencia {
 
     /**

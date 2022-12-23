@@ -7,39 +7,25 @@ import java.util.List;
  * @author Marc Quel
  */
 public class ControladorFormat {
+    /**
+     * Representa el formatejador de fitxers .txt
+     */
     private Format formatejadorTXT;
+    /**
+     * Representa el formatejador de fitxers .xml
+     */
     private Format formatejadorXML;
+    /**
+     * Representa el formatejador de fitxers .jamp
+     */
     private Format formatejadorJAMP;
 
     public ControladorFormat() {
-        /*
-        * Els fitxers .txt han de tenir la seguent estructura:
-        * Nom de l'autor (ha de estar tot el nom a la primera  linia)
-        *
-        * Nom del titol  (ha de estar tot el titol a la segona linia)
-        *
-        *
-        *
-        * contingut (tot el que es llegeix despres del titol es considera contingut)
-        * */
+
         this.formatejadorTXT = new FormatTXT();
 
-        /*
-         * Els fitxers .xml han de tenir la seguent estructura:
-         * <document>
-         *      <autor>Nom de l'autor</autor>
-         *      <titol>Nom del titol</titol>
-         *      <contingut>contingut qualsevol</contingut>
-         * </document>
-         *
-         * L'ordre en el que apareixen els tags autor, titol i contingut no es important
-         * */
         this.formatejadorXML = new FormatXML();
 
-        /*
-        * Els fitxer .jamp han de tenir la seguent estructura:
-        *
-        * */
         this.formatejadorJAMP = new FormatJAMP();
     }
 
@@ -74,6 +60,13 @@ public class ControladorFormat {
         }
         else throw new Exception("Error: format incorrecte");
     }
+    /**
+     * Consultora
+     * @param raw es tot el contingut que conte un fitxer guardat en un String.
+     * @param format es el format del fitxer.
+     * @return Donat tot el contingut d'un fitxer guardat en un String, retorna l'autor, el titol i el contingut del fitxer
+     * si l'estructura del mateix es correcte i el fromat es .txt. En cas contrari fa throw d'exepcions.
+     */
     public List<String> extractTitolAutorContingutDocument(String raw, String format) throws  Exception {
         if (format.equals("txt")) {
             try {

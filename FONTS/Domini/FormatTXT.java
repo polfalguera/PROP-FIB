@@ -69,7 +69,12 @@ public class FormatTXT implements Format {
         if (result.get(1).length() == 0) throw new Exception("Error: títol buit");
         return result;
     }
-
+    /**
+     * Consultora
+     * @param raw es tot el contingut que conte un fitxer .txt guardat en un String.
+     * @return Donat tot el contingut d'un fitxer .txt guardat en un String, retorna l'autor, el titol i el contingut del fitxer
+     * si l'estructura del mateix es correcte. En cas contrari fa throw d'exepcions.
+     */
     public List<String> extractTitolAutorContingutDocument(String raw) throws Exception {
         List<String> result = new ArrayList<String>();
         result.add("");result.add("");result.add("");result.add("");
