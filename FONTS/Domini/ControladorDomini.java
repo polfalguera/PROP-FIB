@@ -150,6 +150,7 @@ public class ControladorDomini {
      * @param titol es el titol del document a modificar.
      */
     public void queryModificarAutor(String anticAutor, String nouAutor, String titol) throws Exception {
+        if (nouAutor.equals("")) throw new Exception("Error: autor buit");
         try {
             int index = cjtDocuments.indexDocument(anticAutor, titol);
             String contingut = CtrlContingut.getContingut(index);
@@ -181,6 +182,7 @@ public class ControladorDomini {
      * @param nouTitol es el nou titol del document a modificar.
      */
     public void queryModificarTitol(String autor, String anticTitol, String nouTitol) throws Exception {
+        if (nouTitol.equals("")) throw new Exception("Error: titol buit");
         try {
             int index = cjtDocuments.indexDocument(autor, anticTitol);
             String contingut = CtrlContingut.getContingut(index);
@@ -210,6 +212,7 @@ public class ControladorDomini {
      * @param nouContingut es el nou contingut del document a modificar.
      */
     public void queryModificarContingut(String autor, String titol, String nouContingut) throws Exception {
+        if (nouContingut.equals("")) throw new Exception("Error: contingut buit");
         try {
             int id = cjtDocuments.indexDocument(autor,titol);
             CtrlContingut.modificarContingut(id,nouContingut);
