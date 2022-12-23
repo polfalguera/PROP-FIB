@@ -115,30 +115,6 @@ public class ControladorDomini {
 
     /**
      * Modificadora
-     * Afegeix un document al controlador de documents, i el contingut
-     * del path introduit al controlador de contingut.
-     * El fitxer que apunta el path ha de ser un .txt
-     * @param autor es l'autor del document a crear.
-     * @param titol es el titol del document a crear.
-     * @param path path que apunta al fitxer que conte el contingut a introduir.
-     */
-
-    /* Ara que ja tenim el controlador de format i la capa de persistencia ja no es necessaria
-    // aquesta funcio
-    public void queryCrearDocumentPath(String autor, String titol, String path) throws Exception {
-        try {
-            cjtDocuments.crearDocument(autor,titol);
-            CtrlContingut.afegirContingutPath(path);
-            //Capa de persistencia
-            Persistencia.nouDocument(autor, titol, CtrlContingut.getContingut());
-        }catch (Exception e) {
-            throw new Exception(e.toString());
-        }
-    }
-    */
-
-    /**
-     * Modificadora
      * Elimina un document del controlador de documents, i el seu contingut
      * del controlador de contingut
      * @param autor es l'autor del document a crear.
@@ -227,26 +203,6 @@ public class ControladorDomini {
             throw new Exception(e.getMessage());
         }
     }
-    /**
-     * Modificadora
-     * Modifica el contingut d'un document del controlador de contingut.
-     * El nou contingut es llegeix del path introduit.
-     * El fitxer que apunta el path ha de ser un .txt
-     * @param autor es l'autor del document a modificar.
-     * @param titol es el titol del document a modificar.
-     * @param path path que apunta al fitxer que conte el nou contingut del document a modificar.
-     */
-    // Ara que ja tenim el controlador de format i la capa de persistencia ja no es necessaria
-    // aquesta funcio
-    /*
-    public void queryModificarContingutPath(String autor, String titol, String path) throws Exception {
-        try {
-            int id = cjtDocuments.indexDocument(autor,titol);
-            CtrlContingut.modificarContingutPath(id,path);
-        }catch (Exception e) {
-            throw new Exception(e.toString());
-        }
-    }*/
 
     /**
      * Consultora
@@ -299,15 +255,7 @@ public class ControladorDomini {
             } else throw new Exception(e.getMessage());
         }
     }
-    /* PER A FUTURES ENTREGUES
-    public int queryGetIndexDocument(String autor, String titol) throws Exception {
-        try {
-            return cjtDocuments.indexDocument(autor,titol);
-        } catch (Exception e) {
-            throw new Exception(e.toString());
-        }
-    }
-    */
+
     public List<String> queryGetAutorTitolIndex(int id) throws Exception {
         try {
             return cjtDocuments.getAutorTitolIndex(id);
@@ -325,19 +273,45 @@ public class ControladorDomini {
      * */
     public List<String> queryObtenirKSemblants(String autor, String titol, int k, int mode) throws Exception {
         try {
+            System.out.println(cjtDocuments.getCjtDocuments());
+            System.out.println(CtrlContingut.getConjuntContinguts());
+            System.out.println(autor);
+            System.out.println(titol);
+
             int id = cjtDocuments.indexDocument(autor,titol);
+            String aux = CtrlContingut.getContingut(id);
+
+            System.out.println(aux);
 
             String[] contingut = CtrlContingut.obtenirParaulesContingut(id);
-
+            System.out.println(contingut[0]);
+            System.out.println(k);
             int[] indexos = CtrlContingut.kRellevants(contingut,k, mode);
-
+            System.out.println(indexos[0]);
             List<String> llistat = new ArrayList<>();
             for (int index : indexos) {
+                System.out.println(index);
                 llistat.addAll(cjtDocuments.getAutorTitolIndex(index));
             }
             return llistat;
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            if (e.getMessage() == "El contingut no està en memoria") {
+                String doc = Persistencia.obtenirContingut(autor, titol);
+                List<String> d = CtrlFormat.extractTitolAutorContingutDocument(doc, "txt");
+                CtrlContingut.modificarContingut(cjtDocuments.indexDocument(autor, titol), d.get(2));
+                //
+                int id = cjtDocuments.indexDocument(autor,titol);
+                String[] contingut = CtrlContingut.obtenirParaulesContingut(id);
+
+                int[] indexos = CtrlContingut.kRellevants(contingut,k, mode);
+
+                List<String> llistat = new ArrayList<>();
+                for (int index : indexos) {
+                    llistat.addAll(cjtDocuments.getAutorTitolIndex(index));
+                }
+                return llistat;
+            }
+            else throw new Exception(e.getMessage());
         }
     }
 
@@ -418,6 +392,7 @@ public class ControladorDomini {
             List <String> fitxers = Persistencia.recuperarDocuments();
             List <String> continguts = new ArrayList<String>();
             for (int i = 0; i < fitxers.size(); ++i) {
+
                 continguts.add(CtrlFormat.extractTitolAutorContingutDocument(fitxers.get(i), "txt").get(2));
             }
 
@@ -425,7 +400,10 @@ public class ControladorDomini {
 
             List<String> llistat = new ArrayList<>();
             for (int index : indexos) {
-                llistat.addAll(cjtDocuments.getAutorTitolIndex(index));
+                fitxers.get(index);
+                List<String> aux = CtrlFormat.extractTitolAutorContingutDocument(fitxers.get(index), "txt");
+                int realIndex = cjtDocuments.indexDocument(aux.get(0), aux.get(1));
+                llistat.addAll(cjtDocuments.getAutorTitolIndex(realIndex));
             }
             return llistat;
         } catch (Exception e) {
