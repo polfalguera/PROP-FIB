@@ -174,8 +174,9 @@ public class FormatJAMP implements Format {
                                 cIterator = -1;
                                 String oldResult = result.get(listIterator);
                                 result.set(listIterator, oldResult + '\n');
-                                if ((Character.compare(c.charAt(0), '}') == 0))
+                                if ((Character.compare(c.charAt(0), '}') == 0)) {
                                     contingutFinished = true;
+                                }
                             } else throw new Exception("Error: fitxer mal estructurat");
 
                         } else throw new Exception("Error: fitxer mal estructurat");
@@ -187,10 +188,22 @@ public class FormatJAMP implements Format {
             }
             ++cIterator;
         }
-        if (c.length() - 1 >= cIterator + 1) {
-            String aux = c.substring(cIterator + 1);
+        if (c.length() > 1) {
+            String aux = c;
+
+            aux = aux.substring(1);
+
             aux = aux.replaceFirst("^\\s*", "");
+
+            if (aux.length() == 0) throw new Exception("Error: fitxer mal estructurat");
             if ((Character.compare(aux.charAt(0), '}') != 0)) throw new Exception("Error: fitxer mal estructurat");
+            else {
+                if (aux.length() > 1) {
+                    aux = aux.substring(1);
+                    aux = aux.replaceFirst("^\\s*", "");
+                    if (aux.length() > 0) throw new Exception("Error: fitxer mal estructurat");
+                }
+            }
         } else throw new Exception("Error: fitxer mal estructurat");
 
         if (!autorFinished || !titolFinished || !contingutFound || !contingutFinished)

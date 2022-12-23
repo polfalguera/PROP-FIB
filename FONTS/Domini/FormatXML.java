@@ -172,10 +172,10 @@ public class FormatXML implements Format {
      * que es la representacio del document en .xml.
      */
     public String documentToFile(String autor, String titol, String contingut) throws Exception {
-        return ("<document>"+
-                    "<autor>"+ autor +"</autor>"+
-                    "<titol>"+ titol +"</titol>"+
-                    "<contingut>"+ contingut +"</contingut>"+
+        return ("<document> \n"+
+                    "<autor>"+ autor +"</autor>\n"+
+                    "<titol>"+ titol +"</titol>\n"+
+                    "<contingut>"+ contingut +"</contingut>\n"+
                 "</document>");
     }
 }
