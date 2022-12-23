@@ -113,7 +113,19 @@ public class Persistencia {
      * @param nouTitol es el titol del nou document
      * @param Contingut es el Contingut en format txt del document
      */
-    public static void modificarDocument(String autor, String titol, String nouAutor, String nouTitol, String Contingut) throws Exception {
+    public static void modificarDocument(String autor, String titol, String nouAutor, String nouTitol, String Contingut, boolean modCont) throws Exception {
+        StringBuilder fileName = new StringBuilder("");
+        fileName.append(nouAutor.replaceAll(" ", "_"));
+        fileName.append("-");
+        fileName.append(nouTitol.replaceAll(" ", "_"));
+        fileName.append(".txt");
+
+        StringBuilder path = new StringBuilder(Paths.get("").toAbsolutePath().toString());
+        path.append("/RESOURCES/documents");
+
+        File file = new File(path.toString(), fileName.toString());
+        if (file.exists() && !modCont) throw new Exception("Error, ja existeix el document");
+
         eliminarDocument(autor, titol);
         nouDocument(nouAutor, nouTitol, Contingut);
     }

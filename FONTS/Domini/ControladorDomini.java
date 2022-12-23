@@ -103,11 +103,12 @@ public class ControladorDomini {
             if (contingut.equals("")) throw new Exception("Error: contingut buit");
             if (titol.equals("")) throw new Exception("Error: títol buit");
             if (autor.equals("")) throw new Exception("Error: autor buit");
+
+            String c = CtrlFormat.documentToFile(autor,titol,contingut,"txt");
+            Persistencia.nouDocument(autor, titol, c);
+
             cjtDocuments.crearDocument(autor,titol);
             CtrlContingut.afegirContingut(contingut);
-            String c = CtrlFormat.documentToFile(autor,titol,contingut,"txt");
-            //Capa de persistencia
-            Persistencia.nouDocument(autor, titol, c);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -141,20 +142,23 @@ public class ControladorDomini {
      */
     public void queryModificarAutor(String anticAutor, String nouAutor, String titol) throws Exception {
         try {
-            cjtDocuments.modificarAutor(anticAutor,nouAutor,titol);
-            //Capa de persistencia
-            int index = cjtDocuments.indexDocument(nouAutor, titol);
+            int index = cjtDocuments.indexDocument(anticAutor, titol);
             String contingut = CtrlContingut.getContingut(index);
             String c = CtrlFormat.documentToFile(nouAutor,titol,contingut,"txt");
-            Persistencia.modificarDocument(anticAutor, titol, nouAutor, titol, c);
+            Persistencia.modificarDocument(anticAutor, titol, nouAutor, titol, c, false);
 
+            cjtDocuments.modificarAutor(anticAutor,nouAutor,titol);
         } catch (Exception e) {
             if (e.getMessage() == "El contingut no està en memoria") {
                 String doc = Persistencia.obtenirContingut(anticAutor, titol);
                 List<String> d = CtrlFormat.extractTitolAutorContingutDocument(doc, "txt");
-                CtrlContingut.modificarContingut(cjtDocuments.indexDocument(nouAutor, titol), d.get(2));
+
                 String cont = CtrlFormat.documentToFile(nouAutor,titol,d.get(2),"txt");
-                Persistencia.modificarDocument(anticAutor, titol, nouAutor, titol, cont);
+                Persistencia.modificarDocument(anticAutor, titol, nouAutor, titol, cont, false);
+
+                cjtDocuments.modificarAutor(anticAutor,nouAutor,titol);
+                CtrlContingut.modificarContingut(cjtDocuments.indexDocument(nouAutor, titol), d.get(2));
+
             }
             else throw new Exception(e.getMessage());
         }
@@ -169,19 +173,23 @@ public class ControladorDomini {
      */
     public void queryModificarTitol(String autor, String anticTitol, String nouTitol) throws Exception {
         try {
-            cjtDocuments.modificarTitol(autor,anticTitol, nouTitol);
-            //Capa de persistencia
-            int index = cjtDocuments.indexDocument(autor, nouTitol);
+            int index = cjtDocuments.indexDocument(autor, anticTitol);
             String contingut = CtrlContingut.getContingut(index);
             String c = CtrlFormat.documentToFile(autor,nouTitol,contingut,"txt");
-            Persistencia.modificarDocument(autor, anticTitol, autor, nouTitol, c);
+            Persistencia.modificarDocument(autor, anticTitol, autor, nouTitol, c, false);
+
+            cjtDocuments.modificarTitol(autor,anticTitol, nouTitol);
+
         } catch (Exception e) {
             if (e.getMessage() == "El contingut no està en memoria") {
                 String doc = Persistencia.obtenirContingut(autor, anticTitol);
                 List<String> d = CtrlFormat.extractTitolAutorContingutDocument(doc, "txt");
-                CtrlContingut.modificarContingut(cjtDocuments.indexDocument(autor, nouTitol), d.get(2));
+
                 String cont = CtrlFormat.documentToFile(autor,nouTitol,d.get(2),"txt");
-                Persistencia.modificarDocument(autor, anticTitol, autor, nouTitol, cont);
+                Persistencia.modificarDocument(autor, anticTitol, autor, nouTitol, cont,false);
+
+                cjtDocuments.modificarTitol(autor,anticTitol, nouTitol);
+                CtrlContingut.modificarContingut(cjtDocuments.indexDocument(autor, nouTitol), d.get(2));
             } else throw new Exception(e.getMessage());
         }
     }
@@ -198,7 +206,7 @@ public class ControladorDomini {
             CtrlContingut.modificarContingut(id,nouContingut);
             String c = CtrlFormat.documentToFile(autor,titol,nouContingut,"txt");
             //Capa de persistencia
-            Persistencia.modificarDocument(autor, titol, autor, titol, c);
+            Persistencia.modificarDocument(autor, titol, autor, titol, c, true);
         }catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -419,10 +427,13 @@ public class ControladorDomini {
             String autor = data.get(0);
             String titol = data.get(1);
             String contingut = data.get(2);
-            cjtDocuments.crearDocument(autor,titol);
-            CtrlContingut.afegirContingut(contingut);
+
             String c = CtrlFormat.documentToFile(autor,titol,contingut,"txt");
             Persistencia.nouDocument(autor, titol, c);
+
+            cjtDocuments.crearDocument(autor,titol);
+            CtrlContingut.afegirContingut(contingut);
+
             List<String> aux = new ArrayList<>();
             aux.add(autor); aux.add(titol);
             return aux;

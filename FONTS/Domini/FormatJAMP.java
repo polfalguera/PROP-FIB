@@ -54,7 +54,7 @@ public class FormatJAMP implements Format {
         // Treu tot els espais en blanc fins {
         c = c.replaceFirst("^\\s*", "");
         if (!(c.length() > 1) || Character.compare(currentChar, '{') != 0)
-            throw new Exception("Error 1: fitxer mal estructurat");
+            throw new Exception("Error: fitxer mal estructurat");
         c = c.substring(1);
         c = c.replaceFirst("^\\s*", "");
         System.out.println(c);
@@ -70,7 +70,7 @@ public class FormatJAMP implements Format {
                         builtTag = builtTag + currentChar;
                         firstLetterRead = true;
                     }
-                    else throw new Exception("Error 2: fitxer mal estructurat");
+                    else throw new Exception("Error: fitxer mal estructurat");
                 } else if (Character.compare(currentChar, ':') == 0 && !builtTag.equals("")) {
                     if ((builtTag.equals("autor") && listIterator == 0) ||
                             (builtTag.equals("titol") && listIterator == 1) ||
@@ -84,8 +84,8 @@ public class FormatJAMP implements Format {
                             firstLetterRead = false;
                             System.out.println(listIterator);
                             if (listIterator == 2) contingutFound = true;
-                        } else throw new Exception("Error 6: fitxer mal estructurat");
-                    } else throw new Exception("Error 3: fitxer mal estructurat");
+                        } else throw new Exception("Error: fitxer mal estructurat");
+                    } else throw new Exception("Error: fitxer mal estructurat");
 
                 } else {
                     builtTag = builtTag + currentChar;
@@ -107,10 +107,10 @@ public class FormatJAMP implements Format {
                                 else if (listIterator == 1) titolFinished = true;
                                 ++listIterator;
                                 cIterator = -1;
-                            } else throw new Exception("Error 6: fitxer mal estructurat");
+                            } else throw new Exception("Error: fitxer mal estructurat");
 
-                        } else throw new Exception("Error 4: fitxer mal estructurat");
-                    } else throw new Exception("Error 5: fitxer mal estructurat");
+                        } else throw new Exception("Error: fitxer mal estructurat");
+                    } else throw new Exception("Error: fitxer mal estructurat");
                 } else {
                     String oldResult = result.get(listIterator);
                     result.set(listIterator, oldResult + currentChar);
@@ -122,7 +122,7 @@ public class FormatJAMP implements Format {
 
         c = c.replaceFirst("^\\s*", "");
         if (!(c.length() > 1) || Character.compare(c.charAt(0), '{') != 0)
-            throw new Exception("Error 7: fitxer mal estructurat");
+            throw new Exception("Error: fitxer mal estructurat");
         c = c.substring(1);
         c = c.replaceFirst("^\\s*", "");
 
@@ -141,7 +141,7 @@ public class FormatJAMP implements Format {
                         builtTag = builtTag + currentChar;
                         firstLetterRead = true;
                     }
-                    else throw new Exception("Error 9: fitxer mal estructurat");
+                    else throw new Exception("Error: fitxer mal estructurat");
                 } else if (Character.compare(currentChar, ':') == 0 && !builtTag.equals("")) {
                     if ((builtTag.equals("paragraf"))) {
                         if (c.length() - 1 >= cIterator + 1) {
@@ -152,8 +152,8 @@ public class FormatJAMP implements Format {
                             readData = true;
                             firstLetterRead = false;
                             System.out.println(listIterator);
-                        } else throw new Exception("Error 10: fitxer mal estructurat");
-                    } else throw new Exception("Error 11: fitxer mal estructurat");
+                        } else throw new Exception("Error: fitxer mal estructurat");
+                    } else throw new Exception("Error: fitxer mal estructurat");
 
                 } else {
                     builtTag = builtTag + currentChar;
@@ -174,15 +174,12 @@ public class FormatJAMP implements Format {
                                 cIterator = -1;
                                 String oldResult = result.get(listIterator);
                                 result.set(listIterator, oldResult + '\n');
-                            } else throw new Exception("Error 12: fitxer mal estructurat");
+                                if ((Character.compare(c.charAt(0), '}') == 0))
+                                    contingutFinished = true;
+                            } else throw new Exception("Error: fitxer mal estructurat");
 
-                        }
-                        else if ((Character.compare(aux.charAt(0), '}') == 0)) {
-                            //
-                            contingutFinished = true;
-                        }
-                        else throw new Exception("Error 13: fitxer mal estructurat");
-                    } else throw new Exception("Error 14: fitxer mal estructurat");
+                        } else throw new Exception("Error: fitxer mal estructurat");
+                    } else throw new Exception("Error: fitxer mal estructurat");
                 } else {
                     String oldResult = result.get(listIterator);
                     result.set(listIterator, oldResult + currentChar);
@@ -193,11 +190,11 @@ public class FormatJAMP implements Format {
         if (c.length() - 1 >= cIterator + 1) {
             String aux = c.substring(cIterator + 1);
             aux = aux.replaceFirst("^\\s*", "");
-            if ((Character.compare(aux.charAt(0), '}') != 0)) throw new Exception("Error 15: fitxer mal estructurat");
-        } else throw new Exception("Error 16: fitxer mal estructurat");
+            if ((Character.compare(aux.charAt(0), '}') != 0)) throw new Exception("Error: fitxer mal estructurat");
+        } else throw new Exception("Error: fitxer mal estructurat");
 
         if (!autorFinished || !titolFinished || !contingutFound || !contingutFinished)
-            throw new Exception("Error 17: fitxer mal estructurat");
+            throw new Exception("Error: fitxer mal estructurat");
         // Per treure els espais en blanc inicials
         result.set(0, result.get(0).replaceFirst("^\\s*", ""));
         result.set(1, result.get(1).replaceFirst("^\\s*", ""));
@@ -226,10 +223,10 @@ public class FormatJAMP implements Format {
      */
     public String documentToFile(String autor, String titol, String contingut) throws Exception{
         return "{\n" +
-                "autor: " + '"' +autor + '"' + "\n"+
-                "titol: " + '"' +titol + '"' + "\n"+
+                "autor: " + '"' +autor + '"' + ',' + "\n"+
+                "titol: " + '"' +titol + '"' + ',' + "\n"+
                 "contingut: " + "{" + "\n"+
-                "paragraf: " + '"' +contingut + '"' + "\n"+
+                "paragraf: " + '"' +contingut + '"' + ',' + "\n"+
                 "}\n" +
                 "}";
     }
