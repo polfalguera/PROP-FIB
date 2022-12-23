@@ -14,62 +14,102 @@ import java.awt.event.*;
 import java.io.File;
 import java.util.List;
 import java.util.Set;
-
+/**
+ * Aquesta vista és l’encarregada de mostrar la pantalla principal
+ * Aqui podrem fer de les funcionalitats principals del nostre programa com per exemple:
+ * crear un nou document, carregar-ne un, eliminar-ne un, modificar el titol, etc...
+ */
 
 public class MainView extends JFrame {
+    /** Instancai del controlador de presentacio */
     private ControladorPresentacio ictrlPresentacio;
+    /** Panell on s'inclou tots els elements de la finestra princiapl*/
     private JPanel mainPanel;
+    /** Text que indica la barra de cerca */
     private JLabel searchLabel;
+    /** Input del usuari on fara les consultes */
     private JTextField searchTextField;
+    /** Element per seleccionar quin tipus de consulta es */
     private JComboBox consultesComboBox;
-
-
+    /** El popupMenu que apareix al clicar boto dret a la llista de documents */
     private JPopupMenu popupMenu;
-
+    /** Element del menu del popupMenu */
     private JMenuItem pop_crear_document;
+    /** Element del menu del popupMenu */
     private JMenuItem pop_modificar_autor;
+    /** Element del menu del popupMenu */
     private JMenuItem pop_modificar_titol;
+    /** Element del menu del popupMenu */
     private JMenuItem pop_modificar_contingut;
+    /** Element del menu del popupMenu */
     private JMenuItem pop_eliminar_document;
-
+    /** Element del menu del popupMenu */
     private JMenuItem pop_exportar_document;
+    /** Element del menu del popupMenu */
     private JMenuItem pop_importar_document;
 
+    /** Llista que representa tots el documents que tenim a la nostra aplicacio*/
     private JList listDocuments;
+    /** Boto per crear un document*/
     private JButton crearDocumentButton;
+    /** Boto per modificar l'autor d'un document*/
     private JButton modificarAutorButton;
+    /** Boto per modificar el titol d'un document*/
     private JButton modificarTitolButton;
+    /** Boto per eliminar un document*/
     private JButton eliminarDocumentButton;
+    /** Boto per modificar el contingut d'un document*/
     private JButton modificarContingutButton;
+    /** Boto per mostrar el historial d'expressions booleanes consultades*/
     private JButton historialButton;
+    /** Boto per importar d'un document*/
     private JButton importarDocumentButton;
+    /** Boto per exportar d'un document*/
     private JButton exportarDocumentButton;
+    /** ELement que mostra quans documents vols cercar*/
     private JSpinner nDocumentsSpinner;
+    /** Element per fer servir una cerca amb el model1*/
     private JRadioButton Model1;
+    /** Element per fer servir una cerca amb el model2*/
     private JRadioButton Model2;
+    /** Conjunts de radioButtons*/
     private ButtonGroup models;
+    /** Panel es mostra quan el tipus de cerca es similarita o rellevancia*/
     private JPanel simi_rellePanel;
+    /** Text on es mostra el numeor de documents*/
     private JLabel nDocumentsLabel;
+    /** Input perque l'usuari pugui introduir el titol d'un document*/
     private JTextField titolTextField;
+    /** Representa la barra de menu*/
     private JMenuBar MenuBar;
+    /** Element de la barra de menu*/
     private JMenu File;
+    /** Element de la barra de menu*/
     private JMenu Edit;
+    /** Element de la barra de menu*/
     private JMenu Help;
-    private JMenuItem Open;
+    /** Element del menu de File*/
     private JMenuItem NewDoc;
-    private JMenuItem Save;
-    private JMenuItem SaveAs;
+    /** Element del menu de File*/
     private JMenuItem Export;
+    /** Element del menu de File*/
     private JMenuItem Import;
+    /** Element del menu de Edit*/
     private JMenuItem Copy;
+    /** Element del menu de Edit*/
     private JMenuItem Paste;
+    /** Element del menu de Edit*/
     private JMenuItem Cut;
+    /** Element del menu de Edit*/
     private JMenuItem SelectAll;
+    /** Text informatiu*/
     private TextPrompt placeholder;
-
+    /** Text informatiu*/
     private TextPrompt placeholder_titol;
     private String expressioAmodificar = "";
-
+    /**
+     * Inicialitza els components de la Vista Principal.
+     */
     public void initialize() {
 
         popupMenu = new JPopupMenu();
@@ -91,10 +131,7 @@ public class MainView extends JFrame {
         this.MenuBar = new JMenuBar();
 
         //Initializing items
-        this.Open = new JMenuItem("Open");
         this.NewDoc = new JMenuItem("New document");
-        this.Save = new JMenuItem("Save file");
-        this.SaveAs = new JMenuItem("Save file as...");
         this.Export = new JMenuItem("Exportar document");
         this.Import = new JMenuItem("Importar document");
 
@@ -109,10 +146,7 @@ public class MainView extends JFrame {
         this.Help = new JMenu("Help");
 
         //Adding items
-        this.File.add(Open);
         this.File.add(NewDoc);
-        this.File.add(Save);
-        this.File.add(SaveAs);
         this.File.add(Export);
         this.File.add(Import);
 
@@ -154,6 +188,9 @@ public class MainView extends JFrame {
         placeholder_titol.changeStyle(Font.ITALIC);
     }
 
+    /**
+     * Assigna els listeners als components corresponents.
+     */
     public void initializeListeners() throws Exception {
         listDocuments.addMouseListener(new MouseAdapter() {
             @Override
@@ -174,6 +211,30 @@ public class MainView extends JFrame {
                 }
             }
         });
+        titolTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Similaritat") {
+                    expressioAmodificar = "";
+                    int k = (Integer) nDocumentsSpinner.getValue();
+                    int mode;
+                    if (Model2.isSelected()) {
+                        mode = 1;
+                    } else {
+                        mode = 0;
+                    }
+                    try {
+                        String autor = searchTextField.getText();
+                        String titol = titolTextField.getText();
+                        List<String> docs = ictrlPresentacio.iqueryObtenirKSemblants(autor, titol, k, mode);
+                        JDialog aux = new LlistarDocuments(docs, "Similaritat");
+                        aux.setVisible(true);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
+                }
+            }
+        });
 
         searchTextField.addActionListener(new ActionListener() {
             @Override
@@ -182,7 +243,6 @@ public class MainView extends JFrame {
                     String expressio = searchTextField.getText();
                     try {
                         List<String> docs = ictrlPresentacio.iqueryConsultaExpressioBooleana(expressio);
-                        System.out.println(expressio);
                         if (!expressioAmodificar.equals("")) {
                             ictrlPresentacio.iqueryEliminarExpressioBooleana(expressioAmodificar);
                             expressioAmodificar = "";
@@ -209,10 +269,7 @@ public class MainView extends JFrame {
                     try {
                         String autor = searchTextField.getText();
                         String titol = titolTextField.getText();
-                        System.out.println(autor);
-                        System.out.println(titol);
                         List<String> docs = ictrlPresentacio.iqueryObtenirKSemblants(autor, titol, k, mode);
-                        System.out.println(docs);
                         JDialog aux = new LlistarDocuments(docs, "Similaritat");
                         aux.setVisible(true);
                     } catch (Exception ex) {
@@ -578,9 +635,11 @@ public class MainView extends JFrame {
             }
         });
     }
-
-    //public String Treure_Comes()
-
+    /**
+     * Constructora de la finestra principal.
+     * @param title text que mostra a dalt de la finestra principal
+     * @param pCtrlPresentacio representa la instancia de CtrlPresentacio
+     * */
     public MainView(String title, ControladorPresentacio pCtrlPresentacio) throws Exception {
         super(title);
         ictrlPresentacio = pCtrlPresentacio;
@@ -588,6 +647,7 @@ public class MainView extends JFrame {
         this.setContentPane(mainPanel);
         this.pack();
         this.setSize(750, 500);
+        setLocationRelativeTo(null);
         initialize();
         initializeListeners();
     }
@@ -608,14 +668,14 @@ public class MainView extends JFrame {
      */
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
-        mainPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(12, 5, new Insets(15, 0, 0, 0), -1, -1));
+        mainPanel.setLayout(new GridLayoutManager(12, 5, new Insets(15, 0, 0, 0), -1, -1));
         mainPanel.setBackground(new Color(-4077363));
         searchLabel = new JLabel();
         searchLabel.setText("Search:");
-        mainPanel.add(searchLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(searchLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         searchTextField = new JTextField();
         searchTextField.setText("");
-        mainPanel.add(searchTextField, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        mainPanel.add(searchTextField, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         consultesComboBox = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
         defaultComboBoxModel1.addElement("Similaritat");
@@ -624,9 +684,9 @@ public class MainView extends JFrame {
         defaultComboBoxModel1.addElement("Llistar titol");
         defaultComboBoxModel1.addElement("Llistar autor");
         consultesComboBox.setModel(defaultComboBoxModel1);
-        mainPanel.add(consultesComboBox, new com.intellij.uiDesigner.core.GridConstraints(0, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(consultesComboBox, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
-        mainPanel.add(scrollPane1, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 11, 4, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        mainPanel.add(scrollPane1, new GridConstraints(1, 0, 11, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         listDocuments = new JList();
         final DefaultListModel defaultListModel1 = new DefaultListModel();
         listDocuments.setModel(defaultListModel1);
@@ -634,53 +694,53 @@ public class MainView extends JFrame {
         scrollPane1.setViewportView(listDocuments);
         modificarTitolButton = new JButton();
         modificarTitolButton.setText("ModificarTitol");
-        mainPanel.add(modificarTitolButton, new com.intellij.uiDesigner.core.GridConstraints(11, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(modificarTitolButton, new GridConstraints(11, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         modificarAutorButton = new JButton();
         modificarAutorButton.setText("ModificarAutor");
-        mainPanel.add(modificarAutorButton, new com.intellij.uiDesigner.core.GridConstraints(9, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(modificarAutorButton, new GridConstraints(9, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         eliminarDocumentButton = new JButton();
         eliminarDocumentButton.setText("EliminarDocument");
-        mainPanel.add(eliminarDocumentButton, new com.intellij.uiDesigner.core.GridConstraints(7, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(eliminarDocumentButton, new GridConstraints(7, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         modificarContingutButton = new JButton();
         modificarContingutButton.setText("Modificar Contingut");
-        mainPanel.add(modificarContingutButton, new com.intellij.uiDesigner.core.GridConstraints(10, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(modificarContingutButton, new GridConstraints(10, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         historialButton = new JButton();
         historialButton.setText("Historial");
-        mainPanel.add(historialButton, new com.intellij.uiDesigner.core.GridConstraints(0, 3, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(historialButton, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
         label1.setText("-----------------------------------");
-        mainPanel.add(label1, new com.intellij.uiDesigner.core.GridConstraints(8, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(label1, new GridConstraints(8, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         crearDocumentButton = new JButton();
         crearDocumentButton.setText("CrearDocument");
-        mainPanel.add(crearDocumentButton, new com.intellij.uiDesigner.core.GridConstraints(6, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(crearDocumentButton, new GridConstraints(6, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
         label2.setText("-----------------------------------");
-        mainPanel.add(label2, new com.intellij.uiDesigner.core.GridConstraints(5, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(label2, new GridConstraints(5, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         exportarDocumentButton = new JButton();
         exportarDocumentButton.setText("ExportarDocument");
-        mainPanel.add(exportarDocumentButton, new com.intellij.uiDesigner.core.GridConstraints(4, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(exportarDocumentButton, new GridConstraints(4, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         importarDocumentButton = new JButton();
         importarDocumentButton.setText("ImportarDocument");
-        mainPanel.add(importarDocumentButton, new com.intellij.uiDesigner.core.GridConstraints(3, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(importarDocumentButton, new GridConstraints(3, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         simi_rellePanel = new JPanel();
-        simi_rellePanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
-        mainPanel.add(simi_rellePanel, new com.intellij.uiDesigner.core.GridConstraints(1, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        simi_rellePanel.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.add(simi_rellePanel, new GridConstraints(1, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         nDocumentsSpinner = new JSpinner();
-        simi_rellePanel.add(nDocumentsSpinner, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        simi_rellePanel.add(nDocumentsSpinner, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         nDocumentsLabel = new JLabel();
         nDocumentsLabel.setText("Nº documents");
-        simi_rellePanel.add(nDocumentsLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        simi_rellePanel.add(nDocumentsLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         Model1 = new JRadioButton();
         Model1.setText("Model1");
-        simi_rellePanel.add(Model1, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        simi_rellePanel.add(Model1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         Model2 = new JRadioButton();
         Model2.setText("Model2");
-        simi_rellePanel.add(Model2, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        simi_rellePanel.add(Model2, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label3 = new JLabel();
         label3.setText("-----------------------------------");
-        mainPanel.add(label3, new com.intellij.uiDesigner.core.GridConstraints(2, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(label3, new GridConstraints(2, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         titolTextField = new JTextField();
-        mainPanel.add(titolTextField, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        mainPanel.add(titolTextField, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         searchLabel.setLabelFor(scrollPane1);
     }
 

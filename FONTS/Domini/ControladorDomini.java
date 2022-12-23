@@ -295,24 +295,15 @@ public class ControladorDomini {
      * */
     public List<String> queryObtenirKSemblants(String autor, String titol, int k, int mode) throws Exception {
         try {
-            System.out.println(cjtDocuments.getCjtDocuments());
-            System.out.println(CtrlContingut.getConjuntContinguts());
-            System.out.println(autor);
-            System.out.println(titol);
-
             int id = cjtDocuments.indexDocument(autor,titol);
             String aux = CtrlContingut.getContingut(id);
 
-            System.out.println(aux);
-
             String[] contingut = CtrlContingut.obtenirParaulesContingut(id);
-            System.out.println(contingut[0]);
-            System.out.println(k);
+
             int[] indexos = CtrlContingut.kRellevants(contingut,k, mode);
-            System.out.println(indexos[0]);
+
             List<String> llistat = new ArrayList<>();
             for (int index : indexos) {
-                System.out.println(index);
                 llistat.addAll(cjtDocuments.getAutorTitolIndex(index));
             }
             return llistat;
