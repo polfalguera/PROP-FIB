@@ -1,0 +1,8 @@
+{
+autor: "Haonan Jin",
+titol: "La taula",
+contingut: {
+paragraf: "Una taula pot estar composada per quatre potes.",
+paragraf: "I això es el següent paragraf.",
+}
+}

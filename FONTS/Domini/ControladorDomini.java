@@ -82,12 +82,15 @@ public class ControladorDomini {
 
             //Recuperem les frequencies
             List<HashMap<String, Integer>> freq = Persistencia.recuperarFreq();
+
             CtrlContingut.setFrequencies(freq);
+
 
             //Recuperem els documents
             List<String> documents = Persistencia.recuperarDocuments();
             CtrlContingut.inicializarContinguts(documents.size());
             List <String> autorsItitols = new ArrayList<>();
+
             for (String s : documents) {
 
                 List<String> d = CtrlFormat.extractTitolAutorContingutDocument(s, "txt");

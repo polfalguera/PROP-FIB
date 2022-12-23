@@ -243,6 +243,7 @@ public class Persistencia {
 
         File carpeta = new File(path.toString());
         File[] arxius = carpeta.listFiles();
+
         if (arxius == null || arxius.length == 0) {
             return freq;
         } else {
@@ -255,7 +256,10 @@ public class Persistencia {
                     BufferedReader br = new BufferedReader(f);
                     while ((line = br.readLine()) != null) {
                         String[] l = line.split(" ");
-                        paraules.put(l[0], Integer.valueOf(l[1]));
+                        if (l.length == 2) {
+                            paraules.put(l[0], Integer.valueOf(l[1]));
+                        }
+
                     }
                     freq.add(paraules);
                     br.close();
