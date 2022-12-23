@@ -36,9 +36,9 @@ public class LlistarTitols extends JDialog {
         setLocationRelativeTo(null);
         getRootPane().setDefaultButton(buttonOK);
 
-        if (funtion == "Llistar titol") {
+        if (funtion == "Llistar títols autor") {
             infoTextField.setText("Llista de titols amb autor " + autor);
-        } else if (funtion == "Llistar autor") {
+        } else if (funtion == "Llistar autors amb prefix") {
             infoTextField.setText("Llista de autors amb prefix: " + autor);
         }
         list1.setListData(list_titols.toArray());

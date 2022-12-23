@@ -14,6 +14,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.util.List;
 import java.util.Set;
+
 /**
  * Aquesta vista és l’encarregada de mostrar la pantalla principal
  * Aqui podrem fer de les funcionalitats principals del nostre programa com per exemple:
@@ -21,92 +22,177 @@ import java.util.Set;
  */
 
 public class MainView extends JFrame {
-    /** Instancai del controlador de presentacio */
+    /**
+     * Instancai del controlador de presentacio
+     */
     private ControladorPresentacio ictrlPresentacio;
-    /** Panell on s'inclou tots els elements de la finestra princiapl*/
+    /**
+     * Panell on s'inclou tots els elements de la finestra princiapl
+     */
     private JPanel mainPanel;
-    /** Text que indica la barra de cerca */
+    /**
+     * Text que indica la barra de cerca
+     */
     private JLabel searchLabel;
-    /** Input del usuari on fara les consultes */
+    /**
+     * Input del usuari on fara les consultes
+     */
     private JTextField searchTextField;
-    /** Element per seleccionar quin tipus de consulta es */
+    /**
+     * Element per seleccionar quin tipus de consulta es
+     */
     private JComboBox consultesComboBox;
-    /** El popupMenu que apareix al clicar boto dret a la llista de documents */
+    /**
+     * El popupMenu que apareix al clicar boto dret a la llista de documents
+     */
     private JPopupMenu popupMenu;
-    /** Element del menu del popupMenu */
+    /**
+     * Element del menu del popupMenu
+     */
     private JMenuItem pop_crear_document;
-    /** Element del menu del popupMenu */
+    /**
+     * Element del menu del popupMenu
+     */
     private JMenuItem pop_modificar_autor;
-    /** Element del menu del popupMenu */
+    /**
+     * Element del menu del popupMenu
+     */
     private JMenuItem pop_modificar_titol;
-    /** Element del menu del popupMenu */
+    /**
+     * Element del menu del popupMenu
+     */
     private JMenuItem pop_modificar_contingut;
-    /** Element del menu del popupMenu */
+    /**
+     * Element del menu del popupMenu
+     */
     private JMenuItem pop_eliminar_document;
-    /** Element del menu del popupMenu */
+    /**
+     * Element del menu del popupMenu
+     */
     private JMenuItem pop_exportar_document;
-    /** Element del menu del popupMenu */
+    /**
+     * Element del menu del popupMenu
+     */
     private JMenuItem pop_importar_document;
 
-    /** Llista que representa tots el documents que tenim a la nostra aplicacio*/
+    /**
+     * Llista que representa tots el documents que tenim a la nostra aplicacio
+     */
     private JList listDocuments;
-    /** Boto per crear un document*/
+    /**
+     * Boto per crear un document
+     */
     private JButton crearDocumentButton;
-    /** Boto per modificar l'autor d'un document*/
+    /**
+     * Boto per modificar l'autor d'un document
+     */
     private JButton modificarAutorButton;
-    /** Boto per modificar el titol d'un document*/
+    /**
+     * Boto per modificar el titol d'un document
+     */
     private JButton modificarTitolButton;
-    /** Boto per eliminar un document*/
+    /**
+     * Boto per eliminar un document
+     */
     private JButton eliminarDocumentButton;
-    /** Boto per modificar el contingut d'un document*/
+    /**
+     * Boto per modificar el contingut d'un document
+     */
     private JButton modificarContingutButton;
-    /** Boto per mostrar el historial d'expressions booleanes consultades*/
+    /**
+     * Boto per mostrar el historial d'expressions booleanes consultades
+     */
     private JButton historialButton;
-    /** Boto per importar d'un document*/
+    /**
+     * Boto per importar d'un document
+     */
     private JButton importarDocumentButton;
-    /** Boto per exportar d'un document*/
+    /**
+     * Boto per exportar d'un document
+     */
     private JButton exportarDocumentButton;
-    /** ELement que mostra quans documents vols cercar*/
+    /**
+     * ELement que mostra quans documents vols cercar
+     */
     private JSpinner nDocumentsSpinner;
-    /** Element per fer servir una cerca amb el model1*/
+    /**
+     * Element per fer servir una cerca amb el model1
+     */
     private JRadioButton Model1;
-    /** Element per fer servir una cerca amb el model2*/
+    /**
+     * Element per fer servir una cerca amb el model2
+     */
     private JRadioButton Model2;
-    /** Conjunts de radioButtons*/
+    /**
+     * Conjunts de radioButtons
+     */
     private ButtonGroup models;
-    /** Panel es mostra quan el tipus de cerca es similarita o rellevancia*/
+    /**
+     * Panel es mostra quan el tipus de cerca es similarita o rellevancia
+     */
     private JPanel simi_rellePanel;
-    /** Text on es mostra el numeor de documents*/
+    /**
+     * Text on es mostra el numeor de documents
+     */
     private JLabel nDocumentsLabel;
-    /** Input perque l'usuari pugui introduir el titol d'un document*/
+    /**
+     * Input perque l'usuari pugui introduir el titol d'un document
+     */
     private JTextField titolTextField;
-    /** Representa la barra de menu*/
+    /**
+     * Representa la barra de menu
+     */
     private JMenuBar MenuBar;
-    /** Element de la barra de menu*/
+    /**
+     * Element de la barra de menu
+     */
     private JMenu File;
-    /** Element de la barra de menu*/
+    /**
+     * Element de la barra de menu
+     */
     private JMenu Edit;
-    /** Element de la barra de menu*/
+    /**
+     * Element de la barra de menu
+     */
     private JMenu Help;
-    /** Element del menu de File*/
+    /**
+     * Element del menu de File
+     */
     private JMenuItem NewDoc;
-    /** Element del menu de File*/
+    /**
+     * Element del menu de File
+     */
     private JMenuItem Export;
-    /** Element del menu de File*/
+    /**
+     * Element del menu de File
+     */
     private JMenuItem Import;
-    /** Element del menu de Edit*/
+    /**
+     * Element del menu de Edit
+     */
     private JMenuItem Copy;
-    /** Element del menu de Edit*/
+    /**
+     * Element del menu de Edit
+     */
     private JMenuItem Paste;
-    /** Element del menu de Edit*/
+    /**
+     * Element del menu de Edit
+     */
     private JMenuItem Cut;
-    /** Element del menu de Edit*/
+    /**
+     * Element del menu de Edit
+     */
     private JMenuItem SelectAll;
-    /** Text informatiu*/
+    /**
+     * Text informatiu
+     */
     private TextPrompt placeholder;
-    /** Text informatiu*/
+    /**
+     * Text informatiu
+     */
     private TextPrompt placeholder_titol;
     private String expressioAmodificar = "";
+
     /**
      * Inicialitza els components de la Vista Principal.
      */
@@ -169,13 +255,13 @@ public class MainView extends JFrame {
 
         List<Document> docs = ictrlPresentacio.iqueryGetCjtDocuments();
         for (Document d : docs) {
-            ((DefaultListModel) listDocuments.getModel()).addElement(d.getAutor() + "," + d.getTitol());
+            ((DefaultListModel) listDocuments.getModel()).addElement(d.getAutor() + "   ,   " + d.getTitol());
         }
 
         //Set del placeholders
         historialButton.setVisible(false);
 
-        placeholder = new TextPrompt("Introdueix un autor", searchTextField);
+        placeholder = new TextPrompt("Introdueix un autor. P.ex. Toni", searchTextField);
         placeholder.changeAlpha(0.75f);
         placeholder.changeStyle(Font.ITALIC);
 
@@ -183,7 +269,7 @@ public class MainView extends JFrame {
         historialButton.setVisible(false);
         titolTextField.setVisible(true);
 
-        placeholder_titol = new TextPrompt("Introdueix un titol", titolTextField);
+        placeholder_titol = new TextPrompt("Introdueix un títol. P.ex. Els autòmats.", titolTextField);
         placeholder_titol.changeAlpha(0.75f);
         placeholder_titol.changeStyle(Font.ITALIC);
     }
@@ -294,23 +380,23 @@ public class MainView extends JFrame {
                         JOptionPane.showMessageDialog(null, ex.getMessage());
                     }
                 }
-                if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar autor") {
+                if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar autors amb prefix") {
                     expressioAmodificar = "";
                     String autor = searchTextField.getText();
                     try {
                         List<String> ti = ictrlPresentacio.iqueryLlistarAutorsPrefix(autor);
-                        JDialog aux = new LlistarTitols(ti, autor, "Llistar autor");
+                        JDialog aux = new LlistarTitols(ti, autor, "Llistar autors amb prefix");
                         aux.setVisible(true);
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage());
                     }
                 }
-                if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar titol") {
+                if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar títols autor") {
                     expressioAmodificar = "";
                     String autor = searchTextField.getText();
                     try {
                         List<String> ti = ictrlPresentacio.iqueryLlistarTitolsAutor(autor);
-                        JDialog aux = new LlistarTitols(ti, autor, "Llistar titol");
+                        JDialog aux = new LlistarTitols(ti, autor, "Llistar títols autor");
                         aux.setVisible(true);
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -435,8 +521,6 @@ public class MainView extends JFrame {
                     }
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
-                    JOptionPane.showMessageDialog(null, "Tornem a mostrar la finestra per a que puguis copiar el progrés que tenies.");
-                    aux.setVisible(true);
                 }
             }
         };
@@ -501,18 +585,18 @@ public class MainView extends JFrame {
                     simi_rellePanel.setVisible(false);
                     titolTextField.setVisible(false);
                 } else if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Similaritat") {
-                    placeholder.setText("Introdueix un autor");
-                    placeholder_titol.setText("Introdueix un autor");
+                    placeholder.setText("Introdueix un autor. P.ex. Toni");
+                    placeholder_titol.setText("Introdueix un títol. P.ex. Els autòmats.");
                     simi_rellePanel.setVisible(false);
                     historialButton.setVisible(false);
                     titolTextField.setVisible(true);
                     simi_rellePanel.setVisible(true);
-                } else if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar titol") {
+                } else if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar títols autor") {
                     placeholder.setText("Introdueix un autor. P. ex. Toni");
                     simi_rellePanel.setVisible(false);
                     titolTextField.setVisible(false);
                     historialButton.setVisible(false);
-                } else if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar autor") {
+                } else if (consultesComboBox.getItemAt(consultesComboBox.getSelectedIndex()) == "Llistar autors amb prefix") {
                     placeholder.setText("Introdueix un prefix. P. ex. T");
                     simi_rellePanel.setVisible(false);
                     titolTextField.setVisible(false);
@@ -635,11 +719,13 @@ public class MainView extends JFrame {
             }
         });
     }
+
     /**
      * Constructora de la finestra principal.
-     * @param title text que mostra a dalt de la finestra principal
+     *
+     * @param title            text que mostra a dalt de la finestra principal
      * @param pCtrlPresentacio representa la instancia de CtrlPresentacio
-     * */
+     */
     public MainView(String title, ControladorPresentacio pCtrlPresentacio) throws Exception {
         super(title);
         ictrlPresentacio = pCtrlPresentacio;
@@ -681,8 +767,8 @@ public class MainView extends JFrame {
         defaultComboBoxModel1.addElement("Similaritat");
         defaultComboBoxModel1.addElement("Expressió Booleana");
         defaultComboBoxModel1.addElement("Rellevància");
-        defaultComboBoxModel1.addElement("Llistar titol");
-        defaultComboBoxModel1.addElement("Llistar autor");
+        defaultComboBoxModel1.addElement("Llistar títols autor");
+        defaultComboBoxModel1.addElement("Llistar autors amb prefix");
         consultesComboBox.setModel(defaultComboBoxModel1);
         mainPanel.add(consultesComboBox, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();

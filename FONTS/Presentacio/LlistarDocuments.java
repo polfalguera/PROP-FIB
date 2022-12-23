@@ -45,7 +45,7 @@ public class LlistarDocuments extends JDialog {
         }
         List<String> res = new ArrayList<>();
         for (int i = 0; i < documents.size() - 1; i += 2) {
-            String aux = (documents.get(i) + "," + documents.get(i + 1));
+            String aux = (documents.get(i) + "   ,   " + documents.get(i + 1));
             res.add(aux);
         }
         llistatDocuments.setListData(res.toArray());
