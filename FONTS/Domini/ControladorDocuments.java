@@ -238,7 +238,12 @@ public class ControladorDocuments {
         return llistat;
     }
 
-
+    /**
+     * Consultora
+     * @param prefix es el prefix que es vol comprovar si conte l'autor
+     * @param autor es l'autor per el que es fa la comprovacio
+     * @return Retorna true si l'autor conte el prefix, altrament fals
+     * */
     private boolean esPrefix(String prefix, String autor) {
         int i = 0;
         String[] p = prefix.split("");
